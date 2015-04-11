@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ColorPrimary">#FF5722</color>
-    <color name="ColorPrimaryDark">#E64A19</color>
-    <color name="ColorStatusBar">#E64A19</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="ColorToolbarTitle">#FFFFFF</color>
+    <color name="ColorPrimary">#03A9F4</color>
+    <color name="ColorPrimaryDark">#0288D1</color>
+    <color name="ColorStatusBar">#4FC3F7</color>
+    <color name="tabsScrollColor">#01579B</color>
+    <color name="ColorSlideTabLayout">#4FC3F7</color>
+
+    <color name="ColorViewPagerBackground">#FFE6E6E6</color>
+    <color name="ColorListDivider">#31000000</color>
+    <color name="dark_gray">#31000000</color>
+    <color name = "ColorItemSelected">#dfffff</color>
+    <color name = "ColorListText">#ff000000</color>
+    <color name = "ColorSecondaryTitleText">#13800000</color>
+
 </resources>

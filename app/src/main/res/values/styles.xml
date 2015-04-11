@@ -5,6 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+       <!-- <item name="android:textColor">@color/ColorToolBarText</item> -->
     </style>
 
 </resources>
