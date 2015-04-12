@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="spacer_stops" />
+    <item type ="id" name="details_stops" />
+    <item type="id" name="spacer_routes" />
+    <item type ="id" name="details_routes" />
+</resources>

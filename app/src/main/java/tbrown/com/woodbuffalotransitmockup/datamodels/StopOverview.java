@@ -7,9 +7,6 @@ public class StopOverview {
     protected String route;
     protected String name;
 
-    protected static final String ROUTE_PREFIX = "Route_";
-    protected static final String NAME_PREFIX = "Name_";
-
     public String getName() {
         return name;
     }

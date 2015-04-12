@@ -23,6 +23,8 @@ import tbrown.com.woodbuffalotransitmockup.util.SimpleDividerItemDecoration;
  */
 
 public class FavouritesTab extends Fragment {
+    String stopData;
+    String routeData;
 
     private StopAdapter mStopAdapter;
     private RecyclerView mRecyclerView;
@@ -43,14 +45,19 @@ public class FavouritesTab extends Fragment {
         return layout;
     }
 
-    public static List<StopOverview> getData() {
-        List<StopOverview> data = new ArrayList<>();
+    public static String[][] getData() {
+//        List<StopOverview> data = new ArrayList<>();
+//
+//        data.add(new StopOverview("Powder Drive Station"));
+//        data.add(new StopOverview("Kunta Station"));
+//        data.add(new StopOverview("DreamVille Station"));
+//        data.add(new StopOverview("Louis Street @ Forest Hill Drive"));
 
-        data.add(new StopOverview("Powder Drive Station"));
-        data.add(new StopOverview("Kunta Station"));
-        data.add(new StopOverview("DreamVille Station"));
-        data.add(new StopOverview("Louis Street @ Forest Hill Drive"));
 
+
+        String [] stopData = {"Powder Drive Station","King Kunta Station","DreamVille", "Forest Hill Drive","Cole Station"};
+        String[] routeData =  {"1 - Timberlea Express","2 - Thickwood Express","13 - Downtown Express"};
+        String[][] data = {stopData,routeData};
         return data;
     }
 }

@@ -11,4 +11,6 @@
     <string name="title_section3">Section 3</string>
 
     <string name="toolbarTitle">Select A Route</string>
+    <string name="headerTemplate">Stops / Routes </string>
+
 </resources>
