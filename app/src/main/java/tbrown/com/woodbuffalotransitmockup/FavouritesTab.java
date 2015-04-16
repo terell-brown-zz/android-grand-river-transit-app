@@ -25,6 +25,8 @@ import tbrown.com.woodbuffalotransitmockup.util.SimpleDividerItemDecoration;
 public class FavouritesTab extends Fragment {
     String stopData;
     String routeData;
+    private static int NumStops = 0;
+    private static int NumRoutes = 0;
 
     private StopAdapter mStopAdapter;
     private RecyclerView mRecyclerView;
@@ -45,19 +47,37 @@ public class FavouritesTab extends Fragment {
         return layout;
     }
 
-    public static String[][] getData() {
-//        List<StopOverview> data = new ArrayList<>();
-//
-//        data.add(new StopOverview("Powder Drive Station"));
-//        data.add(new StopOverview("Kunta Station"));
-//        data.add(new StopOverview("DreamVille Station"));
-//        data.add(new StopOverview("Louis Street @ Forest Hill Drive"));
+    public static String[] getData() {
+        /*List<String> data = new ArrayList<>();
 
+        data.add("Stops");
+        data.add("Powder Drive Station");
+        data.add("Kunta Station");
+        data.add("DreamVille Station");
+        data.add("Louis Street @ Forest Hill Drive");
 
+        NumStops = data.size();
 
-        String [] stopData = {"Powder Drive Station","King Kunta Station","DreamVille", "Forest Hill Drive","Cole Station"};
-        String[] routeData =  {"1 - Timberlea Express","2 - Thickwood Express","13 - Downtown Express"};
-        String[][] data = {stopData,routeData};
+        data.add("Routes");
+        data.add("1 - Timberlea Express");
+        data.add("2 - Thickwood Express");
+        data.add("99 - MacDonald Island");
+
+        NumRoutes = data.size() - NumStops - 1;*/
+
+        String[] data = {"Stops", "Powder Drive Station","King Kunta Station","DreamVille", "Forest Hill Drive","Cole Station",
+                "Routes", "Timberlea Express","Thickwood Express","Downtown Express"};
+
         return data;
+
     }
+
+    public int getNumStops() {
+        return NumStops;
+    }
+
+    public int getNumRoutes() {
+        return NumRoutes;
+    }
+
 }

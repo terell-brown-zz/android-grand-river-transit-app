@@ -21,12 +21,15 @@ import tbrown.com.woodbuffalotransitmockup.viewholder.StopViewHolder;
  */
 public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private LayoutInflater inflater;
-    String[][] data = null;
+    String[] data = null;
     String label;
     RecyclerView.ViewHolder holder;
     String itemType;
 
-    public StopAdapter(Context context,String[][] data) {
+    int NumStops;
+    int NumRoutes;
+
+    public StopAdapter(Context context,String[] data) {
             inflater = LayoutInflater.from(context);
             this.data = data;
     }
@@ -100,8 +103,10 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private String getItem(int dataPosition) {
         int offset = dataPosition;
-        int batchIndex = 0;
+
         itemType = null;
+
+
 
         for (String[] batch : data) {
             if (offset == 0) {
@@ -127,11 +132,21 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return data.length;
     }
 
-    private int getRow(int dataPosition) {
 
+    private void countStopsAndRoutes() {
+        int sizeData = data.length;
+        int numStops = 0;
+        int numRoutes = 0;
+        int i = 0;
+
+        while (data[i] != "Routes") {
+            numStops +=1;
+        }
+
+        numRoutes = sizeData - numStops - 2;
     }
 
 
