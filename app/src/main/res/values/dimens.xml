@@ -12,12 +12,13 @@
     <dimen name="firstElementAfterTabsHeight">28dp</dimen>
 
     <dimen name="listContainerMargin">16dp</dimen>
-    <dimen name="tilePaddingLeft">20dp</dimen>
+    <dimen name="tilePaddingLeft">10dp</dimen>
     <dimen name="tilePaddingTop">16dp</dimen>
+    <dimen name="iconPaddingLeft">16dp</dimen>
     <dimen name="tilePaddingBottom">20dp</dimen>
     <dimen name="SecondaryTitleSize">14dp</dimen>
     <dimen name="favouriteButtonSize">40dp</dimen>
-    <dimen name="f">1dp</dimen>
+    <dimen name="tileIcon">20dp</dimen>
     <dimen name="fs">1dp</dimen>
     <dimen name="fas">1dp</dimen>
 

@@ -11,18 +11,32 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="85">
+
+        <TextView android:id="@+id/tvRouteNo"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:text="0"
+            android:textSize="16sp"
+            android:fontFamily="Roboto Black"
+            android:textColor="@color/ColorListText"
+            android:layout_marginTop="@dimen/tilePaddingTop"
+            android:layout_marginBottom="@dimen/tilePaddingBottom"
+            android:layout_marginLeft="@dimen/iconPaddingLeft"
+            android:paddingLeft="@dimen/cardTitlePadding"
+            android:layout_gravity="center"
+            android:inputType="number"
+            android:gravity="top" />
+
         <TextView android:id="@+id/tvRouteName"
             android:layout_width="@dimen/tileWidth"
             android:layout_height="match_parent"
-            android:text="DreamVille Station"
-            android:textSize="20sp"
+            android:text="Name of Route Here"
+            android:textSize="16sp"
             android:fontFamily="Roboto Black"
             android:textColor="@color/ColorListText"
             android:gravity="center_vertical"
             android:layout_marginTop="@dimen/tilePaddingTop"
             android:layout_marginBottom="@dimen/tilePaddingBottom"
-            android:layout_marginLeft="@dimen/tilePaddingLeft"
-            android:paddingLeft="@dimen/cardTitlePadding"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
 

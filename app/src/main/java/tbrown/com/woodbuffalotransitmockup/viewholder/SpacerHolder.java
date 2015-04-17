@@ -11,19 +11,14 @@ import tbrown.com.woodbuffalotransitmockup.R;
  */
 public class SpacerHolder extends RecyclerView.ViewHolder {
 
-    TextView title;
+    TextView tvTitle = null;
 
-    String template = null;
-
-    public SpacerHolder(View itemView) {
-        super(itemView);
-        itemView.setClickable(true);
-        title = (TextView) itemView.findViewById(R.id.tvSpacerTitle);
-        template = title.getContext().getString(R.string.header_template);
-
+    public SpacerHolder(View row) {
+        super(row);
+        tvTitle = (TextView) row.findViewById(R.id.tvSpacerTitle);
     }
 
-    void bindModel (Integer headerIndex) {
-        title.setText("Routes");
+    public void bindModel (String title) {
+        tvTitle.setText(title);
     }
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,22 +21,28 @@ import tbrown.com.woodbuffalotransitmockup.viewholder.StopViewHolder;
  * Created by tmast_000 on 4/5/2015.
  */
 public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private LayoutInflater inflater;
-    String[] data = null;
-    String label;
-    RecyclerView.ViewHolder holder;
-    String itemType;
+    private static int indexStopTitle;
+    private static int indexRouteTitle;
+    private static int numStops;
+    private static int numRoutes;
 
-    int NumStops;
-    int NumRoutes;
+    private LayoutInflater inflater;
+    String[] database = null;
+    String label;
+    String itemType;
 
     public StopAdapter(Context context,String[] data) {
             inflater = LayoutInflater.from(context);
-            this.data = data;
+            this.database = data;
+            countNumStopsAndRoutes(data);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        // Creates a new list item and ViewHolder when requested by the RecyclerView parent.
+        //   ViewType is determined by getItemViewType() and is based on whether
+        //   a given data item is title info, route info or stop info
+
         switch (viewType) {
             case R.id.details_stops:
                 View view =inflater.inflate(R.layout.stop_view, parent, false);
@@ -50,7 +57,7 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 SpacerHolder spacerHolder2 = new SpacerHolder(viewSpacer2);
                 return spacerHolder2;
             case R.id.details_routes:
-                View view2 =inflater.inflate(R.layout.stop_view, parent, false);
+                View view2 =inflater.inflate(R.layout.route_view, parent, false);
                 RouteViewHolder holder = new RouteViewHolder(view2);
                 return holder;
             default:
@@ -62,30 +69,41 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
-    //@Override
-    //public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-    //}
-
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int dataPosition) {
+        // Once the recycler view parent contains a child view and the
+        //   associated ViewHolder is created, this method calls on the ViewHolder
+        //   bindModel method to pass the data to the appropriate view (ie. textView, etc.)
+        switch (getItem(dataPosition)){
+            case "TITLE_STOPS":
+                ((SpacerHolder) holder).bindModel("Stops");
+                break;
+            case "TITLE_ROUTES":
+                ((SpacerHolder) holder).bindModel("Routes");
+                break;
 
-        if (itemType == "SPACER_STOPS" || itemType == "SPACER_ROUTES") {
-            String dataItem = data[dataPosition];
+            case "DETAILS_STOPS":
+                ((StopViewHolder) holder).bindModel(database[dataPosition]);
+                break;
+            case "DETAILS_ROUTES":
+                ((RouteViewHolder) holder).bindModel(database[dataPosition]);
+                break;
+            default:
+                ((SpacerHolder) holder).bindModel(database[dataPosition]);
+                break;
         }
-        String current = data.get(dataPosition);
-        holder.stopName.setText(current.getName());
     }
 
     @Override
-    public int getItemViewType(int dataPosition) {
-
-        switch (getItem(dataPosition)){
-            case "SPACER_STOPS":
+    public int getItemViewType(int position) {
+        // Returns an id in integer form specifying the type of data represented at the
+        //   given position. Possibilities include title info, route info and stop info
+        switch (getItem(position)){
+            case "TITLE_STOPS":
             label = "Stops";
             return R.id.spacer_stops;
 
-            case "SPACER_ROUTES":
+            case "TITLE_ROUTES":
             label = "Stops";
             return R.id.spacer_routes;
 
@@ -101,54 +119,37 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
-    private String getItem(int dataPosition) {
-        int offset = dataPosition;
-
-        itemType = null;
-
-
-
-        for (String[] batch : data) {
-            if (offset == 0) {
-                if (batchIndex == 0) {
-                    itemType = "SPACER_TOPS";
-                    break;
-                } else {
-                    itemType = "SPACER_ROUTES";
-                    break;
-                }
-            }
-
-            if (offset < batch.length) {
-                itemType = "DETAILS_STOPS";
-                break;
-            } else {
-                itemType = "DETAILS_ROUTES";
-                break;
-            }
+    private String getItem(int position) {
+        // Helper function to getItemView which determines type of the data based on
+        //   position provided. Functionality of getItemView and getItem to be combined
+        //   into one function later.
+        if (position == indexStopTitle) {
+            itemType = "TITLE_STOPS";
+        } else if (position < indexRouteTitle) {
+            itemType = "DETAILS_STOPS";
+        } else if (position == indexRouteTitle) {
+            itemType = "TITLE_ROUTES";
+        } else if (position > indexRouteTitle) {
+            itemType = "DETAILS_ROUTES";
         }
-            return itemType;
-        }
+        return itemType;
+    }
 
     @Override
     public int getItemCount() {
-        return data.length;
+        return database.length;
     }
 
 
-    private void countStopsAndRoutes() {
-        int sizeData = data.length;
-        int numStops = 0;
-        int numRoutes = 0;
-        int i = 0;
+    private static void countNumStopsAndRoutes(String[] data) {
+        int dataSize = data.length;
+        System.out.println(dataSize);
+        List<String> dataList = (List) Arrays.asList(data);
 
-        while (data[i] != "Routes") {
-            numStops +=1;
-        }
-
-        numRoutes = sizeData - numStops - 2;
+        indexStopTitle = dataList.indexOf("Stops");
+        indexRouteTitle = dataList.indexOf("Routes");
+        numStops = indexRouteTitle - 1;
+        numRoutes = dataSize - 1;
     }
-
-
 
 }

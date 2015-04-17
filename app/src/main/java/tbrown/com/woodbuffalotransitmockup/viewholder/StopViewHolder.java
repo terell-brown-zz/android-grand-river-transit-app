@@ -12,17 +12,22 @@ import tbrown.com.woodbuffalotransitmockup.R;
  * Created by tmast_000 on 4/5/2015.
  */
 public class StopViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-    TextView stopName;
+    TextView tvStopName;
     Context context;
     ImageButton faveButton;
     public StopViewHolder(View itemView) {
         super(itemView);
         //context = c;
         itemView.setClickable(true);
-        stopName = (TextView) itemView.findViewById(R.id.tvStopName);
+        tvStopName = (TextView) itemView.findViewById(R.id.tvStopName);
         faveButton = (ImageButton) itemView.findViewById(R.id.action_favourite_selected);
         faveButton.setOnClickListener(this);
     }
+
+    public void bindModel(String routeName) {
+        tvStopName.setText(routeName);
+    }
+
     @Override
     public void onClick(View v) {
 
