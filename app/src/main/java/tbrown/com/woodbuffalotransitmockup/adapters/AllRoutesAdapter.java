@@ -22,18 +22,21 @@ import tbrown.com.woodbuffalotransitmockup.viewholder.StopViewHolder;
  */
 public class AllRoutesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    Context activityContext;
     private LayoutInflater inflater;
     String[] database = null;
 
+
     public AllRoutesAdapter(Context context,String[] data) {
-        inflater = LayoutInflater.from(context);
+        activityContext = context;
+        inflater = LayoutInflater.from(activityContext);
         this.database = data;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View row =inflater.inflate(R.layout.route_view, parent, false);
-                RouteViewHolder holder = new RouteViewHolder(row);
+                RouteViewHolder holder = new RouteViewHolder(activityContext, row);
                 return holder;
         }
 

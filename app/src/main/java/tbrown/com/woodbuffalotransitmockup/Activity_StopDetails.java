@@ -1,7 +1,7 @@
 package tbrown.com.woodbuffalotransitmockup;
 
-import android.app.ActionBar;
-import android.content.SharedPreferences;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -12,48 +12,60 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Arrays;
 
-import tbrown.com.woodbuffalotransitmockup.R;
-import tbrown.com.woodbuffalotransitmockup.adapters.StopAdapter;
+import tbrown.com.woodbuffalotransitmockup.adapters.SchedulePageAdapter;
+import tbrown.com.woodbuffalotransitmockup.adapters.StopTimesAdapter;
+import tbrown.com.woodbuffalotransitmockup.adapters.StopsByRouteAdapter;
+import tbrown.com.woodbuffalotransitmockup.util.SimpleDividerItemDecoration;
 import tbrown.com.woodbuffalotransitmockup.widgets.SlidingTabLayout;
 
-public class Activity_Main extends ActionBarActivity {
+/**
+ * Created by tmast_000 on 4/19/2015.
+ */
+public class Activity_StopDetails extends ActionBarActivity {
     // When using Appcombat support library you need to extend Main Activity to ActionBarActivity.
 
     private Toolbar toolbar;                              // Declaring the Toolbar Object
-    private ActionBar actionBar;
 
     private MenuItem faveSelected;                        // Declare favourite button in toolbar
     private MenuItem faveUnSelected;
+    private Context mContext;
+    private StopTimesAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    String routeInfo;
+    String stopInfo;
 
-    SharedPreferences favourites;
-    String sharedPrefs = "My Favourite Stops and Routes";
+    private ViewPager pager;
+    SchedulePageAdapter adapter;
+    private SlidingTabLayout tabs;
+    CharSequence Titles[]={"To Uptown","To Downtown"};
+    int Numboftabs = 2;
 
-    ViewPager pager;
-    ViewPageAdapter adapter;
-    SlidingTabLayout tabs;
-    CharSequence Titles[]={"Favourites","Nearby","All"};
-    int Numboftabs = 3;
+
+    static String[][] stopsByRoute = {
+            {"1 Timberlea Express", "Main St. and Franklin Ave. Transfer Stn","Eagle Ridge Gate @ Louitit Road","Powder Station"},
+            {"2 Thickwood Express","Main St. and Franklin Ave. Transfer Stn","Signal Rd. @ Thickwood Shopping Plaza","Westwood School" }, {"3 Morgan Heights","Test Stop"},
+            {"7 Abasand Heights","Test Stop"}, {"11 Airport Shuttle","Test Stop"},{"12 Timberlea / Thickwood Local","Test Stop"},
+            {"13 Heritage Hills","Test Stop"},{"14 Taiga Nova","Test Stop"},{"31 Timberlea","Test Stop"},{"32 Timberlea","Test Stop"},{"41 Stoney Creek - Eagle Ridge","Test Stop"},
+            {"42 Eagle Ridge - Stoney Creek","Test Stop"}, {"51 Wood Buffalo","Test Stop"},{"61 Thickwood","Test Stop"},{"62 Thickwood","Test Stop"},{"8 Beacon Hill","Test Stop"},
+            {"91 Downtown East","Test Stop"},{"92 Downtown West","Test Stop"},{"99 MacDonald Island","Test Stop"},{"10A Gregoire/Industrial","Test Stop"},{"10B Gregoire/Industrial","Test Stop"},
+            {"0 Saprae Creek Estates","Test Stop"},{"0 Industrial A","Test Stop"},{"0 Industrial B","Test Stop"}};
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        mContext = getBaseContext();
+        setContentView(R.layout.activity_stop_details);
+        // Extract route info from intent
+        getRouteInfo();
+        getStopInfo();
         // Creating the Toolbar and setting it as the Toolbar for the activity
         setupToolbar();
-
-        // Creating an adapter that will connect to the ViewPager Container in order to
-        //   supply page fragmenents on demand
         setupViewPager();
-
-        // Implementing a tab bar below the tool bar, that can slide
         setupTabs();
-
-        favourites = getSharedPreferences(sharedPrefs,MODE_PRIVATE);
+        //setupRecyclerView();
 
     }
 
@@ -62,14 +74,15 @@ public class Activity_Main extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);                   // Setting toolbar as the ActionBar with setSupportActionBar() call
         getSupportActionBar().setTitle("");
-        toolbar.setTitle("Select A Route"); toolbar.setTitleTextColor(getResources().getColor(R.color.ColorToolbarTitle));
+        toolbar.setTitle(stopInfo); toolbar.setTitleTextColor(getResources().getColor(R.color.ColorToolbarTitle));
         toolbar.setLogo(R.drawable.ic_bus);
     }
+
 
     private void setupViewPager() {
         // Creating an adapter that will connect to the ViewPager Container in order to
         //   supply page fragmenents on demand
-        adapter = new ViewPageAdapter(getSupportFragmentManager(), Titles, Numboftabs);
+        adapter = new SchedulePageAdapter(getSupportFragmentManager(), Titles, Numboftabs);
 
         // Creating a View Pager which acts as dynamic view container.
         //   Depending on the current tab, a different fragment will be supplied to this area of the screen
@@ -90,10 +103,12 @@ public class Activity_Main extends ActionBarActivity {
         tabs.setViewPager(pager);
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_activity_main, menu);
+        getMenuInflater().inflate(R.menu.menu_activity_stop_details, menu);
         return true;
     }
 
@@ -104,7 +119,7 @@ public class Activity_Main extends ActionBarActivity {
 
         faveSelected.setVisible(false);
         faveUnSelected.setVisible(true);
-    return true;
+        return true;
     }
 
 
@@ -116,20 +131,15 @@ public class Activity_Main extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        SharedPreferences.Editor editor = favourites.edit();
         switch (id) {
             case R.id.action_favourite_selected:
                 toggleFavourites();
-                editor.clear();
-                editor.apply();
                 break;
             case R.id.action_favourite_unselected:
                 toggleFavourites();
-                editor.clear();
-                editor.apply();
                 break;
         }
-            return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
     private void toggleFavourites() {
@@ -141,7 +151,22 @@ public class Activity_Main extends ActionBarActivity {
         faveUnSelected.setVisible(isSelected);
     }
 
+    private void getRouteInfo() {
+        // Extracts the route information from the intent provided
+        routeInfo = getIntent().getStringExtra("ROUTE_INFO");
+        String r = routeInfo;
+    }
 
+    private void getStopInfo() {
+        // Extracts the route information from the intent provided
+        stopInfo = getIntent().getStringExtra("STOP_INFO");
+        String r = stopInfo;
+    }
 
-
+    private static String[] getData(String routeInfo) {
+        String[] times = {"6:30 AM","7:00 AM","7:30 AM","8:00 AM","8:30 AM","9:00 AM","9:30 AM",
+                "10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 PM","12:30 PM","1:00 PM","1:30 PM",
+                "2:00 PM","2:30 PM","3:00 PM","3:30 PM","4:00 PM","4:30 PM","5:00 PM","5:30 PM"};
+        return times;
+    }
 }

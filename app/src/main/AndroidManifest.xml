@@ -20,6 +20,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activity_RouteDetails"
+            android:label="0 Route Details" >
+            <intent-filter>
+                <action android:name="tbrown.com.woodbuffalotransitmockup.ROUTE_DETAILS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity_StopDetails"
+            android:label="Stop Details" >
+        <intent-filter>
+            <action android:name="tbrown.com.woodbuffalotransitmockup.STOP_DETAILS" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+        </activity>
     </application>
 
 </manifest>

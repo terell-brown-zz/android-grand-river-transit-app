@@ -38,10 +38,12 @@
         android:layout_gravity="center"
         android:src="@drawable/ic_favourite_unselect"
         android:contentDescription="favourite_unselected"
-        android:background="@null"/>
+        android:background="@null"
+        android:visibility="invisible"/>
 
 
-        <ImageButton android:id="@+id/action_favourite_selected"
+
+        <ImageView android:id="@+id/ic_favourite_selected"
             android:layout_height="@dimen/favouriteButtonSize"
             android:layout_width="@dimen/favouriteButtonSize"
             android:orderInCategory="100"
@@ -49,7 +51,8 @@
             android:layout_gravity="center"
             android:src="@drawable/ic_favourite_selected"
             android:contentDescription="favourite_selected"
-            android:background="@null" />
+            android:background="@null"
+            android:visibility="invisible"/>
     </FrameLayout>
 </LinearLayout>
 

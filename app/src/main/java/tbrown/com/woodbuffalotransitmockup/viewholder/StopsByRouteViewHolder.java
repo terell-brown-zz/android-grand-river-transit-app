@@ -1,0 +1,121 @@
+package tbrown.com.woodbuffalotransitmockup.viewholder;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import tbrown.com.woodbuffalotransitmockup.R;
+
+/**
+ * Created by tmast_000 on 4/19/2015.
+ */
+public class StopsByRouteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
+    TextView tvStopName;
+    Context activityContext;
+    ImageView faveIcon;
+    String routeInfo;
+    String stopInfo;
+    boolean isFavourite;
+
+    SharedPreferences favourites;
+    String sharedPrefs = "My Favourite Stops and Routes";
+    String stopPrefix = "Stop -";
+
+
+    public StopsByRouteViewHolder(Context context,String routeName, View row) {
+        super(row);
+        row.setClickable(true);
+        activityContext = context;
+        tvStopName = (TextView) row.findViewById(R.id.tvStopName);
+        faveIcon = (ImageView) row.findViewById(R.id.ic_favourite_selected);
+        row.setOnClickListener(this);
+        row.setOnLongClickListener(this);
+        isFavourite = false;
+    }
+
+    public void bindModel(String routeName, String stopName) {
+        routeInfo = routeName;
+        stopInfo = stopName;
+        tvStopName.setText(stopName);
+    }
+
+    @Override
+    public void onClick(View v) {
+       showStopDetails();
+    }
+
+
+    public void showStopDetails() {
+        Intent stopDetailsIntent = new Intent("tbrown.com.woodbuffalotransitmockup.STOP_DETAILS");
+        stopDetailsIntent.putExtra("ROUTE_INFO",routeInfo);
+        stopDetailsIntent.putExtra("STOP_INFO",stopInfo);
+        activityContext.startActivity(stopDetailsIntent);
+    }
+    @Override
+    public boolean onLongClick(View v) {
+        toggleFavourites();
+        setupFavourites();
+        addStopToFavourites(stopInfo,routeInfo);
+        return true;
+    }
+
+    private void setupFavourites() {
+        favourites = activityContext.getSharedPreferences(sharedPrefs, Context.MODE_PRIVATE);
+    }
+
+    private void toggleFavourites() {
+        // Toggle the favourites icon (star) located in the tool bar between
+        // selected and unselected
+
+        if (isFavourite == true) {
+            faveIcon.setVisibility(View.INVISIBLE);
+            isFavourite = false;
+            Toast toast = Toast.makeText(activityContext, "Stop removed from favourites", Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        } else {
+            faveIcon.setVisibility(View.VISIBLE);
+            isFavourite = true;
+            Toast toast = Toast.makeText(activityContext, "Stop added to favourites", Toast.LENGTH_LONG);
+            toast.show();
+        };
+    }
+
+    public void addStopToFavourites(String stopName,String routeName) {
+        // This method adds the given stop along with an associated route
+        //    to favourites which is stored in a Shared Preferences Object
+        SharedPreferences.Editor editor = favourites.edit();
+        if (favourites.contains(stopPrefix + stopName)) {
+
+            try {
+                Set<String> set = new HashSet<String>();
+                favourites.getStringSet(stopPrefix + stopName, set);
+            } catch (ClassCastException e) {
+                editor.remove(stopPrefix + stopName);
+                Set<String> faveStop = addNewRouteToFavouriteStop(stopName, routeName);
+                editor.putStringSet(stopPrefix + stopName, faveStop);
+                editor.apply();
+            }
+        } else {
+            Set<String> faveStop = addNewRouteToFavouriteStop(stopName, routeName);
+            editor.putStringSet(stopPrefix + stopName,faveStop);
+            editor.apply();
+        }
+    }
+
+    private Set<String> addNewRouteToFavouriteStop(String stopName,String routeName){
+        HashSet<String> faveStop = new HashSet<String>();
+        faveStop.add(stopName);
+        faveStop.add(routeName);
+        return faveStop;
+    }
+}

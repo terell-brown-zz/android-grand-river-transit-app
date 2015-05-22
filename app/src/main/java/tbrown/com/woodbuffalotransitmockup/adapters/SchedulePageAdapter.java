@@ -1,19 +1,22 @@
-package tbrown.com.woodbuffalotransitmockup;
+package tbrown.com.woodbuffalotransitmockup.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import tbrown.com.woodbuffalotransitmockup.FromTab;
+import tbrown.com.woodbuffalotransitmockup.ToTab;
+
 /**
- * Created by tmast_000 on 4/4/2015.
+ * Created by tmast_000 on 4/24/2015.
  */
-public class ViewPageAdapter extends FragmentStatePagerAdapter {
+public class SchedulePageAdapter extends FragmentStatePagerAdapter {
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
 
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
-    public ViewPageAdapter(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb) {
+    public SchedulePageAdapter(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb) {
         super(fm);
         this.Titles = mTitles;
         this.NumbOfTabs = mNumbOfTabsumb;
@@ -25,17 +28,11 @@ public class ViewPageAdapter extends FragmentStatePagerAdapter {
 
         switch(position) {
             case 0:
-                FavouritesTab faveTab = new FavouritesTab();
-                return faveTab;
-            case 1:
-                NearbyTab nearbyTab = new NearbyTab();
-                return nearbyTab;
-            case 2:
-                AllTab allTab = new AllTab();
-                return allTab;
+                ToTab toTab = new ToTab();
+                return toTab;
             default:
-                FavouritesTab defaultTab = new FavouritesTab();
-                return defaultTab;
+                FromTab fromTab = new FromTab();
+                return fromTab;
         }
     }
 

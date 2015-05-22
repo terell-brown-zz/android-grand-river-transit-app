@@ -4,6 +4,7 @@ package tbrown.com.woodbuffalotransitmockup;
  * Created by tmast_000 on 4/4/2015.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,9 +30,9 @@ public class AllTab extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View layout =inflater.inflate(R.layout.tab_all,container,false);
+        View layout = inflater.inflate(R.layout.tab_all, container, false);
         nRecyclerView = (RecyclerView) layout.findViewById(R.id.rvAllRoutes);
-        mAllRoutesAdapter = new AllRoutesAdapter(getActivity(),getData());
+        mAllRoutesAdapter = new AllRoutesAdapter(getActivity(), getData());
         nRecyclerView.setAdapter(mAllRoutesAdapter);
         nRecyclerView.setHasFixedSize(true);
         nRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -42,11 +43,14 @@ public class AllTab extends Fragment {
 
     public static String[] getData() {
         String[] allRoutes = {"1 Timberlea Express", "2 Thickwood Express", "3 Morgan Heights",
-                "7 Abasand Heights", "11 Airport Shuttle","12 Timberlea / Thickwood Local",
-                "13 Heritage Hills","14 Taiga Nova","31 Timberlea","32 Timberlea","41 Stoney Creek - Eagle Ridge",
-                "42 Eagle Ridge - Stoney Creek", "51 Wood Buffalo","61 Thickwood","62 Thickwood","8 Beacon Hill",
-                "91 Downtown East","92 Downtown West","99 MacDonald Islan","10A Gregoire/Industrial","10B Gregoire/Industrial",
-                " Saprae Creek Estates"," Industrial A"," Industrial B"};
-        return allRoutes;
+                "7 Abasand Heights", "11 Airport Shuttle", "12 Timberlea / Thickwood Local",
+                "13 Heritage Hills", "14 Taiga Nova", "31 Timberlea", "32 Timberlea", "41 Stoney Creek - Eagle Ridge",
+                "42 Eagle Ridge - Stoney Creek", "51 Wood Buffalo", "61 Thickwood", "62 Thickwood", "8 Beacon Hill",
+                "91 Downtown East", "92 Downtown West", "99 MacDonald Island", "10A Gregoire/Industrial", "10B Gregoire/Industrial",
+                "0 Saprae Creek Estates", "0 Industrial A", "0 Industrial B"};
+
+    return allRoutes;
     }
 }
+
+

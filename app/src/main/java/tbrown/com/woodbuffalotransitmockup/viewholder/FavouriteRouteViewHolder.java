@@ -1,5 +1,21 @@
 package tbrown.com.woodbuffalotransitmockup.viewholder;
 
+/**
+ * Created by tmast_000 on 4/25/2015.
+ */
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import tbrown.com.woodbuffalotransitmockup.R;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +40,7 @@ import tbrown.com.woodbuffalotransitmockup.R;
 /**
  * Created by tmast_000 on 4/11/2015.
  */
-public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
+public class FavouriteRouteViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
 
     TextView tvRouteName;
     TextView tvRouteNo;
@@ -33,13 +49,14 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
     Context activityContext;
     Log mLog;
 
+    SharedPreferences mPrefs;
     boolean isFavourited;
 
     SharedPreferences favourites;
     String sharedPrefs = "My Favourite Stops and Routes";
     String routePrefix = "Route -";
 
-    public RouteViewHolder(Context context, View row) {
+    public FavouriteRouteViewHolder(Context context, View row) {
         super(row);
         isFavourited = false;
         activityContext = context;
@@ -92,14 +109,11 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
 
     @Override
     public boolean onLongClick(View v) {
-
-        setupFavourites();
         if (isFavourited) {
+            setupFavourites();
             removeRouteFromFavourite(mRouteInfo);
-        } else {
-            addRouteToFavourites(mRouteInfo);
         }
-        toggleFavourites();
+        isFavourited = !isFavourited;
         return true;
     }
 
@@ -107,7 +121,7 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
         SharedPreferences.Editor editor = favourites.edit();
         editor.remove(mRouteInfo);
         editor.apply();
-        //isFavourited = false;
+
     }
 
     private void setupFavourites() {
@@ -147,3 +161,4 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
     }
 
 }
+

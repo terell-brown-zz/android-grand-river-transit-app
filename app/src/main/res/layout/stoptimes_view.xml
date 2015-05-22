@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/tileHeight"
+    android:background="@android:drawable/list_selector_background"
+    android:id="@+id/item"
+    android:weightSum="100">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="85">
+        <TextView android:id="@+id/tvStopTimes"
+            android:layout_width="@dimen/tileWidth"
+            android:layout_height="match_parent"
+            android:text="DreamVille Station"
+            android:textSize="16sp"
+            android:fontFamily="Roboto Black"
+            android:textColor="@color/ColorListText"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/tilePaddingTop"
+            android:layout_marginBottom="@dimen/tilePaddingBottom"
+            android:layout_marginLeft="@dimen/iconPaddingLeft"
+            android:paddingLeft="@dimen/cardTitlePadding"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+</LinearLayout>
+
