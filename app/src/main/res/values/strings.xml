@@ -13,4 +13,10 @@
     <string name="toolbarTitle">Select A Route</string>
     <string name="headerTemplate">Stops / Routes </string>
 
+    <string-array name="services">
+        <item>Weekdays</item>
+        <item>Saturday</item>
+        <item>Sunday and Holidays</item>
+    </string-array>
+
 </resources>

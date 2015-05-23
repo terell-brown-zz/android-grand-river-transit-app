@@ -20,6 +20,7 @@ import java.util.Set;
 
 import tbrown.com.woodbuffalotransitmockup.adapters.StopAdapter;
 import tbrown.com.woodbuffalotransitmockup.adapters.StopsByRouteAdapter;
+import tbrown.com.woodbuffalotransitmockup.database.DBHelper;
 import tbrown.com.woodbuffalotransitmockup.util.SimpleDividerItemDecoration;
 import tbrown.com.woodbuffalotransitmockup.widgets.SlidingTabLayout;
 
@@ -33,11 +34,12 @@ public class Activity_RouteDetails extends ActionBarActivity {
 
     private MenuItem faveSelected;                        // Declare favourite button in toolbar
     private MenuItem faveUnSelected;
-    private Context mContext;
+    private Context activityContext;
     private StopsByRouteAdapter mAdapter;
     private RecyclerView mRecyclerView;
+    private DBHelper dbHelper;
     String routeInfo;
-
+    int routeNo;
 
 
     static String[][] stopsByRoute = {
@@ -53,7 +55,8 @@ public class Activity_RouteDetails extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = this;
+        activityContext = this;
+        setupDatabase(activityContext);
         setContentView(R.layout.activity_route_details);
         // Extract route info from intent
         getRouteInfo();
@@ -65,11 +68,11 @@ public class Activity_RouteDetails extends ActionBarActivity {
 
     private void setupRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.rvRouteDetails);
-        mAdapter = new StopsByRouteAdapter(mContext,routeInfo,getData(routeInfo));
+        mAdapter = new StopsByRouteAdapter(activityContext,routeInfo,routeNo,getStopsByRoute(routeNo));
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(mContext));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(activityContext));
+        mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(activityContext));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
@@ -87,6 +90,10 @@ public class Activity_RouteDetails extends ActionBarActivity {
         toolbar.setTitleTextColor(getResources().getColor(R.color.ColorToolbarTitle));
         //toolbar.setLogo(R.drawable.ic_bus);
 
+    }
+
+    private void setupDatabase(Context activityContext) {
+        dbHelper = new DBHelper(activityContext);
     }
 
     @Override
@@ -138,18 +145,20 @@ public class Activity_RouteDetails extends ActionBarActivity {
     private void getRouteInfo() {
         // Extracts the route information from the intent provided
         routeInfo = getIntent().getStringExtra("ROUTE_INFO");
-        String r = routeInfo;
+        routeNo = getIntent().getIntExtra("ROUTE_NO",400);
     }
 
-    private static String[] getData(String routeInfo) {
-        String[] result = null;
-        int i = 0;
-        for (int j = 0;j < stopsByRoute.length; j++) {
-            if (stopsByRoute[j][i].equals(routeInfo)) {
-                result = Arrays.copyOfRange(stopsByRoute[j], 1, stopsByRoute[j].length);
-            }
-        }
-        return result;
+    private String[] getStopsByRoute(int routeNo) {
+            return dbHelper.getStopsByRoute(routeNo);
+
+//        String[] result = null;
+//        int i = 0;
+//        for (int j = 0;j < stopsByRoute.length; j++) {
+//            if (stopsByRoute[j][i].equals(routeInfo)) {
+//                result = Arrays.copyOfRange(stopsByRoute[j], 1, stopsByRoute[j].length);
+//            }
+//        }
+//        return result;
     }
 
 }

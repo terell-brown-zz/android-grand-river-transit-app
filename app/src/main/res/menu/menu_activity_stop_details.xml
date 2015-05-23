@@ -14,12 +14,16 @@
         android:icon="@drawable/ic_favourite_selected"
         app:showAsAction="always"
         android:visible="false"/>
-    <item android:id = "@+id/bSettingsWeekdays"
+    <item android:id = "@+id/action_weekday_sched"
         android:title="Weekday Schedule"
         android:orderInCategory="300"
         app:showAsAction="never"/>
-    <item android:id = "@+id/bSettingsWeekends"
-        android:title="Weekend Schedule"
+    <item android:id = "@+id/action_saturday_sched"
+        android:title="Saturday Schedule"
+        android:orderInCategory="400"
+        app:showAsAction="never"/>
+    <item android:id = "@+id/action_sunday_sched"
+        android:title="Sunday &amp; Holiday Schedule"
         android:orderInCategory="400"
         app:showAsAction="never"/>
 </menu>

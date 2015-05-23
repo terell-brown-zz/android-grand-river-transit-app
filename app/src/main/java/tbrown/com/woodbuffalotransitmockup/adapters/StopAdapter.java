@@ -90,7 +90,7 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
 
             case "DETAILS_STOPS":
-                ((StopsByRouteViewHolder) holder).bindModel("10 Route Name",database[dataPosition]);
+                //((StopsByRouteViewHolder) holder).bindModel(routeInfo,database[dataPosition]);
                 break;
             case "DETAILS_ROUTES":
                 ((RouteViewHolder) holder).bindModel(database[dataPosition]);

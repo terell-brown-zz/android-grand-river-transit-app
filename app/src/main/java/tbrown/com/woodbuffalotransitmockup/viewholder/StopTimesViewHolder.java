@@ -26,9 +26,9 @@ public class StopTimesViewHolder extends RecyclerView.ViewHolder {
         tvStopTime = (TextView) row.findViewById(R.id.tvStopTimes);
     }
 
-    public void bindModel(String routeName, String stopTime) {
+    public void bindModel(String routeName, String stopTimes) {
         routeInfo = routeName;
-        stopInfo = stopTime;
-        tvStopTime.setText(stopTime);
+        stopInfo = stopTimes;
+        tvStopTime.setText(stopTimes);
     }
 }

@@ -24,7 +24,13 @@ public class StopsByRouteViewHolder extends RecyclerView.ViewHolder implements V
     ImageView faveIcon;
     String routeInfo;
     String stopInfo;
+    int routeNo;
+    int stopId;
     boolean isFavourite;
+
+    private static final String WEEKDAYS_ALL = "'15SPRI-All-Weekday-01'";
+    private static final String SATURDAY = "'15SPRI-All-Saturday-01'";
+    private static final String SUNDAY = "'15SPRI-All-Sunday-01'";
 
     SharedPreferences favourites;
     String sharedPrefs = "My Favourite Stops and Routes";
@@ -42,10 +48,23 @@ public class StopsByRouteViewHolder extends RecyclerView.ViewHolder implements V
         isFavourite = false;
     }
 
-    public void bindModel(String routeName, String stopName) {
-        routeInfo = routeName;
-        stopInfo = stopName;
+    public void bindModel(String routeName, int routeNo, String stopName) {
+        this.routeInfo = routeName;
+        this.routeNo = routeNo;
+        this.stopInfo = stopName;
+
+        // index separating route number and route name in routeInfo
+        int indexOfSeparation = getSeparatingIndex(stopInfo);
+        stopId = Integer.parseInt(stopInfo.substring(0,indexOfSeparation));
         tvStopName.setText(stopName);
+    }
+
+    private int getSeparatingIndex(String routeInfo) {
+        // This method returns the index of the space character (" ") which
+        //    separates the the Route Number and Route Name in the string provided.
+        //    The string comes from the database.
+
+        return routeInfo.indexOf(" ");
     }
 
     @Override
@@ -57,7 +76,11 @@ public class StopsByRouteViewHolder extends RecyclerView.ViewHolder implements V
     public void showStopDetails() {
         Intent stopDetailsIntent = new Intent("tbrown.com.woodbuffalotransitmockup.STOP_DETAILS");
         stopDetailsIntent.putExtra("ROUTE_INFO",routeInfo);
+        stopDetailsIntent.putExtra("ROUTE_NO",routeNo);
         stopDetailsIntent.putExtra("STOP_INFO",stopInfo);
+        stopDetailsIntent.putExtra("STOP_ID",stopId);
+        stopDetailsIntent.putExtra("SERVICE_ID",WEEKDAYS_ALL);
+        stopDetailsIntent.putExtra("DIRECTION_ID",1);
         activityContext.startActivity(stopDetailsIntent);
     }
     @Override

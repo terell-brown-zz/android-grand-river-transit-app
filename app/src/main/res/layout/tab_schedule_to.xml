@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView android:id="@+id/tvToTitle"
+    <!-- <TextView android:id="@+id/tvToTitle"
         android:text="Weekday Stop Times"
         android:textSize="@dimen/SecondaryTitleSize"
         android:layout_width="match_parent"
@@ -11,7 +11,14 @@
         android:layout_marginLeft="16dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_gravity="clip_vertical"
-        android:gravity="center_vertical"/>
+        android:gravity="center_vertical"/> -->
+
+
+    <!--<Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinSchedule"
+        android:layout_gravity="center_horizontal" /> -->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvScheduleTo"

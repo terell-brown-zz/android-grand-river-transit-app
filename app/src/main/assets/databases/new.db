@@ -1,0 +1,193 @@
+BEGIN TRANSACTION;
+CREATE TABLE universal_calendar (
+	service_id VARCHAR(255) NOT NULL, 
+	date DATE NOT NULL, 
+	PRIMARY KEY (service_id, date)
+);
+CREATE TABLE trips (
+	route_id VARCHAR(255) NOT NULL, 
+	service_id VARCHAR(255) NOT NULL, 
+	trip_id VARCHAR(255) NOT NULL, 
+	trip_headsign VARCHAR(255), 
+	trip_short_name VARCHAR(255), 
+	direction_id INTEGER, 
+	block_id VARCHAR(255), 
+	shape_id VARCHAR(255), 
+	trip_type VARCHAR(255), 
+	bikes_allowed INTEGER, 
+	wheelchair_accessible INTEGER, 
+	PRIMARY KEY (trip_id)
+);
+CREATE TABLE transfers (
+	id INTEGER NOT NULL, 
+	from_stop_id VARCHAR(255), 
+	to_stop_id VARCHAR(255), 
+	transfer_type INTEGER, 
+	min_transfer_time INTEGER, 
+	PRIMARY KEY (id)
+);
+CREATE TABLE stops (
+	stop_id VARCHAR(255) NOT NULL, 
+	stop_code VARCHAR(50), 
+	stop_name VARCHAR(255) NOT NULL, 
+	stop_desc VARCHAR(255), 
+	stop_lat NUMERIC(12, 9) NOT NULL, 
+	stop_lon NUMERIC(12, 9) NOT NULL, 
+	zone_id VARCHAR(50), 
+	stop_url VARCHAR(255), 
+	location_type INTEGER, 
+	parent_station VARCHAR(255), 
+	stop_timezone VARCHAR(50), 
+	wheelchair_boarding INTEGER, 
+	platform_code VARCHAR(50), 
+	PRIMARY KEY (stop_id)
+);
+CREATE TABLE stop_times (
+	trip_id VARCHAR(255) NOT NULL, 
+	arrival_time VARCHAR(8), 
+	departure_time VARCHAR(8), 
+	stop_id VARCHAR(255) NOT NULL, 
+	stop_sequence INTEGER NOT NULL, 
+	stop_headsign VARCHAR(255), 
+	pickup_type INTEGER, 
+	drop_off_type INTEGER, 
+	shape_dist_traveled NUMERIC(20, 10), 
+	timepoint BOOLEAN, 
+	PRIMARY KEY (trip_id, stop_sequence), 
+	CHECK (timepoint IN (0, 1))
+);
+CREATE TABLE stop_features (
+	id INTEGER NOT NULL, 
+	stop_id VARCHAR(255) NOT NULL, 
+	feature_type VARCHAR(50) NOT NULL, 
+	PRIMARY KEY (id)
+);
+CREATE TABLE stop_feature_type (
+	feature_type VARCHAR(50) NOT NULL, 
+	feature_name VARCHAR(255), 
+	PRIMARY KEY (feature_type)
+);
+CREATE TABLE shapes (
+	shape_id VARCHAR(255) NOT NULL, 
+	shape_pt_lat NUMERIC(12, 9), 
+	shape_pt_lon NUMERIC(12, 9), 
+	shape_pt_sequence INTEGER NOT NULL, 
+	shape_dist_traveled NUMERIC(20, 10), 
+	PRIMARY KEY (shape_id, shape_pt_sequence)
+);
+CREATE TABLE routes (
+	route_id VARCHAR(255) NOT NULL, 
+	agency_id VARCHAR(255), 
+	route_short_name VARCHAR(255), 
+	route_long_name VARCHAR(255), 
+	route_desc VARCHAR(255), 
+	route_type INTEGER NOT NULL, 
+	route_url VARCHAR(255), 
+	route_color VARCHAR(6), 
+	route_text_color VARCHAR(6), 
+	PRIMARY KEY (route_id)
+);
+CREATE TABLE route_type (
+	route_type INTEGER NOT NULL, 
+	route_type_name VARCHAR(255), 
+	route_type_desc VARCHAR(255), 
+	PRIMARY KEY (route_type)
+);
+CREATE TABLE patterns (
+	shape_id VARCHAR(255) NOT NULL, 
+	pattern_dist NUMERIC(20, 10), 
+	PRIMARY KEY (shape_id)
+);
+CREATE TABLE frequencies (
+	trip_id VARCHAR(255) NOT NULL, 
+	start_time VARCHAR(8) NOT NULL, 
+	end_time VARCHAR(8), 
+	headway_secs INTEGER, 
+	exact_times INTEGER, 
+	PRIMARY KEY (trip_id, start_time)
+);
+CREATE TABLE feed_info (
+	feed_publisher_name VARCHAR(255) NOT NULL, 
+	feed_publisher_url VARCHAR(255) NOT NULL, 
+	feed_lang VARCHAR(255) NOT NULL, 
+	feed_start_date DATE, 
+	feed_end_date DATE, 
+	feed_version VARCHAR(255), 
+	feed_license VARCHAR(255), 
+	PRIMARY KEY (feed_publisher_name)
+);
+CREATE TABLE fare_rules (
+	id INTEGER NOT NULL, 
+	fare_id VARCHAR(255) NOT NULL, 
+	route_id VARCHAR(255), 
+	origin_id VARCHAR(255), 
+	destination_id VARCHAR(255), 
+	contains_id VARCHAR(255), 
+	service_id VARCHAR(255), 
+	PRIMARY KEY (id)
+);
+CREATE TABLE fare_attributes (
+	fare_id VARCHAR(255) NOT NULL, 
+	price NUMERIC(10, 2) NOT NULL, 
+	currency_type VARCHAR(255) NOT NULL, 
+	payment_method INTEGER NOT NULL, 
+	transfers INTEGER, 
+	transfer_duration INTEGER, 
+	agency_id VARCHAR(255), 
+	PRIMARY KEY (fare_id)
+);
+CREATE TABLE calendar_dates (
+	service_id VARCHAR(255) NOT NULL, 
+	date DATE NOT NULL, 
+	exception_type INTEGER NOT NULL, 
+	PRIMARY KEY (service_id, date)
+);
+CREATE TABLE calendar (
+	service_id VARCHAR(255) NOT NULL, 
+	monday BOOLEAN NOT NULL, 
+	tuesday BOOLEAN NOT NULL, 
+	wednesday BOOLEAN NOT NULL, 
+	thursday BOOLEAN NOT NULL, 
+	friday BOOLEAN NOT NULL, 
+	saturday BOOLEAN NOT NULL, 
+	sunday BOOLEAN NOT NULL, 
+	start_date DATE NOT NULL, 
+	end_date DATE NOT NULL, 
+	PRIMARY KEY (service_id), 
+	CHECK (monday IN (0, 1)), 
+	CHECK (tuesday IN (0, 1)), 
+	CHECK (wednesday IN (0, 1)), 
+	CHECK (thursday IN (0, 1)), 
+	CHECK (friday IN (0, 1)), 
+	CHECK (saturday IN (0, 1)), 
+	CHECK (sunday IN (0, 1))
+);
+INSERT INTO `calendar` VALUES ('1',1,1,1,1,1,0,0,'2015-05-21','2015-06-19');
+INSERT INTO `calendar` VALUES ('4',0,0,0,1,1,0,0,'2015-05-21','2015-06-19');
+INSERT INTO `calendar` VALUES ('2',0,0,0,0,0,1,0,'2015-05-23','2015-06-20');
+INSERT INTO `calendar` VALUES ('3',0,0,0,0,0,0,1,'2015-05-24','2015-06-21');
+CREATE TABLE agency (
+	id INTEGER, 
+	agency_id VARCHAR(255), 
+	agency_name VARCHAR(255) NOT NULL, 
+	agency_url VARCHAR(255) NOT NULL, 
+	agency_timezone VARCHAR(50) NOT NULL, 
+	agency_lang VARCHAR(10), 
+	agency_phone VARCHAR(50), 
+	agency_fare_url VARCHAR(255), 
+	PRIMARY KEY (id)
+);
+CREATE INDEX ix_universal_calendar_date ON universal_calendar (date);
+CREATE INDEX ix_transfers_transfer_type ON transfers (transfer_type);
+CREATE INDEX ix_stops_location_type ON stops (location_type);
+CREATE INDEX ix_stop_times_timepoint ON stop_times (timepoint);
+CREATE INDEX ix_stop_times_stop_id ON stop_times (stop_id);
+CREATE INDEX ix_stop_features_stop_id ON stop_features (stop_id);
+CREATE INDEX ix_stop_features_feature_type ON stop_features (feature_type);
+CREATE INDEX ix_routes_route_type ON routes (route_type);
+CREATE INDEX ix_routes_agency_id ON routes (agency_id);
+CREATE INDEX ix_fare_rules_fare_id ON fare_rules (fare_id);
+CREATE INDEX ix_calendar_dates_date ON calendar_dates (date);
+CREATE UNIQUE INDEX ix_agency_agency_id ON agency (agency_id);
+CREATE INDEX calendar_ix1 ON calendar (start_date, end_date);
+COMMIT;

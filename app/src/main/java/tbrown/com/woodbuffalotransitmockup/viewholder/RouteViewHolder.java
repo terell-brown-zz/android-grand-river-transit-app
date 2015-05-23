@@ -30,6 +30,7 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
     TextView tvRouteNo;
     ImageView faveIcon;
     String mRouteInfo;
+    String routeNo;
     Context activityContext;
     Log mLog;
 
@@ -51,10 +52,11 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
     }
 
     public void bindModel(String routeInfo) {
-        // index separating route number and route name from routeInfo
         mRouteInfo = routeInfo;
+
+        // index separating route number and route name in routeInfo
         int indexOfSeparation = getSeparatingIndex(routeInfo);
-        String routeNo = routeInfo.substring(0,indexOfSeparation);
+        routeNo = routeInfo.substring(0,indexOfSeparation);
 
         if (routeNo.equals("0")) {
             tvRouteNo.setText("");
@@ -87,6 +89,7 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
         Intent routeDetailsIntent = new Intent("tbrown.com.woodbuffalotransitmockup.ROUTE_DETAILS");
         String ig = mRouteInfo;
         routeDetailsIntent.putExtra("ROUTE_INFO", mRouteInfo);
+        routeDetailsIntent.putExtra("ROUTE_NO", Integer.parseInt(routeNo));
         activityContext.startActivity(routeDetailsIntent);
     }
 

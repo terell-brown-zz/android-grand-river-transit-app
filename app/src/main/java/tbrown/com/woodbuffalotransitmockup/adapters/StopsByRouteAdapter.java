@@ -20,10 +20,12 @@ public class StopsByRouteAdapter extends RecyclerView.Adapter<StopsByRouteViewHo
     LayoutInflater inflater;
     String[] database;
     String routeInfo;
+    int routeNo;
 
-    public StopsByRouteAdapter(Context context,String routeName, String[] data) {
-        activityContext = context;
-        routeInfo = routeName;
+    public StopsByRouteAdapter(Context context,String routeName,int routeNo, String[] data) {
+        this.activityContext = context;
+        this.routeInfo = routeName;
+        this.routeNo = routeNo;
         inflater = LayoutInflater.from(activityContext);
         this.database = data;
     }
@@ -43,7 +45,7 @@ public class StopsByRouteAdapter extends RecyclerView.Adapter<StopsByRouteViewHo
         // Once the recycler view parent contains a child view and the
         //   associated ViewHolder is created, this method calls on the ViewHolder
         //   bindModel method to pass the data to the appropriate view (ie. textView, etc.)
-        ((StopsByRouteViewHolder) holder).bindModel(routeInfo,database[position]);
+        ((StopsByRouteViewHolder) holder).bindModel(routeInfo,routeNo,database[position]);
     }
 
     @Override
