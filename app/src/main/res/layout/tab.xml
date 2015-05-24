@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/ColorSlideTabLayout"
+    android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
+    android:elevation="2dp">
+
+    <TextView android:id = "@+id/tvTabTitle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
+</android.support.v7.widget.Toolbar>

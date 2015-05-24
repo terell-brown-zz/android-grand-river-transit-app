@@ -1,25 +1,18 @@
 package tbrown.com.woodbuffalotransitmockup.widgets;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import tbrown.com.woodbuffalotransitmockup.R;
 import tbrown.com.woodbuffalotransitmockup.adapters.StopTimesAdapter;
@@ -29,7 +22,7 @@ import tbrown.com.woodbuffalotransitmockup.util.SimpleDividerItemDecoration;
 /**
  * Created by tmast_000 on 5/23/2015.
  */
-public class Activity_StopTimes extends ActionBarActivity {
+public class Activity_StopTimes_Alt extends ActionBarActivity {
     private Context activityContext;
     private DBHelper dbHelper;
     private Toolbar toolbar;
@@ -42,7 +35,6 @@ public class Activity_StopTimes extends ActionBarActivity {
     String stopInfo;
     int stopId;
     String serviceId;
-    boolean isFirstTime = true;
 
     private static final String WEEKDAYS_ALL = "'15SPRI-All-Weekday-01'";
     private static final String SATURDAY = "'15SPRI-All-Saturday-01'";
@@ -118,20 +110,16 @@ public class Activity_StopTimes extends ActionBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 //Intent intent = new Intent("tbrown.com.woodbuffalotransitmockup.STOP_TIMES");
-                if (!isFirstTime) {
-                    Intent intent = new Intent(getApplicationContext(), Activity_StopTimes.class);
-                    intent.putExtra("ROUTE_INFO", routeInfo);
-                    intent.putExtra("ROUTE_NO", routeId);
-                    intent.putExtra("STOP_INFO", stopInfo);
-                    intent.putExtra("STOP_ID", stopId);
-                    intent.putExtra("SERVICE_ID", SERVICES[position]);
-                    intent.putExtra("DIRECTION_ID", getIntent().getIntExtra("DIRECTION_ID", 0));
-                    intent.putExtra("SPINNER_SELECTION",position);
-                    Log.i("MyActivity", "Spinner item selected");
-                    startActivity(intent);
-                    finish();
-                }
-                isFirstTime = false;
+
+                Intent intent = new Intent(getApplicationContext(),Activity_StopTimes.class);
+                intent.putExtra("ROUTE_INFO",routeInfo);
+                intent.putExtra("ROUTE_NO",routeId);
+                intent.putExtra("STOP_INFO",stopInfo);
+                intent.putExtra("STOP_ID",stopId);
+                intent.putExtra("SERVICE_ID", SERVICES[position]);
+                intent.putExtra("DIRECTION_ID", getIntent().getIntExtra("DIRECTION_ID", 0));
+                finish();
+                startActivity(intent);
             }
 
             @Override
@@ -140,8 +128,6 @@ public class Activity_StopTimes extends ActionBarActivity {
             }
 
         });
-
-        spin.setSelection(getIntent().getIntExtra("SPINNER_SELECTION",1));
     }
 
     private void getTransitInfo() {
@@ -163,6 +149,7 @@ public class Activity_StopTimes extends ActionBarActivity {
                 case SUNDAY:
                     return new String[]{"No service in this direction Sundays & Holidays"};
             }
+
         }
         return times;
     }

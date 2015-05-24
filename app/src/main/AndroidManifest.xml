@@ -36,6 +36,23 @@
             <category android:name="android.intent.category.DEFAULT" />
         </intent-filter>
         </activity>
+        <activity
+        android:name=".widgets.Activity_StopTimes"
+        android:label="Stop Details" >
+        <intent-filter>
+            <action android:name="tbrown.com.woodbuffalotransitmockup.STOP_TIMES" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+    </activity>
+        <activity
+            android:name=".widgets.Activity_StopTimes_Alt"
+            android:label="Stop Details" >
+            <intent-filter>
+                <action android:name="tbrown.com.woodbuffalotransitmockup.STOP_TIMES_ALT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

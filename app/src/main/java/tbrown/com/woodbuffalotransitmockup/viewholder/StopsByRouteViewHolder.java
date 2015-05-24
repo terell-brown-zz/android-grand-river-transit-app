@@ -74,13 +74,14 @@ public class StopsByRouteViewHolder extends RecyclerView.ViewHolder implements V
 
 
     public void showStopDetails() {
-        Intent stopDetailsIntent = new Intent("tbrown.com.woodbuffalotransitmockup.STOP_DETAILS");
+        Intent stopDetailsIntent = new Intent("tbrown.com.woodbuffalotransitmockup.STOP_TIMES");
         stopDetailsIntent.putExtra("ROUTE_INFO",routeInfo);
         stopDetailsIntent.putExtra("ROUTE_NO",routeNo);
         stopDetailsIntent.putExtra("STOP_INFO",stopInfo);
         stopDetailsIntent.putExtra("STOP_ID",stopId);
         stopDetailsIntent.putExtra("SERVICE_ID",WEEKDAYS_ALL);
         stopDetailsIntent.putExtra("DIRECTION_ID",1);
+        stopDetailsIntent.putExtra("SPINNER_SELECTION",0);
         activityContext.startActivity(stopDetailsIntent);
     }
     @Override
