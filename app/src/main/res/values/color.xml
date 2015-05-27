@@ -16,4 +16,8 @@
     <color name = "ColorListText">#ff000000</color>
     <color name = "ColorSecondaryTitleText">#13800000</color>
 
+    <color name = "fab_primary">#E91E63</color>
+    <color name = "fab_pressed">#880E4F</color>
+    <color name = "ripple">#13800000</color>
+
 </resources>

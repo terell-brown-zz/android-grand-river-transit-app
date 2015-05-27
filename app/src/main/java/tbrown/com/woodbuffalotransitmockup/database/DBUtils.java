@@ -24,13 +24,13 @@ public class DBUtils {
     public static String arrayToString(String[] array) {
         // Converts string array to a single string, each value seperated by comma
 
-        String result = "=";
+        String result = "";
 
         for (int i = 0; i < array.length; i++) {
             result = result + array[i] + ", ";
         }
         result = result.substring(0,result.length()); // remove excess comma as last character
-        return result.substring(0,result.length()-1);
+        return result.substring(0,result.length()-2);
     }
 
     public static String queryToString(Cursor c) {
@@ -52,6 +52,22 @@ public class DBUtils {
             String routeId = c.getString(0);
             String routeName = c.getString(1);
             result[i] = routeId + " " + routeName;
+            c.moveToNext();
+        }
+        return result;
+    };
+
+    public static String[] queryToAllRouteIds(Cursor c) {
+        // Consumes a cursor (ie. query result) containing a list of stops
+        //   and returns a string array with the same information
+        int noRoutes = c.getCount();
+        String[] result = new String[noRoutes];
+
+        c.moveToPosition(0);
+        for (int i = 0; i < noRoutes; i++) {
+            String routeId = c.getString(0);
+            //String routeName = c.getString(1);
+            result[i] = routeId;
             c.moveToNext();
         }
         return result;

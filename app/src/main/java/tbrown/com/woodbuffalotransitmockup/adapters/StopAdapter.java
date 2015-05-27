@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.List;
 
 import tbrown.com.woodbuffalotransitmockup.R;
-import tbrown.com.woodbuffalotransitmockup.datamodels.StopOverview;
 import tbrown.com.woodbuffalotransitmockup.viewholder.RouteViewHolder;
 import tbrown.com.woodbuffalotransitmockup.viewholder.SpacerHolder;
 import tbrown.com.woodbuffalotransitmockup.viewholder.StopViewHolder;

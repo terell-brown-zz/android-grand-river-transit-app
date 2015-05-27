@@ -82,6 +82,7 @@ public class StopsByRouteViewHolder extends RecyclerView.ViewHolder implements V
         stopDetailsIntent.putExtra("SERVICE_ID",WEEKDAYS_ALL);
         stopDetailsIntent.putExtra("DIRECTION_ID",1);
         stopDetailsIntent.putExtra("SPINNER_SELECTION",0);
+        //stopDetailsIntent.putExtra("ROUTE_IDS",activityContext)
         activityContext.startActivity(stopDetailsIntent);
     }
     @Override

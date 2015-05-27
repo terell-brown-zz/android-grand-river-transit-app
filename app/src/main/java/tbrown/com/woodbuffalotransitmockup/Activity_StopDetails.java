@@ -148,41 +148,6 @@ public class Activity_StopDetails extends ActionBarActivity implements AdapterVi
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.action_favourite_selected:
-                toggleFavourites();
-                break;
-            case R.id.action_favourite_unselected:
-                toggleFavourites();
-                break;
-            case R.id.action_weekday_sched:
-                Intent intent1 = getIntent();
-                intent1.putExtra("SERVICE_ID",WEEKDAYS_ALL);
-                finish();
-                startActivity(intent1);
-                break;
-            case R.id.action_saturday_sched:
-                Intent intent2 = getIntent();
-                intent2.putExtra("SERVICE_ID",SATURDAY);
-                finish();
-                startActivity(intent2);
-                break;
-            case R.id.action_sunday_sched:
-                Intent intent3 = getIntent();
-                intent3.putExtra("SERVICE_ID",SUNDAY);
-                finish();
-                startActivity(intent3);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     private void toggleFavourites() {
         // Toggle the favourites icon (star) located in the tool bar between

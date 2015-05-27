@@ -18,5 +18,7 @@
         <item>Saturday</item>
         <item>Sunday and Holidays</item>
     </string-array>
+    <string name="title_activity_activity__stops_map">Map</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

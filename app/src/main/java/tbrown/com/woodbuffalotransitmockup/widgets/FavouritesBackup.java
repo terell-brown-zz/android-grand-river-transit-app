@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tbrown.com.woodbuffalotransitmockup.adapters.StopAdapter;
-import tbrown.com.woodbuffalotransitmockup.datamodels.StopOverview;
 import tbrown.com.woodbuffalotransitmockup.util.SimpleDividerItemDecoration;
 
 /**

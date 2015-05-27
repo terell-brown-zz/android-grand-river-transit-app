@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import tbrown.com.woodbuffalotransitmockup.adapters.SchedulePageAdapter;
 import tbrown.com.woodbuffalotransitmockup.adapters.StopAdapter;
 import tbrown.com.woodbuffalotransitmockup.adapters.StopsByRouteAdapter;
 import tbrown.com.woodbuffalotransitmockup.database.DBHelper;
@@ -41,15 +42,11 @@ public class Activity_RouteDetails extends ActionBarActivity {
     String routeInfo;
     int routeNo;
 
-
-    static String[][] stopsByRoute = {
-            {"1 Timberlea Express", "Main St. and Franklin Ave. Transfer Stn","Eagle Ridge Gate @ Louitit Road","Powder Station"},
-            {"2 Thickwood Express","Main St. and Franklin Ave. Transfer Stn","Signal Rd. @ Thickwood Shopping Plaza","Westwood School" }, {"3 Morgan Heights","Test Stop"},
-            {"7 Abasand Heights","Test Stop"}, {"11 Airport Shuttle","Test Stop"},{"12 Timberlea / Thickwood Local","Test Stop"},
-            {"13 Heritage Hills","Test Stop"},{"14 Taiga Nova","Test Stop"},{"31 Timberlea","Test Stop"},{"32 Timberlea","Test Stop"},{"41 Stoney Creek - Eagle Ridge","Test Stop"},
-            {"42 Eagle Ridge - Stoney Creek","Test Stop"}, {"51 Wood Buffalo","Test Stop"},{"61 Thickwood","Test Stop"},{"62 Thickwood","Test Stop"},{"8 Beacon Hill","Test Stop"},
-            {"91 Downtown East","Test Stop"},{"92 Downtown West","Test Stop"},{"99 MacDonald Island","Test Stop"},{"10A Gregoire/Industrial","Test Stop"},{"10B Gregoire/Industrial","Test Stop"},
-            {"0 Saprae Creek Estates","Test Stop"},{"0 Industrial A","Test Stop"},{"0 Industrial B","Test Stop"}};
+    private SchedulePageAdapter adapter;
+    private String[] Titles = {"To Downton","To Uptown"};
+    private int Numboftabs = 2;
+    private ViewPager pager;
+    private SlidingTabLayout tabs;
 
 
     @Override
@@ -62,12 +59,13 @@ public class Activity_RouteDetails extends ActionBarActivity {
         getRouteInfo();
         // Creating the Toolbar and setting it as the Toolbar for the activity
         setupToolbar();
-        setupRecyclerView();
-
+        //setupRecyclerView();
+        setupViewPager();
+        setupTabs();
     }
 
     private void setupRecyclerView() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.rvRouteDetails);
+        //mRecyclerView = (RecyclerView) findViewById(R.id.rvRouteDetails);
         mAdapter = new StopsByRouteAdapter(activityContext,routeInfo,routeNo,getStopsByRoute(routeNo));
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
@@ -89,11 +87,35 @@ public class Activity_RouteDetails extends ActionBarActivity {
         }
         toolbar.setTitleTextColor(getResources().getColor(R.color.ColorToolbarTitle));
         //toolbar.setLogo(R.drawable.ic_bus);
-
     }
 
     private void setupDatabase(Context activityContext) {
         dbHelper = new DBHelper(activityContext);
+    }
+
+    private void setupViewPager() {
+        // Creating an adapter that will connect to the ViewPager Container in order to
+        //   supply page fragmenents on demand
+        adapter = new SchedulePageAdapter(getSupportFragmentManager(), Titles, Numboftabs);
+
+        // Creating a View Pager which acts as dynamic view container.
+        //   Depending on the current tab, a different fragment will be supplied to this area of the screen
+        pager = (ViewPager) findViewById(R.id.pager);
+        pager.setAdapter(adapter);
+
+    }
+
+    private void setupTabs() {
+        // Implementing a tab bar below the tool bar, that can slide
+        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+        tabs.setDistributeEvenly(true);
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.tabsScrollColor);
+            }
+        });
+        tabs.setViewPager(pager);
     }
 
     @Override
@@ -149,7 +171,7 @@ public class Activity_RouteDetails extends ActionBarActivity {
     }
 
     private String[] getStopsByRoute(int routeNo) {
-            return dbHelper.getStopsByRoute(routeNo);
+            return dbHelper.getStopsByRoute(routeNo,0);
 
 //        String[] result = null;
 //        int i = 0;

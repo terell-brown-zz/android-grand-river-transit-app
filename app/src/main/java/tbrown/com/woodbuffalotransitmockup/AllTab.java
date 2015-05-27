@@ -45,6 +45,10 @@ public class AllTab extends Fragment {
         return layout;
     }
 
+    private void setupDatabase(Context activityContext) {
+        dbHelper = new DBHelper(activityContext);
+    }
+
     private void setUpRecyclerView(View layout) {
         nRecyclerView = (RecyclerView) layout.findViewById(R.id.rvAllRoutes);
         mAllRoutesAdapter = new AllRoutesAdapter(activityContext, getAllRoutes());
@@ -55,20 +59,11 @@ public class AllTab extends Fragment {
         nRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
-    private void setupDatabase(Context activityContext) {
-        dbHelper = new DBHelper(activityContext);
-    }
+
 
     public String[] getAllRoutes() {
         // Returns and String array containing all routes in the transit system
         return dbHelper.getAllRoutes();
-/*        String[] allRoutes = {"1 Timberlea Express", "2 Thickwood Express", "3 Morgan Heights",
-                "7 Abasand Heights", "11 Airport Shuttle", "12 Timberlea / Thickwood Local",
-                "13 Heritage Hills", "14 Taiga Nova", "31 Timberlea", "32 Timberlea", "41 Stoney Creek - Eagle Ridge",
-                "42 Eagle Ridge - Stoney Creek", "51 Wood Buffalo", "61 Thickwood", "62 Thickwood", "8 Beacon Hill",
-                "91 Downtown East", "92 Downtown West", "99 MacDonald Island", "10A Gregoire/Industrial", "10B Gregoire/Industrial",
-                "0 Saprae Creek Estates", "0 Industrial A", "0 Industrial B"};*/
-    //return allRoutes;
     }
 }
 

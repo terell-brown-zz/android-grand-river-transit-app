@@ -56,7 +56,7 @@ public class DBHelper extends SQLiteAssetHelper {
     };
 
 
-    public Cursor queryStopsbyRoute(int routeId) {
+    public Cursor queryStopsbyRoute(int routeId,int directionId) {
         // Returns
         SQLiteDatabase db = getReadableDatabase();
 
@@ -65,9 +65,10 @@ public class DBHelper extends SQLiteAssetHelper {
                 "SELECT DISTINCT stops.stop_id, stops.stop_name FROM stops " +
                         "INNER JOIN " +
                         "(SELECT stop_id AS my_stops FROM stop_times WHERE trip_id " +
-                        "IN (SELECT trip_id FROM trips WHERE route_id = " + routeId + ")) the_stops " +
-                "ON the_stops.my_stops = stops.stop_id" +
-                " ORDER BY stops.stop_name";
+                        "IN (SELECT trip_id FROM trips WHERE route_id = " + routeId +
+                        " AND direction_id = " + directionId + ")) the_stops " +
+                        "ON the_stops.my_stops = stops.stop_id" +
+                        " ORDER BY stops.stop_name";
         Cursor c = db.rawQuery(query,null);
         Log.i("MyActivity", query);
         c.moveToFirst();
@@ -76,10 +77,37 @@ public class DBHelper extends SQLiteAssetHelper {
         return c;
     }
 
-    public String[] getStopsByRoute(int routeId) {
-        Cursor queryStops = queryStopsbyRoute(routeId);
+
+    public String[] getStopsByRoute(int routeId, int directionId) {
+        Cursor queryStops = queryStopsbyRoute(routeId,directionId);
         return DBUtils.queryToAllRoutes(queryStops);
     }
+
+    public String[] getStopsForMap(int routeId, int directionId) {
+        Cursor queryStops = queryStopsbyRoute(routeId,directionId);
+        return DBUtils.queryToAllRouteIds(queryStops);
+    }
+
+    public Cursor queryStopInfoForMap(String[] stops) {
+        // Consumes an array of stop ids and returns a query result (ie. cursor)
+        //   containing key information about each stop including name and location (long,lat)
+        String inStatement = DBUtils.arrayToString(stops);
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Build query
+        String query =
+                "SELECT stop_id, stop_name, stop_lat, stop_lon FROM stops" +
+                        " WHERE stop_id IN( " + inStatement + ")";
+        Cursor c = db.rawQuery(query,null);
+        Log.i("MyActivity", query);
+        c.moveToFirst();
+        checkCursor(c); // indicates details of query in log under MyActivity TAG
+        db.close();
+        return c;
+    }
+
+
 
     public Cursor queryTimesByStop(int routeId,String serviceId,int directionId,int stopId) {
         // Return departure times at a given stop based on the route, time of week (service_id)
@@ -117,63 +145,6 @@ public class DBHelper extends SQLiteAssetHelper {
         return DBUtils.queryToTimes(queryTimes);
     }
 
-//    public Cursor getTripsByRoute(int routeId) {
-//
-//        SQLiteDatabase db = getReadableDatabase();
-//        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-//
-//        String [] sqlSelect = {"trip_id"};
-//        String sqlTables = "trips";
-//        String where = "route_id = " + routeId;
-//
-//        qb.setTables(sqlTables);
-//        Cursor c = qb.query(db, sqlSelect, where, null, null, null, null);
-//        db.close();
-//        c.moveToFirst();
-//        checkCursor(c); // indicates details of query in log under MyActivity TAG
-//        return c;
-//    }
-
-     /*   public Cursor getTripsGivenRoute(int routeId) {
-        // Returns cursor pointing to all trips associated with given route_id
-        SQLiteDatabase db = getReadableDatabase();
-
-        // Setup query parameters
-        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        String [] sqlSelect = {"trip_id"};
-        String sqlTables = "trips";
-        String where = "route_id = " + routeId;
-        qb.setTables(sqlTables);
-
-        // Run query
-        Cursor c = qb.query(db, sqlSelect, where, null, null, null, null);
-        c.moveToFirst();
-        checkCursor(c); // indicates details of query in log under MyActivity TAG
-
-        db.close();
-        return c;
-    }
-
-    public Cursor getStopsbyTrips(String[] tripIDs) {
-        // Returns all stops associated with a list of trips
-
-        SQLiteDatabase db = getReadableDatabase();
-
-        String trips = arrayToString(tripIDs); // convert trip_id array into string for use in query
-
-        // Setup query
-        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        String [] sqlSelect = {"stop_id"};
-        String sqlTables = "trips";
-        qb.setTables(sqlTables);
-
-        // Run query
-        Cursor c = qb.query(db, sqlSelect, trips, null, null, null, null);
-        c.moveToFirst();
-        checkCursor(c); // indicates details of query in log under MyActivity TAG
-        db.close();
-        return c;
-    }*/
 
 
 
