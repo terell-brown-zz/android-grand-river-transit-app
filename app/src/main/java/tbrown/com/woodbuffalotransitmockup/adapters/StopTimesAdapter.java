@@ -19,9 +19,7 @@ public class StopTimesAdapter extends RecyclerView.Adapter<StopTimesViewHolder> 
     LayoutInflater inflater;
     String[] database;
     String routeInfo;
-    String stopInfo;
-    String routeDirection;
-    String dayType; // weekdays vs. weekends
+
 
     public StopTimesAdapter(Context context,String routeName, String[] data) {
         activityContext = context;

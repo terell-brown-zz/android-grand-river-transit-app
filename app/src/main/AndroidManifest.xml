@@ -66,7 +66,6 @@
             android:label="Stop Details" >
             <intent-filter>
                 <action android:name="tbrown.com.woodbuffalotransitmockup.STOP_TIMES" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -75,7 +74,6 @@
             android:label="Stop Details" >
             <intent-filter>
                 <action android:name="tbrown.com.woodbuffalotransitmockup.STOP_TIMES_ALT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -85,20 +83,23 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value= "@string/google_maps_key" />
+            android:value="@string/google_maps_key" />
 
         <activity
             android:name=".Activity_StopsMap"
             android:label="@string/title_activity_activity__stops_map" >
             <intent-filter>
                 <action android:name="tbrown.com.woodbuffalotransitmockup.MAP_STOPS" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" >
+            android:name=".Activity_StopInfo"
+            android:label="@string/title_activity_activity__stop_info" >
+            <intent-filter>
+                <action android:name="tbrown.com.woodbuffalotransitmockup.STOP_INFO" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 

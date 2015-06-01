@@ -14,7 +14,7 @@
     <TextView android:id="@+id/tvStopName"
         android:layout_width="@dimen/tileWidth"
         android:layout_height="match_parent"
-        android:text="DreamVille Station"
+        android:text="Wax"
         android:textSize="16sp"
         android:fontFamily="Roboto Black"
         android:textColor="@color/ColorListText"

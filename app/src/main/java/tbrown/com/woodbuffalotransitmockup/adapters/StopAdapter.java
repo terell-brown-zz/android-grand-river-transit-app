@@ -1,21 +1,17 @@
 package tbrown.com.woodbuffalotransitmockup.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import tbrown.com.woodbuffalotransitmockup.R;
 import tbrown.com.woodbuffalotransitmockup.viewholder.RouteViewHolder;
 import tbrown.com.woodbuffalotransitmockup.viewholder.SpacerHolder;
-import tbrown.com.woodbuffalotransitmockup.viewholder.StopViewHolder;
 import tbrown.com.woodbuffalotransitmockup.viewholder.StopsByRouteViewHolder;
 
 /**
@@ -28,6 +24,11 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static int numRoutes;
 
     Context activityContext;
+
+
+    int viewContext = 1; // Context for which the list is being used
+    int NORMAL = 0; // the list is showing info normally
+    int FAVOURITES = 1; // the list is showing favourites data
 
     private LayoutInflater inflater;
     String[] database = null;
@@ -52,7 +53,7 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         switch (viewType) {
             case R.id.details_stops:
                 View view =inflater.inflate(R.layout.stop_view, parent, false);
-                StopsByRouteViewHolder stopsHolder = new StopsByRouteViewHolder(activityContext,"Route",view);
+                StopsByRouteViewHolder stopsHolder = new StopsByRouteViewHolder(activityContext,FAVOURITES,"Route",view);
                 return stopsHolder;
             case R.id.spacer_stops:
                  View viewSpacer =inflater.inflate(R.layout.list_spacer, parent, false);
@@ -64,11 +65,11 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return spacerHolder2;
             case R.id.details_routes:
                 View view2 =inflater.inflate(R.layout.route_view, parent, false);
-                RouteViewHolder holder = new RouteViewHolder(activityContext,view2);
+                RouteViewHolder holder = new RouteViewHolder(activityContext,FAVOURITES,view2);
                 return holder;
             default:
                 View view3 =inflater.inflate(R.layout.stop_view, parent, false);
-                StopsByRouteViewHolder stopsHolder2 = new StopsByRouteViewHolder(activityContext,"Route",view3);
+                StopsByRouteViewHolder stopsHolder2 = new StopsByRouteViewHolder(activityContext,1,"Route",view3);
                 return stopsHolder2;
         }
 
@@ -89,7 +90,7 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
 
             case "DETAILS_STOPS":
-                //((StopsByRouteViewHolder) holder).bindModel(routeInfo,database[dataPosition]);
+                ((StopsByRouteViewHolder) holder).bindModel("yo",1,database[dataPosition]);
                 break;
             case "DETAILS_ROUTES":
                 ((RouteViewHolder) holder).bindModel(database[dataPosition]);

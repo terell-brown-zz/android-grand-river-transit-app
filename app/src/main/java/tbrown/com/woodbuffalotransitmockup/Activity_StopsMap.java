@@ -32,6 +32,7 @@ public class Activity_StopsMap extends FragmentActivity implements GoogleMap.OnM
     private static final String SUNDAY = "'15SPRI-All-Sunday-01'";
     private boolean doubleclick = false;
     private Marker lastmarker;
+    private Intent stopDetailsIntent;
 
 
     @Override
@@ -76,9 +77,7 @@ public class Activity_StopsMap extends FragmentActivity implements GoogleMap.OnM
     private void addMarkers() {
         // Adds markers to the map corresponding to the location of the stops
         Cursor stops = dbHelper.queryStopInfoForMap(stopIds);
-
         int noStops = stops.getCount();
-
 
         stops.moveToPosition(0);
         for (int i = 0; i < noStops; i++) {
@@ -103,12 +102,6 @@ public class Activity_StopsMap extends FragmentActivity implements GoogleMap.OnM
         dbHelper = new DBHelper(activityContext);
     }
 
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p/>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
-     */
     private void setUpMap() {
         addMarkers();
         mMap.setMyLocationEnabled(true);
@@ -140,10 +133,28 @@ public class Activity_StopsMap extends FragmentActivity implements GoogleMap.OnM
     public boolean onMarkerClick(Marker marker) {
         // Launch the stop times activity when a marker is clicked
         
-        if (doubleclick & (marker == lastmarker)) {
+        if (doubleclick & (marker.equals(lastmarker))) {
             stopInfo = marker.getSnippet() + " " + marker.getTitle();
             stopId = Integer.parseInt(marker.getSnippet());
             showStopDetails();
+        } else {
+            Runnable task = new Runnable() {
+                @Override
+                public void run() {
+                    stopDetailsIntent = new Intent("tbrown.com.woodbuffalotransitmockup.STOP_TIMES");
+                    stopDetailsIntent.putExtra("ROUTE_INFO",routeInfo);
+                    stopDetailsIntent.putExtra("ROUTE_NO",routeNo);
+                    stopDetailsIntent.putExtra("STOP_INFO",stopInfo);
+                    stopDetailsIntent.putExtra("STOP_ID",stopId);
+                    stopDetailsIntent.putExtra("SERVICE_ID",WEEKDAYS_ALL);
+                    stopDetailsIntent.putExtra("DIRECTION_ID",directionId);
+                    stopDetailsIntent.putExtra("SPINNER_SELECTION",0);
+                    stopDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                }
+            };
+
+            Thread markerLoaderThread = new Thread(task);
+            markerLoaderThread.start();
         }
         doubleclick = !doubleclick; // FIX THIS !!!!!!! //
         lastmarker = marker;
@@ -151,15 +162,15 @@ public class Activity_StopsMap extends FragmentActivity implements GoogleMap.OnM
     }
 
     public void showStopDetails() {
-        Intent stopDetailsIntent = new Intent("tbrown.com.woodbuffalotransitmockup.STOP_TIMES");
-        stopDetailsIntent.putExtra("ROUTE_INFO",routeInfo);
-        stopDetailsIntent.putExtra("ROUTE_NO",routeNo);
-        stopDetailsIntent.putExtra("STOP_INFO",stopInfo);
-        stopDetailsIntent.putExtra("STOP_ID",stopId);
-        stopDetailsIntent.putExtra("SERVICE_ID",WEEKDAYS_ALL);
-        stopDetailsIntent.putExtra("DIRECTION_ID",directionId);
-        stopDetailsIntent.putExtra("SPINNER_SELECTION",0);
-        stopDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        Intent stopDetailsIntent = new Intent("tbrown.com.woodbuffalotransitmockup.STOP_TIMES");
+//        stopDetailsIntent.putExtra("ROUTE_INFO",routeInfo);
+//        stopDetailsIntent.putExtra("ROUTE_NO",routeNo);
+//        stopDetailsIntent.putExtra("STOP_INFO",stopInfo);
+//        stopDetailsIntent.putExtra("STOP_ID",stopId);
+//        stopDetailsIntent.putExtra("SERVICE_ID",WEEKDAYS_ALL);
+//        stopDetailsIntent.putExtra("DIRECTION_ID",directionId);
+//        stopDetailsIntent.putExtra("SPINNER_SELECTION",0);
+//        stopDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         //stopDetailsIntent.putExtra("ROUTE_IDS",activityContext)
         activityContext.startActivity(stopDetailsIntent);
     }

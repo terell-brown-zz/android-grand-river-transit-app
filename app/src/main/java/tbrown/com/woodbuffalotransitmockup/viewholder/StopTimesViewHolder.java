@@ -21,7 +21,7 @@ public class StopTimesViewHolder extends RecyclerView.ViewHolder {
 
     public StopTimesViewHolder(Context context,String routeName, View row) {
         super(row);
-        row.setClickable(true);
+        //row.setClickable(true);
         activityContext = context;
         tvStopTime = (TextView) row.findViewById(R.id.tvStopTimes);
     }

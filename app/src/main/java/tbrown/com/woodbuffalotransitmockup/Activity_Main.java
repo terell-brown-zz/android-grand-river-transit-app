@@ -43,6 +43,7 @@ public class Activity_Main extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         // Creating the Toolbar and setting it as the Toolbar for the activity
         setupToolbar();
 
@@ -54,7 +55,6 @@ public class Activity_Main extends ActionBarActivity {
         setupTabs();
 
         favourites = getSharedPreferences(sharedPrefs,MODE_PRIVATE);
-
     }
 
     private void setupToolbar() {

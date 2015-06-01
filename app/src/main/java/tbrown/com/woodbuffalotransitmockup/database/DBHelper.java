@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
+import tbrown.com.woodbuffalotransitmockup.util.DateTimeUtil;
+
 public class DBHelper extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "new.db";
@@ -145,8 +147,97 @@ public class DBHelper extends SQLiteAssetHelper {
         return DBUtils.queryToTimes(queryTimes);
     }
 
+    public Cursor queryNearbyStops(Double lat,Double lon) {
+        // Based on the coordinates provided, returns the 8 nearest bus stops
+        SQLiteDatabase db = getReadableDatabase();
 
+        // Build query
+        String query = "" +
+                "SELECT stop_id, stop_name, stop_lat, stop_lon, " +
+                "((stop_lon - " + lon + ")*(stop_lon - " + lon + ") +" +
+                " (stop_lat - " + lat + ")*(stop_lat - " + lat +
+                ")) as distance FROM stops WHERE distance < 0.00003 ORDER BY distance" +
+                " LIMIT 8";
 
+        Log.i("MyActivity", query);
+
+        // Run query
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+        checkCursor(c); // indicates details of query in log under MyActivity TAG
+
+        db.close();
+        return c;
+    }
+
+    public String[] getNearbyStops(Double lat,Double lon) {
+        Cursor queryStops = queryNearbyStops(lat,lon);
+        checkCursor(queryStops);
+        return DBUtils.queryToTimes(queryStops);
+    }
+
+    public Cursor queryRoutesByStop(String stopId) {
+        // Based the stop and service time provided return the associated routes
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Build query
+        String query = "" +
+                "SELECT DISTINCT route_id FROM trips WHERE trip_id" +
+                " IN (SELECT trip_id FROM stop_times" +
+                " WHERE stop_id = " + stopId + ")";
+        Log.i("MyActivity", query);
+
+        // Run query
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+        checkCursor(c); // indicates details of query in log under MyActivity TAG
+
+        db.close();
+        return c;
+    }
+
+    public String[] getRoutesByStop(String stopId) {
+        Cursor queryRoutes = queryRoutesByStop(stopId);
+        checkCursor(queryRoutes);
+        return DBUtils.queryToAllRouteIds(queryRoutes);
+    }
+
+    public Cursor queryNearbyStopInfo(String stopId, String serviceId, String routeIds) {
+        // Returns query results containing upcoming stop times for the given stop
+        //   basede on the routes and service provided
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Process the arguments provided so they may be used for query
+        String startTime = DateTimeUtil.getCurrentTime();
+        String endTime = DateTimeUtil.setEndTime(3);
+
+        // Build Query
+        String query = "" +
+                "SELECT DISTINCT trips.trip_headsign, stop_times.departure_time FROM trips" +
+                " JOIN stop_times ON trips.trip_id = stop_times.trip_id" +
+                " WHERE stop_id = " + stopId + " AND service_id = " + serviceId +
+                " AND stop_times.departure_time BETWEEN '" + startTime + "' AND '" + endTime +
+                "' AND trips.route_id IN(" + routeIds + ")" +
+                " ORDER BY trips.route_id, trips.trip_headsign, stop_times.departure_time;";
+
+        Log.i("MyActivity",query);
+        // Run raw query
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+        checkCursor(c);
+
+        db.close();
+        return c;
+    }
+
+    public String[][] getUpcomingTimes(String stopId, String serviceId, String[] routeIds) {
+        String routes = DBUtils.arrayToString(routeIds);
+        Log.i("MyActivity",routes);
+        Cursor queryUpcomingTimes = queryNearbyStopInfo(stopId, serviceId, routes);
+        checkCursor(queryUpcomingTimes);
+        return DBUtils.queryToStringArray2(queryUpcomingTimes,routeIds.length);
+    }
 
     private void checkCursor(Cursor c) {
         Log.i(TAG, "Validating the cursor");

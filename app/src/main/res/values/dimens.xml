@@ -5,6 +5,7 @@
 
     <dimen name="tileWidth">300dp</dimen>
     <dimen name="tileHeight">60dp</dimen>
+    <dimen name="tileHeighttwoLine">72dp</dimen>
     <dimen name="cardMarginFromLeft">10dp</dimen>
     <dimen name="cardTitlePadding">10dp</dimen>
 
@@ -19,8 +20,13 @@
     <dimen name="SecondaryTitleSize">14dp</dimen>
     <dimen name="favouriteButtonSize">40dp</dimen>
     <dimen name="tileIcon">20dp</dimen>
-    <dimen name="fs">1dp</dimen>
+    <dimen name="TwoLineViewPrimaryFontSize">16sp</dimen>
+    <dimen name="TwoLineViewSecondaryFontSize">14sp</dimen>
+    <dimen name="TwoLineViewTopPadding">8dp</dimen>
+    <dimen name="TwoLineViewBottomPadding">8dp</dimen>
     <dimen name="fas">1dp</dimen>
+
+
 
 
 

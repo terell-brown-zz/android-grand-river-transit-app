@@ -21,4 +21,10 @@
     <string name="title_activity_activity__stops_map">Map</string>
     <string name="title_activity_maps">Map</string>
 
+    <string name="StopInfoSampleText1">Route 7D - UW via Columbia</string>
+    <string name="StopInfoSampleText2">"12:30, 1:00, 1:30, 2:30"</string>
+    <string name="title_activity_activity__stop_info">Activity_StopInfo</string>
+
+
+
 </resources>

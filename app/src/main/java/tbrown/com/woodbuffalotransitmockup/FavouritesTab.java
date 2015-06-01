@@ -26,6 +26,7 @@ import tbrown.com.woodbuffalotransitmockup.util.SimpleDividerItemDecoration;
 
 public class FavouritesTab extends Fragment {
 
+    private  Context activityContext;
     private StopAdapter mFaveAdapter;
     private RecyclerView mRecyclerView;
 
@@ -35,21 +36,31 @@ public class FavouritesTab extends Fragment {
 
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activityContext = getActivity();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.tab_favourites,container,false);
-        mRecyclerView = (RecyclerView) layout.findViewById(R.id.rvFavouriteStops);
-        mFaveAdapter = new StopAdapter(getActivity(),getData());
-        mRecyclerView.setAdapter(mFaveAdapter);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        setupRecyclerView(layout);
         return layout;
     }
 
+    private void setupRecyclerView(View v) {
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.rvFavouriteStops);
+        mFaveAdapter = new StopAdapter(activityContext,getData());
+        mRecyclerView.setAdapter(mFaveAdapter);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(activityContext));
+        mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(activityContext));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+    }
+
     public String[] getData() {
-        String[] data = {"Stops", "Powder Drive Station","King Kunta Station","DreamVille", "Forest Hill Drive","Cole Station",
-        "Routes", "1 Timberlea Express","2 Thickwood Express","12 Downtown Express"};
+        //String[] data = {"Stops", "Powder Drive Station","King Kunta Station","DreamVille", "Forest Hill Drive","Cole Station",
+        //"Routes", "1 Timberlea Express","2 Thickwood Express","12 Downtown Express"};
         favourites = getActivity().getSharedPreferences(sharedPrefs, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor= favourites.edit();
         return getFavourites();
@@ -81,7 +92,7 @@ public class FavouritesTab extends Fragment {
         }
 
     private boolean isRoute(String key) {
-        String sub = key.substring(0,7);
+        String sub = key.substring(0, 7);
         return sub.equals("Route -");
     }
 
@@ -95,6 +106,8 @@ public class FavouritesTab extends Fragment {
 
         return ans;
     }
+
+
 
 
 

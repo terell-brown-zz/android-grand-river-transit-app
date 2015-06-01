@@ -72,8 +72,6 @@ public class Activity_StopDetails extends ActionBarActivity implements AdapterVi
         setupToolbar();
         setupViewPager();
         setupTabs();
-        //setupSpinner();
-        //setupRecyclerView();
     }
 
     private void setupToolbar() {
@@ -112,23 +110,10 @@ public class Activity_StopDetails extends ActionBarActivity implements AdapterVi
         tabs.setViewPager(pager);
     }
 
-    private void setupSpinner () {
-        // Setup spinner used to select time of week for schedule
-        spin = (Spinner) findViewById(R.id.spinSchedule);
-        String[] items = getResources().getStringArray(R.array.services);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(activityContext,
-                android.R.layout.simple_spinner_item,
-                items);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spin.setAdapter(arrayAdapter);
-        spin.setOnItemSelectedListener(this);
-    }
 
     private void setupDatabase(Context activityContext) {
         dbHelper = new DBHelper(activityContext);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -146,8 +131,6 @@ public class Activity_StopDetails extends ActionBarActivity implements AdapterVi
         faveUnSelected.setVisible(true);
         return true;
     }
-
-
 
     private void toggleFavourites() {
         // Toggle the favourites icon (star) located in the tool bar between

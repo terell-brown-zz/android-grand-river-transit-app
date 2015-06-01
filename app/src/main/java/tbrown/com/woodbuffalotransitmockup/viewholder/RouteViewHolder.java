@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import tbrown.com.woodbuffalotransitmockup.R;
-
+import tbrown.com.woodbuffalotransitmockup.util.FavouritesUtil;
 
 
 /**
@@ -36,14 +36,19 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
 
     boolean isFavourited;
 
+    int viewContext; // Context for which the list is being used
+    int NORMAL = 0; // the list is showing info normally
+    int FAVOURITES = 1; // the list is showing favourites data
+
     SharedPreferences favourites;
     String sharedPrefs = "My Favourite Stops and Routes";
     String routePrefix = "Route -";
 
-    public RouteViewHolder(Context context, View row) {
+    public RouteViewHolder(Context context,int viewContext, View row) {
         super(row);
         isFavourited = false;
         activityContext = context;
+        this.viewContext = viewContext;
         tvRouteName = (TextView) row.findViewById(R.id.tvRouteName);
         tvRouteNo = (TextView) row.findViewById(R.id.tvRouteNo);
         faveIcon = (ImageView) row.findViewById(R.id.ic_favourite_selected);
@@ -78,16 +83,12 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            default:
-                showRouteDetails();
-        }
 
+        showRouteDetails();
     }
 
     public void showRouteDetails() {
         Intent routeDetailsIntent = new Intent("tbrown.com.woodbuffalotransitmockup.ROUTE_DETAILS");
-        String ig = mRouteInfo;
         routeDetailsIntent.putExtra("ROUTE_INFO", mRouteInfo);
         routeDetailsIntent.putExtra("ROUTE_NO", Integer.parseInt(routeNo));
         activityContext.startActivity(routeDetailsIntent);
@@ -95,23 +96,18 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
 
     @Override
     public boolean onLongClick(View v) {
-
-        setupFavourites();
-        if (isFavourited) {
-            removeRouteFromFavourite(mRouteInfo);
-        } else {
-            addRouteToFavourites(mRouteInfo);
-        }
         toggleFavourites();
+        setupFavourites();
+        if (viewContext == FAVOURITES) {
+            FavouritesUtil.removeRouteFromFavourite(favourites, mRouteInfo);
+        } else {
+            // ie. viewContext == NORMAL
+            FavouritesUtil.addRouteToFavourites(favourites, mRouteInfo);
+        }
         return true;
     }
 
-    private void removeRouteFromFavourite(String mRouteInfo) {
-        SharedPreferences.Editor editor = favourites.edit();
-        editor.remove(mRouteInfo);
-        editor.apply();
-        //isFavourited = false;
-    }
+
 
     private void setupFavourites() {
         favourites = activityContext.getSharedPreferences(sharedPrefs, Context.MODE_PRIVATE);
@@ -121,32 +117,20 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
         // Toggle the favourites icon (star) located in the tool bar between
         // selected and unselected
 
-        if (isFavourited == true) {
-            faveIcon.setVisibility(View.INVISIBLE);
-            isFavourited = false;
+        if (viewContext == FAVOURITES) {
+            //faveIcon.setVisibility(View.INVISIBLE);
+            //isFavourited = false;
             Toast toast = Toast.makeText(activityContext, "Route removed from favourites", Toast.LENGTH_LONG);
             toast.show();
             return;
         } else {
-            faveIcon.setVisibility(View.VISIBLE);
-            isFavourited = true;
+            //faveIcon.setVisibility(View.VISIBLE);
+            //isFavourited = true;
             Toast toast = Toast.makeText(activityContext, "Route added to favourites", Toast.LENGTH_LONG);
             toast.show();
         };
     }
 
-    public void addRouteToFavourites(String routeName) {
-        // This method adds the given route to favourites which is
-        //   stored in a Shared Preferences Object
 
-        if (favourites.contains(routePrefix + routeName)) {
-            return;
-        } else {
-            SharedPreferences.Editor editor = favourites.edit();
-            editor.putString(routePrefix + routeName, routeName);
-            editor.apply();
-        }
-        //isFavourited = true;
-    }
 
 }

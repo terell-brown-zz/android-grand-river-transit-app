@@ -38,7 +38,7 @@ public class FavouritesBackup extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.tab_favourites,container,false);
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.rvFavouriteStops);
-        mStopAdapter = new StopAdapter(getActivity(),getData());
+        //mStopAdapter = new StopAdapter(getActivity(),getData());
         mRecyclerView.setAdapter(mStopAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -46,7 +46,7 @@ public class FavouritesBackup extends Fragment {
         return layout;
     }
 
-    public static String[] getData() {
+    //public static String[] getData() {
         /*List<String> data = new ArrayList<>();
 
         data.add("Stops");
@@ -64,12 +64,12 @@ public class FavouritesBackup extends Fragment {
 
         NumRoutes = data.size() - NumStops - 1;*/
 
-        String[] data = {"Stops", "Powder Drive Station","King Kunta Station","DreamVille", "Forest Hill Drive","Cole Station",
-                "Routes", "Timberlea Express","Thickwood Express","Downtown Express"};
+        //String[] data = {"Stops", "Powder Drive Station","King Kunta Station","DreamVille", "Forest Hill Drive","Cole Station",
+          //      "Routes", "Timberlea Express","Thickwood Express","Downtown Express"};
 
-        return data;
+        //return data;
 
-    }
+    //}
 
     public int getNumStops() {
         return NumStops;

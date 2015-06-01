@@ -6,35 +6,17 @@
     android:background="@color/ColorViewPagerBackground"
     android:weightSum="1">
 
-
-
-    <Button android:id="@+id/bSearch"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
         android:layout_height="wrap_content"
-        android:text="Search for Nearby Stops"
-        android:layout_gravity="center_horizontal"
-        android:elegantTextHeight="false"
-        android:layout_weight="0.06"
-        android:layout_marginTop="@dimen/tileHeight"/>
+        android:layout_width="match_parent"
+        android:layout_weight="8"></include>
 
-    <ProgressBar
-        android:id="@+id/pbSpinner"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="142dp"
-        android:layout_height="109dp"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible"
-        android:layout_gravity="center"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="This Feature is Coming Soon"
-        android:id="@+id/tvFeatureText"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible"
-        android:layout_gravity="center"/>
+    <fragment
+        android:id="@+id/map_nearby_stops"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.google.android.gms.maps.SupportMapFragment" />
 
 </LinearLayout>
