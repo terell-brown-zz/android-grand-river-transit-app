@@ -6,21 +6,21 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+
 import com.melnykov.fab.FloatingActionButton;
 
-import tbrown.com.woodbuffalotransitmockup.viewpagers.ViewPageAdapter;
+import tbrown.com.woodbuffalotransitmockup.viewpagers.AlternateViewPagerAdapter;
 import tbrown.com.woodbuffalotransitmockup.widgets.SlidingTabLayout;
 
-public class Activity_Main extends ActionBarActivity implements View.OnClickListener {
+public class Activity_Main_Alternate extends ActionBarActivity implements View.OnClickListener {
     // When using Appcompat support library you need to extend Main Activity to ActionBarActivity.
 
-    private Toolbar toolbar;                              // Declaring the Toolbar Object
+    private Toolbar toolbar;                              // Declare the Toolbar Object
     private FloatingActionButton fab;
 
     private MenuItem faveSelected;                        // Declare favourite button in toolbar
@@ -30,16 +30,18 @@ public class Activity_Main extends ActionBarActivity implements View.OnClickList
     String sharedPrefs = "My Favourite Stops and Routes";
 
     ViewPager pager;
-    ViewPageAdapter adapter;
+    AlternateViewPagerAdapter adapter;
     SlidingTabLayout tabs;
-    CharSequence Titles[]={"Favourites","Nearby"};
+    CharSequence Titles[] = {"Trip Planner" , "All Routes"};
     int Numboftabs = 2;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_alternate);
+
 
         // Creates the Toolbar and sets it as the Toolbar for the activity
         setupToolbar();
@@ -51,10 +53,15 @@ public class Activity_Main extends ActionBarActivity implements View.OnClickList
         // Implementing a tab bar below the tool bar, that can slide
         setupTabs();
 
-        // Implement Floating Action Button
+        // Implement floating action button
         setupFAB();
 
         favourites = getSharedPreferences(sharedPrefs,MODE_PRIVATE);
+    }
+
+    private void setupFAB() {
+        fab = (FloatingActionButton) findViewById(R.id.fab_to_main);
+        fab.setOnClickListener(this);
     }
 
     private void setupToolbar() {
@@ -69,7 +76,7 @@ public class Activity_Main extends ActionBarActivity implements View.OnClickList
     private void setupViewPager() {
         // Creating an adapter that will connect to the ViewPager Container in order to
         //   supply page fragmenents on demand
-        adapter = new ViewPageAdapter(getSupportFragmentManager(), Titles, Numboftabs);
+        adapter = new AlternateViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs);
 
         // Creating a View Pager which acts as dynamic view container.
         //   Depending on the current tab, a different fragment will be supplied to this area of the screen
@@ -88,18 +95,6 @@ public class Activity_Main extends ActionBarActivity implements View.OnClickList
             }
         });
         tabs.setViewPager(pager);
-    }
-
-    private void setupFAB() {
-        fab = (FloatingActionButton) findViewById(R.id.fab_to_alternate);
-        fab.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        // start the alternate activity when the floating action button is clicked
-        finish(); // destroys current activity
-        startActivity(new Intent("tbrown.com.woodbuffalotransitmockup.ALTERNATE"));
     }
 
     @Override
@@ -127,7 +122,6 @@ public class Activity_Main extends ActionBarActivity implements View.OnClickList
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         SharedPreferences.Editor editor = favourites.edit();
         switch (id) {
             case R.id.action_favourite_selected:
@@ -153,5 +147,11 @@ public class Activity_Main extends ActionBarActivity implements View.OnClickList
         faveUnSelected.setVisible(isSelected);
     }
 
+    @Override
+    public void onClick(View v) {
+        // start main activity when fab is clicked
+        finish(); // destroy current activity
+        startActivity(new Intent(this, Activity_Main.class));
 
+    }
 }

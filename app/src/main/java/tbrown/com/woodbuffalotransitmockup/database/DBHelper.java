@@ -214,12 +214,14 @@ public class DBHelper extends SQLiteAssetHelper {
 
         // Build Query
         String query = "" +
-                "SELECT DISTINCT trips.trip_headsign, stop_times.departure_time FROM trips" +
+                 "SELECT DISTINCT trips.trip_headsign, stop_times.departure_time FROM trips" +
+                //"SELECT DISTINCT trips.trip_headsign, (stop_times.departure_time - '" + startTime + "') AS remainingTime FROM trips" +
                 " JOIN stop_times ON trips.trip_id = stop_times.trip_id" +
                 " WHERE stop_id = " + stopId + " AND service_id = " + serviceId +
                 " AND stop_times.departure_time BETWEEN '" + startTime + "' AND '" + endTime +
+                //" AND remainingTime <= '1:30:00' " +
                 "' AND trips.route_id IN(" + routeIds + ")" +
-                " ORDER BY trips.route_id, trips.trip_headsign, stop_times.departure_time;";
+                " ORDER BY trips.route_id, trips.trip_headsign, stop_times.departure_time";
 
         Log.i("MyActivity",query);
         // Run raw query

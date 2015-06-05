@@ -185,4 +185,15 @@ public class DBUtils {
         }
         return result;
     };
+
+    public static String[] twoDToOneDArray(String[][] array,int col) {
+        // Converts 2D String Array into 1D String array based on column number provided
+        String[] result = new String[array.length];
+        int i = 0;
+        for (String[] row: array) {
+            result[i] = row[col];
+            i++;
+        }
+        return result;
+    }
 }

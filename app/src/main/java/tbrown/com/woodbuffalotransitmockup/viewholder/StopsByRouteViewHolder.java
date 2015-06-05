@@ -15,6 +15,7 @@ import java.util.Set;
 
 import tbrown.com.woodbuffalotransitmockup.R;
 import tbrown.com.woodbuffalotransitmockup.database.DBHelper;
+import tbrown.com.woodbuffalotransitmockup.database.DBUtils;
 import tbrown.com.woodbuffalotransitmockup.util.DateTimeUtil;
 import tbrown.com.woodbuffalotransitmockup.util.FavouritesUtil;
 
@@ -62,7 +63,7 @@ public class StopsByRouteViewHolder extends RecyclerView.ViewHolder implements V
         this.stopInfo = stopName;
 
         // index separating route number and route name in routeInfo
-        int indexOfSeparation = getSeparatingIndex(stopInfo);
+        int indexOfSeparation = getSeparatingIndex(stopInfo); // add to utilities class
         stopId = Integer.parseInt(stopInfo.substring(0,indexOfSeparation));
         tvStopName.setText(stopName);
     }
@@ -85,7 +86,6 @@ public class StopsByRouteViewHolder extends RecyclerView.ViewHolder implements V
             //   activity containing the upcoming times for that stop
             showUpcomingStopTimes();
         }
-
     }
 
     public void showStopDetails() {
@@ -111,13 +111,15 @@ public class StopsByRouteViewHolder extends RecyclerView.ViewHolder implements V
                 DateTimeUtil.getServiceId(),        // current time of service (ie. Weekday, Saturday, Sunday)
                 dbHelper.getRoutesByStop(stopNo)    // list of routes associated with stop
         );
-        Intent stopInfo = new Intent("tbrown.com.woodbuffalotransitmockup.STOP_INFO");
-        //Bundle b=new Bundle();
-        stopInfo.putExtra("ROUTES", convert(times, 0));
-        stopInfo.putExtra("TIMES", convert(times, 1));
-        //stopInfo.putExtras(b);
-        activityContext.startActivity(stopInfo);
-        //showDialog();
+
+        Intent intent = new Intent("tbrown.com.woodbuffalotransitmockup.STOP_INFO");
+
+        intent.putExtra("STOP_NAME", stopInfo);
+        intent.putExtra("ROUTES", DBUtils.twoDToOneDArray(times, 0));
+        intent.putExtra("TIMES", DBUtils.twoDToOneDArray(times, 1));
+
+        activityContext.startActivity(intent);
+
     }
     @Override
     public boolean onLongClick(View v) {
@@ -157,14 +159,4 @@ public class StopsByRouteViewHolder extends RecyclerView.ViewHolder implements V
         };
     }
 
-    public String[] convert(String[][] yo,int col) {
-        // Converts 2D String Array into 1D String array based on column number provided
-        String[] result = new String[yo.length];
-        int i = 0;
-        for (String[] row: yo) {
-            result[i] = row[col];
-            i++;
-        }
-        return result;
-    }
 }

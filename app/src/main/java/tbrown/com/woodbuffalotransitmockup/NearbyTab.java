@@ -3,18 +3,14 @@ package tbrown.com.woodbuffalotransitmockup;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.*;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,10 +18,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import tbrown.com.woodbuffalotransitmockup.activities.fragments.StopInfoFragment;
 import tbrown.com.woodbuffalotransitmockup.database.DBHelper;
+import tbrown.com.woodbuffalotransitmockup.database.DBUtils;
 import tbrown.com.woodbuffalotransitmockup.util.DateTimeUtil;
 import tbrown.com.woodbuffalotransitmockup.util.MapUtils;
 
@@ -46,8 +42,8 @@ public class NearbyTab extends Fragment implements GoogleMap.OnMarkerClickListen
     private StopInfoFragment dialog;
 
 
-    GoogleMap map;
-    LatLng lastKnownLocation;
+    private GoogleMap map;
+    private LatLng lastKnownLocation;
     private Marker lastMarkerClicked;
     private boolean doubleclick = false;
     boolean wasMarkerClicked = true;
@@ -56,6 +52,7 @@ public class NearbyTab extends Fragment implements GoogleMap.OnMarkerClickListen
     private String[][] times;
     private String serviceId;
     private String stopSelected;
+    private String stopSelectedName;
 
 
     @Override
@@ -94,11 +91,13 @@ public class NearbyTab extends Fragment implements GoogleMap.OnMarkerClickListen
 
 
     private void addMap() {
+        // adds the map fragment to the parent fragment
         fm = getChildFragmentManager(); // used to interact with multiple child fragments within parent fragment
-        map = ((SupportMapFragment) fm.findFragmentById(R.id.map_nearby_stops)).getMap();
+        map = ((SupportMapFragment) fm.findFragmentById(R.id.map_nearby_stops)).getMap(); // a google map fragment
     }
 
     private void setupMap() {
+        // applies specific settings to the map
         map.setMyLocationEnabled(true);
         map.setOnMarkerClickListener(this);
         map.setOnCameraChangeListener(this);
@@ -108,11 +107,12 @@ public class NearbyTab extends Fragment implements GoogleMap.OnMarkerClickListen
     }
 
     public void onCameraChange(CameraPosition cameraPosition) {
+        // used to initiate some action when the position of the camera on the map changes
         if (wasMarkerClicked) {
-            // if camera change caused by marker click, do nothing and set the value back to false
+            // if camera change caused by marker click, do nothing and set the wasMarkerClicked back to false
             wasMarkerClicked = false;
         } else {
-            // else clear markers on map and add new markers according to new camera position
+            // else delete all markers currently on map and add new markers surrounding the new camera position
             LatLng newLocation = cameraPosition.target;
             map.clear();
             MapUtils.addMarkers(map, dbHelper,newLocation);
@@ -121,62 +121,53 @@ public class NearbyTab extends Fragment implements GoogleMap.OnMarkerClickListen
 
     @Override
     public boolean onMarkerClick(final Marker currentMarkerClicked) {
+        // used to initiate some action when a marker on the map is clicked
         wasMarkerClicked = true;
         if (doubleclick && currentMarkerClicked.equals(lastMarkerClicked)) {
             // Inflate a dialogue fragment displaying the routes that go to
             //   that stop as well as the four next bus stops
-            //serviceId = DateTimeUtil.getServiceId();
-            //routes = dbHelper.getRoutesByStop(stopSelected,serviceId);
 
-            wasMarkerClicked = false;
+            wasMarkerClicked = false; // reset this value to false
 
             if (routes == null || serviceId == null ) {
                 serviceId = DateTimeUtil.getServiceId();
                 routes = dbHelper.getRoutesByStop(stopSelected);
             }
-            //if (routes == null) {
-                //Toast.makeText(activityContext,)
-            //}
-            times = dbHelper.getUpcomingTimes(stopSelected,serviceId,routes);
+
+            times = dbHelper.getUpcomingTimes(stopSelected,serviceId,routes); // returns 2D array of upcoming stop times
+            // according to service time and routes provided
+
             Intent stopInfo = new Intent("tbrown.com.woodbuffalotransitmockup.STOP_INFO");
-            //Bundle b=new Bundle();
-            stopInfo.putExtra("ROUTES", convert(times, 0));
-            stopInfo.putExtra("TIMES", convert(times, 1));
-            //stopInfo.putExtras(b);
+            stopInfo.putExtra("STOP_NAME",stopSelected + " " +stopSelectedName);
+            stopInfo.putExtra("ROUTES", DBUtils.twoDToOneDArray(times, 0)); // array of routes going to the stop
+            stopInfo.putExtra("TIMES", DBUtils.twoDToOneDArray(times, 1));  // array of upcoming stop times for each route
             startActivity(stopInfo);
-            //showDialog();
         } else {
             stopSelected = currentMarkerClicked.getSnippet();
-            // Run query and setup fragment for the chance the same marker
-            //   is clicked again. This can be done in a different thread
+            stopSelectedName = currentMarkerClicked.getTitle();
 
+            // Run query and setup fragment for the chance the same marker
+            //   is clicked again. This is done in a different thread to prevent jank
             Runnable task = new Runnable() {
                 @Override
                 public void run() {
                 // run query
-                    android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
+                    android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND); // make this thread the main one
                     serviceId = DateTimeUtil.getServiceId();
                     routes = dbHelper.getRoutesByStop(stopSelected);
                     Log.i("MyActivity", "Task successfully run in background thread.");
                 }
 
             };
-            Thread markerLoaderThread = new Thread(task);
-            markerLoaderThread.start();
-            android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_FOREGROUND);
+
+            Thread markerLoaderThread = new Thread(task); // add the task to thread
+            markerLoaderThread.start(); // start the thread thus performing the task provided
+            android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_FOREGROUND); // return UI thread to main thread
+
             doubleclick = !doubleclick;
             lastMarkerClicked = currentMarkerClicked;
         }
         return false;
     }
 
-    public String[] convert(String[][] yo,int col) {
-        String[] result = new String[yo.length];
-        int i = 0;
-        for (String[] row: yo) {
-            result[i] = row[col];
-            i++;
-        }
-        return result;
-    }
 }

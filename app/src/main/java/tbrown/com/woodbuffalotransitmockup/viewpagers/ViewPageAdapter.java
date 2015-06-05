@@ -1,8 +1,12 @@
-package tbrown.com.woodbuffalotransitmockup;
+package tbrown.com.woodbuffalotransitmockup.viewpagers;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import tbrown.com.woodbuffalotransitmockup.AllTab;
+import tbrown.com.woodbuffalotransitmockup.FavouritesTab;
+import tbrown.com.woodbuffalotransitmockup.NearbyTab;
 
 /**
  * Created by tmast_000 on 4/4/2015.

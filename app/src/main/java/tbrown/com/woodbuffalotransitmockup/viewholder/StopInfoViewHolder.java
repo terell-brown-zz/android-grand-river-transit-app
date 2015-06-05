@@ -27,7 +27,7 @@ public class StopInfoViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindModel(String routeInfo, String upcomingTimes) {
-        // Bind the data provided which was extracted from the database to
+        // Binds the data provided which was extracted from the database to
         //   to the appropriate view
         tvRouteInfo.setText(routeInfo);
         tvUpcomingTimes.setText(upcomingTimes);

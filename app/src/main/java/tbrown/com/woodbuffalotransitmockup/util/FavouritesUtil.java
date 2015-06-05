@@ -15,8 +15,6 @@ public class FavouritesUtil {
     static String stopPrefix = "Stop -";
 
 
-
-
     public static void addStowpToFavourites(SharedPreferences favourites, String stopName) {
         // This method adds the given stop to favourites which is stored
         //   in a Shared Preferences Object

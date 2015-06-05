@@ -33,8 +33,6 @@ public class FavouritesTab extends Fragment {
     static SharedPreferences favourites;
     static String sharedPrefs = "My Favourite Stops and Routes";
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

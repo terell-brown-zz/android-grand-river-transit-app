@@ -39,8 +39,17 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="tbrown.com.woodbuffalotransitmockup.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity_Main_Alternate"
+            android:label="Alternate Main Screen" >
+            <intent-filter>
+                <action android:name="tbrown.com.woodbuffalotransitmockup.ALTERNATE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity

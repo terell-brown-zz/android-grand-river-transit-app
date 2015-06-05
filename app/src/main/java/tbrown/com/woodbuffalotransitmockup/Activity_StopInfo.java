@@ -28,6 +28,7 @@ public class Activity_StopInfo extends ActionBarActivity {
     private DBHelper dbHelper;
     private String[] routes;
     private String[] upcomingStopTimes;
+    private String stopName;
 
 
     @Override
@@ -35,9 +36,9 @@ public class Activity_StopInfo extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stop_info);
         activityContext = this;
+        getStopInfo();
         setupToolbar();
         setupDatabase(activityContext);
-        getStopInfo();
         setUpRecyclerView();
     }
 
@@ -46,7 +47,8 @@ public class Activity_StopInfo extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);                   // Setting toolbar as the ActionBar with setSupportActionBar() call
         getSupportActionBar().setTitle("");
-        toolbar.setTitle("Select A Route"); toolbar.setTitleTextColor(getResources().getColor(R.color.ColorToolbarTitle));
+        toolbar.setTitle(stopName);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.ColorToolbarTitle));
         toolbar.setLogo(R.drawable.ic_bus);
     }
 
@@ -69,6 +71,7 @@ public class Activity_StopInfo extends ActionBarActivity {
     private void getStopInfo() {
         Intent intent = getIntent();
         //Bundle b = intent.getExtras();
+        stopName = intent.getStringExtra("STOP_NAME");
         routes = intent.getStringArrayExtra("ROUTES");
         upcomingStopTimes = intent.getStringArrayExtra("TIMES");
         boolean boo = false;
