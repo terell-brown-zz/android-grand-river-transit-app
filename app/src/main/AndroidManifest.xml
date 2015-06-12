@@ -40,14 +40,42 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="tbrown.com.woodbuffalotransitmockup.MAIN" />
+                <action android:name="tbrown.com.woodbuffalotransitmockup.FAVOURITES" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity_Main_Alternate"
-            android:label="Alternate Main Screen" >
+            android:name=".Activity_Favourites"
+            android:label="@string/title_activity_activity__favourites" >
             <intent-filter>
-                <action android:name="tbrown.com.woodbuffalotransitmockup.ALTERNATE" />
+                <action android:name="tbrown.com.woodbuffalotransitmockup.FAVOURITES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity_Nearby"
+            android:label="Nearby Stops" >
+            <intent-filter>
+                <action android:name="tbrown.com.woodbuffalotransitmockup.NEARBY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity_TripPlanner"
+            android:label="Trip Planner" >
+            <intent-filter>
+                <action android:name="tbrown.com.woodbuffalotransitmockup.PLANNER" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity_All_Routes"
+            android:label="All Routes" >
+            <intent-filter>
+                <action android:name="tbrown.com.woodbuffalotransitmockup.ALL_ROUTES" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -75,6 +103,7 @@
             android:label="Stop Details" >
             <intent-filter>
                 <action android:name="tbrown.com.woodbuffalotransitmockup.STOP_TIMES" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -83,6 +112,7 @@
             android:label="Stop Details" >
             <intent-filter>
                 <action android:name="tbrown.com.woodbuffalotransitmockup.STOP_TIMES_ALT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -99,6 +129,7 @@
             android:label="@string/title_activity_activity__stops_map" >
             <intent-filter>
                 <action android:name="tbrown.com.woodbuffalotransitmockup.MAP_STOPS" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -107,9 +138,15 @@
             android:label="@string/title_activity_activity__stop_info" >
             <intent-filter>
                 <action android:name="tbrown.com.woodbuffalotransitmockup.STOP_INFO" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activity_Base"
+            android:label="@string/title_activity_activity__base" >
+        </activity>
+
     </application>
 
 </manifest>

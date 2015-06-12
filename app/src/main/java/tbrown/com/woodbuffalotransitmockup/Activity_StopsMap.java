@@ -12,8 +12,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.listeners.ActionClickListener;
 
 import tbrown.com.woodbuffalotransitmockup.database.DBHelper;
+import tbrown.com.woodbuffalotransitmockup.database.DBUtils;
+import tbrown.com.woodbuffalotransitmockup.util.DateTimeUtil;
 
 public class Activity_StopsMap extends FragmentActivity implements GoogleMap.OnMarkerClickListener {
 
@@ -30,8 +35,7 @@ public class Activity_StopsMap extends FragmentActivity implements GoogleMap.OnM
     private static final String WEEKDAYS_ALL = "'15SPRI-All-Weekday-01'";
     private static final String SATURDAY = "'15SPRI-All-Saturday-01'";
     private static final String SUNDAY = "'15SPRI-All-Sunday-01'";
-    private boolean doubleclick = false;
-    private Marker lastmarker;
+
     private Intent stopDetailsIntent;
 
 
@@ -131,16 +135,13 @@ public class Activity_StopsMap extends FragmentActivity implements GoogleMap.OnM
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        // Launch the stop times activity when a marker is clicked
-        
-        if (doubleclick & (marker.equals(lastmarker))) {
-            stopInfo = marker.getSnippet() + " " + marker.getTitle();
-            stopId = Integer.parseInt(marker.getSnippet());
-            showStopDetails();
-        } else {
-            Runnable task = new Runnable() {
+        stopInfo = marker.getSnippet() + " " + marker.getTitle();
+        stopId = Integer.parseInt(marker.getSnippet());
+        showSnackBar();
+        Runnable task = new Runnable() {
                 @Override
                 public void run() {
+                    android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND); // make this thread the main one
                     stopDetailsIntent = new Intent("tbrown.com.woodbuffalotransitmockup.STOP_TIMES");
                     stopDetailsIntent.putExtra("ROUTE_INFO",routeInfo);
                     stopDetailsIntent.putExtra("ROUTE_NO",routeNo);
@@ -152,26 +153,29 @@ public class Activity_StopsMap extends FragmentActivity implements GoogleMap.OnM
                     stopDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 }
             };
-
+            android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_FOREGROUND); // return UI thread to main thread
             Thread markerLoaderThread = new Thread(task);
             markerLoaderThread.start();
-        }
-        doubleclick = !doubleclick; // FIX THIS !!!!!!! //
-        lastmarker = marker;
+
         return false;
     }
 
     public void showStopDetails() {
-//        Intent stopDetailsIntent = new Intent("tbrown.com.woodbuffalotransitmockup.STOP_TIMES");
-//        stopDetailsIntent.putExtra("ROUTE_INFO",routeInfo);
-//        stopDetailsIntent.putExtra("ROUTE_NO",routeNo);
-//        stopDetailsIntent.putExtra("STOP_INFO",stopInfo);
-//        stopDetailsIntent.putExtra("STOP_ID",stopId);
-//        stopDetailsIntent.putExtra("SERVICE_ID",WEEKDAYS_ALL);
-//        stopDetailsIntent.putExtra("DIRECTION_ID",directionId);
-//        stopDetailsIntent.putExtra("SPINNER_SELECTION",0);
-//        stopDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //stopDetailsIntent.putExtra("ROUTE_IDS",activityContext)
         activityContext.startActivity(stopDetailsIntent);
     }
+
+    private void showSnackBar() {
+        SnackbarManager.show(
+                Snackbar.with(getApplicationContext()) // context
+                        .text("Tap for list of stop times") // text to display
+                        .actionLabel("Go") // action button label
+                        .actionListener(new ActionClickListener() {
+                            @Override
+                            public void onActionClicked(Snackbar snackbar) {
+                                showStopDetails();
+                            }
+                        }) // action button's ActionClickListener
+                , this); // activity where it is displayed
+    }
+
 }

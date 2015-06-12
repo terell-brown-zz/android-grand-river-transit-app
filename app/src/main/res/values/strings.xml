@@ -18,12 +18,36 @@
         <item>Saturday</item>
         <item>Sunday and Holidays</item>
     </string-array>
+
+    <string name="drawer_open">Drawer Opened</string>
+    <string name="drawer_closed">Drawer Closed</string>
+    <string-array name="drawer_navigation">
+        <item>Favourites</item>
+        <item>Nearby</item>
+        <item>Trip Planner</item>
+        <item>All Routes</item>
+    </string-array>
+
+
+
     <string name="title_activity_activity__stops_map">Map</string>
     <string name="title_activity_maps">Map</string>
 
     <string name="StopInfoSampleText1">Route 7D - UW via Columbia</string>
     <string name="StopInfoSampleText2">"12:30, 1:00, 1:30, 2:30"</string>
     <string name="title_activity_activity__stop_info">Activity_StopInfo</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+    <string name="title_activity_activity_nearby">activity_nearby</string>
+    <string name="title_activity_activity__all__routes">Activity_All_Routes</string>
+    <string name="title_activity_activity__trip_planner">Activity_TripPlanner</string>
+    <string name="title_activity_main2s_activitys">Main2sActivitysss</string>
+    <string name="title_activity_activity__base">Activity_Base</string>
+    <string name="title_activity_activity__favourites">Activity_Favourites</string>
 
 
 

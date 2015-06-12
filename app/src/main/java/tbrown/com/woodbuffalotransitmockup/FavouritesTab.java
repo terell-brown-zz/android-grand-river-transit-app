@@ -104,9 +104,4 @@ public class FavouritesTab extends Fragment {
 
         return ans;
     }
-
-
-
-
-
 }

@@ -91,6 +91,7 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
         Intent routeDetailsIntent = new Intent("tbrown.com.woodbuffalotransitmockup.ROUTE_DETAILS");
         routeDetailsIntent.putExtra("ROUTE_INFO", mRouteInfo);
         routeDetailsIntent.putExtra("ROUTE_NO", Integer.parseInt(routeNo));
+        routeDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activityContext.startActivity(routeDetailsIntent);
     }
 

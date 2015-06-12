@@ -27,16 +27,33 @@
         android:layout_width="match_parent"
         android:layout_weight="1"></android.support.v4.view.ViewPager>
 
-    <com.melnykov.fab.FloatingActionButton
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/fab_to_alternate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         android:src="@drawable/ic_fab_alternate"
-        fab:fab_colorNormal="@color/fab_primary"
-        fab:fab_colorPressed="@color/fab_pressed"
-        fab:fab_colorRipple="@color/ripple" />
+        fab:fab_labelsPosition = "left">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id = "@+id/fab_nearby"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_title="Nearby Stops"
+            fab:fab_icon = "@drawable/ic_nearby"/>
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id = "@+id/fab_planner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_title="Trip Planner"
+            fab:fab_icon = "@drawable/ic_action_name"/>
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id = "@+id/fab_all_routes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_icon = "@drawable/ic_all_routes" />
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
     </FrameLayout>
 
 

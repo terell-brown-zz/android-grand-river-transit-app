@@ -1,5 +1,8 @@
 package tbrown.com.woodbuffalotransitmockup.util;
 
+import android.util.Log;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -54,6 +57,23 @@ public class DateTimeUtil {
         SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
         String formattedDate = format.format(cal.getTime());
         return formattedDate;
+    };
+
+    public static String applyTimeFormat(String time) {
+        // converts times from 24hr hh:mm:ss format to 12hr hh:mm format
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat currentFormat = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat desiredFormat = new SimpleDateFormat("hh:mm a");
+        Date mTime;
+        String formattedTime;
+        try {
+            Log.i("MyActivity", time);
+            mTime = currentFormat.parse(time);
+            formattedTime = desiredFormat.format(mTime);
+        } catch (ParseException e) {
+            formattedTime = "Gotee";
+        }
+        return formattedTime;
     };
 
     public static String setEndTime(int addedTime) {

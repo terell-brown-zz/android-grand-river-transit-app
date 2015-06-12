@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"></include>
+
+    <android.support.v4.widget.DrawerLayout
+        android:id = "@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:id = "@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include android:id = "@+id/content"
+                layout="@layout/tab_trip_planner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </FrameLayout>
+
+        <ListView
+            android:id="@+id/drawerList"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity = "start"
+            android:background="@color/white"
+            android:choiceMode="singleChoice"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp">
+        </ListView>
+    </android.support.v4.widget.DrawerLayout>
+</LinearLayout>

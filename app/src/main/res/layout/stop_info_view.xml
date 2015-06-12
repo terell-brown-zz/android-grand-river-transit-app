@@ -26,6 +26,9 @@
             android:fontFamily="Roboto Regular"
             android:textSize="@dimen/TwoLineViewPrimaryFontSize"
             android:text="@string/StopInfoSampleText2"
-            android:textColor="@color/fab_primary" />
+            android:textColor="@color/fab_primary"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"/>
     </LinearLayout>
 </LinearLayout>

@@ -4,6 +4,8 @@ import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.util.Log;
 
+import tbrown.com.woodbuffalotransitmockup.util.DateTimeUtil;
+
 /**
  * Created by tmast_000 on 5/22/2015.
  */
@@ -74,6 +76,22 @@ public class DBUtils {
         return result;
     };
 
+    public static String[] queryToTimes2(Cursor c) {
+        // Consumes a cursor (ie. query result) containing a list of routes
+        //   and returns a string array with the same information
+        int noRoutes = c.getCount();
+        String[] result = new String[noRoutes];
+
+        c.moveToFirst();
+        for (int i = 0; i < noRoutes; i++) {
+            //String routeId = c.getString(0);
+            //String routeName = c.getString(1);
+            //result[i] = DateTimeUtil.applyTimeFormat(c.getString(0));
+            result[i] = c.getString(0);
+            c.moveToNext();
+        }
+        return result;
+    };
     public static String[][] queryToStringArray(Cursor c) {
         int noEntries = c.getCount();
         int i = 0;
@@ -149,11 +167,11 @@ public class DBUtils {
 
         while (c.isAfterLast() == false ) {
             currentRoute = c.getString(0);
-            times = c.getString(1);
+            times = DateTimeUtil.applyTimeFormat(c.getString(1));
             c.moveToNext();
             nextRoute = c.getString(0);
             while (currentRoute.equals(nextRoute)) {
-                times = times + ", " + c.getString(1);
+                times = times + ", " + DateTimeUtil.applyTimeFormat(c.getString(1));
                 c.moveToNext();
                 try {
                     nextRoute = c.getString(0);
@@ -179,7 +197,8 @@ public class DBUtils {
         c.moveToPosition(0);
         for (int i = 0; i < noTimes; i++) {
             //String stopID = c.getString(0);
-            String time = c.getString(1);
+            String time = DateTimeUtil.applyTimeFormat(c.getString(1));
+            //String time = c.getString(1).substring(0,7);
             result[i] = time;
             c.moveToNext();
         }

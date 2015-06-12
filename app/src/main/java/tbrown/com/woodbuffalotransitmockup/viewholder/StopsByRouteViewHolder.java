@@ -117,7 +117,7 @@ public class StopsByRouteViewHolder extends RecyclerView.ViewHolder implements V
         intent.putExtra("STOP_NAME", stopInfo);
         intent.putExtra("ROUTES", DBUtils.twoDToOneDArray(times, 0));
         intent.putExtra("TIMES", DBUtils.twoDToOneDArray(times, 1));
-
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activityContext.startActivity(intent);
 
     }

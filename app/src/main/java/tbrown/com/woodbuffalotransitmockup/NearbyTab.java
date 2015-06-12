@@ -169,5 +169,4 @@ public class NearbyTab extends Fragment implements GoogleMap.OnMarkerClickListen
         }
         return false;
     }
-
 }

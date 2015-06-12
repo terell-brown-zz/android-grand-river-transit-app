@@ -4,4 +4,9 @@
     <item type ="id" name="details_stops" />
     <item type="id" name="spacer_routes" />
     <item type ="id" name="details_routes" />
+
+    <item type ="id" name="activity_favourites" />
+    <item type ="id" name="activity_nearby" />
+    <item type ="id" name="activity_planner" />
+    <item type ="id" name="activity_all_routes" />
 </resources>

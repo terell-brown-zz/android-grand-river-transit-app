@@ -199,7 +199,7 @@ public class DBHelper extends SQLiteAssetHelper {
     public String[] getRoutesByStop(String stopId) {
         Cursor queryRoutes = queryRoutesByStop(stopId);
         checkCursor(queryRoutes);
-        return DBUtils.queryToAllRouteIds(queryRoutes);
+        return DBUtils.queryToTimes2(queryRoutes);
     }
 
     public Cursor queryNearbyStopInfo(String stopId, String serviceId, String routeIds) {

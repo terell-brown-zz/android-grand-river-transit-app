@@ -1,157 +1,96 @@
 package tbrown.com.woodbuffalotransitmockup;
 
-import android.app.ActionBar;
-import android.content.Intent;
+
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 
-import com.melnykov.fab.FloatingActionButton;
+import android.widget.AdapterView;
 
-import tbrown.com.woodbuffalotransitmockup.viewpagers.ViewPageAdapter;
-import tbrown.com.woodbuffalotransitmockup.widgets.SlidingTabLayout;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-public class Activity_Main extends ActionBarActivity implements View.OnClickListener {
+import tbrown.com.woodbuffalotransitmockup.adapters.StopAdapter;
+import tbrown.com.woodbuffalotransitmockup.util.SimpleDividerItemDecoration;
+
+
+public class Activity_Main extends Activity_Base {
     // When using Appcompat support library you need to extend Main Activity to ActionBarActivity.
 
-    private Toolbar toolbar;                              // Declaring the Toolbar Object
-    private FloatingActionButton fab;
+    private StopAdapter mFaveAdapter;
+    private RecyclerView mRecyclerView;
 
-    private MenuItem faveSelected;                        // Declare favourite button in toolbar
-    private MenuItem faveUnSelected;
-
-    private SharedPreferences favourites;
-    String sharedPrefs = "My Favourite Stops and Routes";
-
-    ViewPager pager;
-    ViewPageAdapter adapter;
-    SlidingTabLayout tabs;
-    CharSequence Titles[]={"Favourites","Nearby"};
-    int Numboftabs = 2;
-
-
+    private final int NAV_ID = 1; // postion of activity in navigation drawer
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        // Creates the Toolbar and sets it as the Toolbar for the activity
-        setupToolbar();
-
-        // Creating an adapter that will connect to the ViewPager Container in order to
-        //   supply page fragmenents on demand
-        setupViewPager();
-
-        // Implementing a tab bar below the tool bar, that can slide
-        setupTabs();
-
-        // Implement Floating Action Button
-        setupFAB();
-
-        favourites = getSharedPreferences(sharedPrefs,MODE_PRIVATE);
+        setContentView(R.layout.activity_favourites);
+        activityContext = getBaseContext();
+        setupRecyclerView();
+        setupToolbar("Woosh Mobile");
+        setupNavDrawer(NAV_ID);
     }
 
-    private void setupToolbar() {
-        // Creating the Toolbar and setting it as the Toolbar for the activity
-        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
-        setSupportActionBar(toolbar);                   // Setting toolbar as the ActionBar with setSupportActionBar() call
-        getSupportActionBar().setTitle("");
-        toolbar.setTitle("Woosh Mobile"); toolbar.setTitleTextColor(getResources().getColor(R.color.ColorToolbarTitle));
-        toolbar.setLogo(R.drawable.ic_bus);
+    private void setupRecyclerView() {
+        mRecyclerView = (RecyclerView) findViewById(R.id.rvFavouriteStops);
+        mFaveAdapter = new StopAdapter(activityContext, getData());
+        mRecyclerView.setAdapter(mFaveAdapter);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(activityContext));
+        mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(activityContext));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
-    private void setupViewPager() {
-        // Creating an adapter that will connect to the ViewPager Container in order to
-        //   supply page fragmenents on demand
-        adapter = new ViewPageAdapter(getSupportFragmentManager(), Titles, Numboftabs);
-
-        // Creating a View Pager which acts as dynamic view container.
-        //   Depending on the current tab, a different fragment will be supplied to this area of the screen
-        pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(adapter);
-    }
-
-    private void setupTabs() {
-        // Implementing a tab bar below the tool bar, that can slide
-        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
-        tabs.setDistributeEvenly(true);
-        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-            @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.tabsScrollColor);
-            }
-        });
-        tabs.setViewPager(pager);
-    }
-
-    private void setupFAB() {
-        fab = (FloatingActionButton) findViewById(R.id.fab_to_alternate);
-        fab.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        // start the alternate activity when the floating action button is clicked
-        finish(); // destroys current activity
-        startActivity(new Intent("tbrown.com.woodbuffalotransitmockup.ALTERNATE"));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_activity_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        faveSelected = menu.findItem(R.id.action_favourite_selected);
-        faveUnSelected = menu.findItem(R.id.action_favourite_unselected);
-
-        faveSelected.setVisible(false);
-        faveUnSelected.setVisible(true);
-    return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
+    public String[] getData() {
+        favourites = activityContext.getSharedPreferences(sharedPrefs, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = favourites.edit();
-        switch (id) {
-            case R.id.action_favourite_selected:
-                toggleFavourites();
-                editor.clear();
-                editor.apply();
-                break;
-            case R.id.action_favourite_unselected:
-                toggleFavourites();
-                editor.clear();
-                editor.apply();
-                break;
+        return getFavourites();
+    }
+
+    public String[] getFavourites() {
+        Map<String, ?> copiedPrefs = favourites.getAll();
+        List<String> favesList = new ArrayList<String>();
+        favesList.add("Stops");
+        for (Map.Entry<String, ?> entry : copiedPrefs.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            if (isStop(key)) {
+                favesList.add(key.substring(6));
+            }
         }
-            return super.onOptionsItemSelected(item);
+
+        favesList.add("Routes");
+        for (Map.Entry<String, ?> entry : copiedPrefs.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            if (isRoute(key)) {
+                favesList.add(key.substring(7));
+            }
+        }
+
+        String[] favesArray = favesList.toArray(new String[favesList.size()]);
+        return favesArray;
     }
 
-    private void toggleFavourites() {
-        // Toggle the favourites icon (star) located in the tool bar between
-        // selected and unselected
-
-        boolean isSelected = faveSelected.isVisible();
-        faveSelected.setVisible(!isSelected);
-        faveUnSelected.setVisible(isSelected);
+    private boolean isRoute(String key) {
+        String sub = key.substring(0, 7);
+        return sub.equals("Route -");
     }
 
+
+    private void addStopToFavouritesArray(Object value) {
+    }
+
+    private boolean isStop(String key) {
+        String sub = key.substring(0, 6);
+        boolean ans = sub.equals("Stop -");
+
+        return ans;
+    }
 
 }
