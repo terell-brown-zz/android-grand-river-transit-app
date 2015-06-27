@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
+import tbrown.com.woodbuffalotransitmockup.Constants;
 import tbrown.com.woodbuffalotransitmockup.R;
 import tbrown.com.woodbuffalotransitmockup.slidingtabs.SchedulePageAdapter;
 import tbrown.com.woodbuffalotransitmockup.slidingtabs.SlidingTabLayout;
@@ -24,7 +25,7 @@ public class RouteDetailsActivity extends BaseActivity {
     private ViewPager pager;
     private SchedulePageAdapter adapter;
     private SlidingTabLayout tabs;
-    private String[] Titles = {"To Downtown","To Uptown"};
+    private String[] Titles = {Constants.INBOUND, Constants.OUTBOUND};
     private int Numboftabs = 2;
 
     // Business Logic

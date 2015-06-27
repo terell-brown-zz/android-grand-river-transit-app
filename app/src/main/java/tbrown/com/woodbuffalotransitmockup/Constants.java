@@ -30,4 +30,7 @@ public class Constants {
     // Google Maps Trip Planner URL
     public static final String urlGoogleTripPlanner = "https://www.google.com/maps/dir///";
 
+    // Transit Directions
+    public static String INBOUND = "Inbound";
+    public static String OUTBOUND = "Outbound";
 }
