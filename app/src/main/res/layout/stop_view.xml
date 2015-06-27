@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/tileHeight"
-    android:background="@android:drawable/list_selector_background"
-    android:id="@+id/item"
-    android:weightSum="100">
+    android:orientation="horizontal"
+    android:weightSum="100"
+    android:background="@android:drawable/list_selector_background">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="85">
-    <TextView android:id="@+id/tvStopName"
-        android:layout_width="@dimen/tileWidth"
+        android:layout_weight="100">
+
+    <TextView
+        android:id="@+id/tvStopName"
+        android:layout_width="@dimen/row_width"
         android:layout_height="match_parent"
-        android:text="Wax"
-        android:textSize="16sp"
+        android:layout_marginTop="@dimen/row_margin_top"
+        android:layout_marginBottom="@dimen/row_margin_bottom"
+        android:layout_marginLeft="@dimen/row_margin_left"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="@dimen/row_title_padding"
         android:fontFamily="Roboto Black"
-        android:textColor="@color/ColorListText"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/text_size_single_line_row"
         android:gravity="center_vertical"
-        android:layout_marginTop="@dimen/tilePaddingTop"
-        android:layout_marginBottom="@dimen/tilePaddingBottom"
-        android:layout_marginLeft="@dimen/iconPaddingLeft"
-        android:paddingLeft="@dimen/cardTitlePadding"
-        android:layout_gravity="center_vertical"/>
+        tools:text="@string/sample_text_1_stop"/>
+
     </LinearLayout>
 
+    <!--
     <FrameLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -53,7 +57,5 @@
             android:contentDescription="favourite_selected"
             android:background="@null"
             android:visibility="invisible"/>
-    </FrameLayout>
+    </FrameLayout> -->
 </LinearLayout>
-
-    <!-- android:layout_marginLeft="@dimen/cardMarginFromLeft" -->

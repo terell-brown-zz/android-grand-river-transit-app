@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import tbrown.com.woodbuffalotransitmockup.R;
-import tbrown.com.woodbuffalotransitmockup.viewholder.StopsByRouteViewHolder;
+import tbrown.com.woodbuffalotransitmockup.viewholders.StopsByRouteViewHolder;
 
 
 /**
@@ -15,22 +15,23 @@ import tbrown.com.woodbuffalotransitmockup.viewholder.StopsByRouteViewHolder;
  */
 public class StopsByRouteAdapter extends RecyclerView.Adapter<StopsByRouteViewHolder> {
 
-    Context activityContext;
-    LayoutInflater inflater;
-    String[] database;
-    String routeInfo;
-    int routeNo;
+    // Backend Components
+    private Context activityContext;
 
+    // UI
+    private LayoutInflater inflater;
 
-    int viewContext = 0; // Context for which the list is being used
-    int NORMAL = 0; // the list is showing info normally
-    int FAVOURITES = 1; // the list is showing favourites data
+    // Business Logic
+    private String[] database;
+    private String routeInfo;
+    private int routeNo;
+    private boolean isFavourited = false;
 
     public StopsByRouteAdapter(Context context,String routeName,int routeNo, String[] data) {
         this.activityContext = context;
+        inflater = LayoutInflater.from(activityContext);
         this.routeInfo = routeName;
         this.routeNo = routeNo;
-        inflater = LayoutInflater.from(activityContext);
         this.database = data;
     }
 
@@ -40,7 +41,7 @@ public class StopsByRouteAdapter extends RecyclerView.Adapter<StopsByRouteViewHo
         //   ViewType is determined by getItemViewType() and is based on whether
         //   a given data item is title info, route info or stop info
         View view = inflater.inflate(R.layout.stop_view, parent, false);
-        StopsByRouteViewHolder holder = new StopsByRouteViewHolder(activityContext,NORMAL, routeInfo, view);
+        StopsByRouteViewHolder holder = new StopsByRouteViewHolder(activityContext,isFavourited, view);
         return holder;
     }
 

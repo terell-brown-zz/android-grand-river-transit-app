@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:id="@+id/spacer"
-    android:background="@color/ColorViewPagerBackground">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_background">
 
-    <TextView android:id="@+id/tvSpacerTitle"
-        android:text="Stops"
-        android:textSize="@dimen/SecondaryTitleSize"
+    <TextView
+        android:id="@+id/tvSpacerTitle"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/firstElementAfterTabsHeight"
-        android:layout_marginLeft="16dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_height="@dimen/spacer_height"
         android:layout_gravity="clip_vertical"
+        android:layout_marginLeft="@dimen/spacer_left_margin"
+        android:text="@string/title_spacer_stops"
+        android:textSize="@dimen/text_size_secondary"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:gravity="center_vertical"/>
 
 </LinearLayout>

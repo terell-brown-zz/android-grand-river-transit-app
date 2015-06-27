@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/ColorPrimaryDark"
     android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
-    android:elevation="2dp">
+    android:background="@color/tabs_background"
+    android:elevation="@dimen/toolbar_elevation">
 
-    <TextView android:id = "@+id/tvTabTitle"
+    <TextView
+        android:id = "@+id/tvTabTitle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:fontFamily="Roboto Black"
         android:textColor="@color/white"
-        android:textSize="20dp" />
+        android:textSize="@dimen/text_size_toolbar"
+        tools:text = "@string/sample_text_toolbar"/>
 
 </android.support.v7.widget.Toolbar>

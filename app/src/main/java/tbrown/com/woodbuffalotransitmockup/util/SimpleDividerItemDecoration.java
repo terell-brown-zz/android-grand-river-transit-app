@@ -9,9 +9,10 @@ import android.view.View;
 import tbrown.com.woodbuffalotransitmockup.R;
 
 /**
- * Created by tmast_000 on 4/9/2015.
+ * TODO: add reference to source of this class
  */
 public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration{
+
     private Drawable mDivider;
 
     public SimpleDividerItemDecoration(Context context) {

@@ -1,34 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="72dp">
+    android:layout_height="@dimen/row_height_large"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="@dimen/TwoLineViewTopPadding"
-        android:paddingBottom="@dimen/TwoLineViewBottomPadding"
-        android:paddingLeft="@dimen/iconPaddingLeft">
+        android:paddingTop="@dimen/row_two_line_top_padding"
+        android:paddingBottom="@dimen/row_two_line_bottom_padding"
+        android:paddingLeft="@dimen/icon_padding_left">
 
-        <TextView android:id="@+id/tvRouteInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="Roboto Regular"
-        android:textSize="@dimen/TwoLineViewPrimaryFontSize"
-        android:text="@string/StopInfoSampleText1"
-        android:textColor="@color/ColorListText"  />
+            <TextView
+                android:id="@+id/tvRouteInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="Roboto Regular"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_two_line_row"
+                tools:text="@string/sample_text_1_stop_info" />
 
-        <TextView android:id="@+id/tvUpcomingStopTimes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="Roboto Regular"
-            android:textSize="@dimen/TwoLineViewPrimaryFontSize"
-            android:text="@string/StopInfoSampleText2"
-            android:textColor="@color/fab_primary"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:singleLine="true"/>
+            <TextView
+                android:id="@+id/tvUpcomingStopTimes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="Roboto Regular"
+                android:textColor="@color/text_accent"
+                android:textSize="@dimen/text_size_two_line_row"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
+                tools:text="@string/sample_text_1_stop_info" />
+
     </LinearLayout>
+
 </LinearLayout>

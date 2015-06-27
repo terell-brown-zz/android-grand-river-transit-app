@@ -2,29 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tbrown.com.woodbuffalotransitmockup" >
 
+    <!-- ANDROID SDK COMPATIBILITY -->
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="19" />
 
+    <!-- PERMISSIONS -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <!--
- The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but are recommended.
-    -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <android:uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
 
+    <!-- SET OPENGL AS REQUIRED FEATURE -->
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -34,8 +29,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
         <activity
-            android:name=".Activity_Main"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,43 +41,50 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
         <activity
-            android:name=".Activity_Favourites"
-            android:label="@string/title_activity_activity__favourites" >
+            android:name=".activities.FavouritesActivity"
+            android:label="@string/title_activity_favourites" >
             <intent-filter>
                 <action android:name="tbrown.com.woodbuffalotransitmockup.FAVOURITES" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+
         <activity
-            android:name=".Activity_Nearby"
-            android:label="Nearby Stops" >
+            android:name=".activities.NearbyStopsActivity"
+            android:label="@string/title_activity_nearby" >
             <intent-filter>
                 <action android:name="tbrown.com.woodbuffalotransitmockup.NEARBY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".Activity_TripPlanner"
-            android:label="Trip Planner" >
+            android:name=".activities.TripPlannerActivity"
+            android:label="@string/title_activity_trip_planner" >
             <intent-filter>
                 <action android:name="tbrown.com.woodbuffalotransitmockup.PLANNER" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".Activity_All_Routes"
-            android:label="All Routes" >
+            android:name=".activities.AllRoutesActivity"
+            android:label="@string/title_activity_all_routes" >
             <intent-filter>
                 <action android:name="tbrown.com.woodbuffalotransitmockup.ALL_ROUTES" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".Activity_RouteDetails"
+            android:name=".activities.RouteDetailsActivity"
             android:label="0 Route Details" >
             <intent-filter>
                 <action android:name="tbrown.com.woodbuffalotransitmockup.ROUTE_DETAILS" />
@@ -89,62 +92,44 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activity_StopDetails"
-            android:label="Stop Details" >
-            <intent-filter>
-                <action android:name="tbrown.com.woodbuffalotransitmockup.STOP_DETAILS" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
         <activity
-            android:name=".widgets.Activity_StopTimes"
-            android:label="Stop Details" >
+            android:name=".activities.StopTimesActivity"
+            android:label="@string/title_activity_stop_details" >
             <intent-filter>
                 <action android:name="tbrown.com.woodbuffalotransitmockup.STOP_TIMES" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".widgets.Activity_StopTimes_Alt"
-            android:label="Stop Details" >
-            <intent-filter>
-                <action android:name="tbrown.com.woodbuffalotransitmockup.STOP_TIMES_ALT" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
+        <!-- USED FOR ACTIVITIES WITH GOOGLE MAPS -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".Activity_StopsMap"
-            android:label="@string/title_activity_activity__stops_map" >
+            android:name=".activities.StopsMapActivity"
+            android:label="@string/title_activity_stops_map" >
             <intent-filter>
                 <action android:name="tbrown.com.woodbuffalotransitmockup.MAP_STOPS" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".Activity_StopInfo"
-            android:label="@string/title_activity_activity__stop_info" >
+            android:name=".activities.StopInfoActivity"
+            android:label="@string/title_activity_stop_info" >
             <intent-filter>
                 <action android:name="tbrown.com.woodbuffalotransitmockup.STOP_INFO" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".Activity_Base"
-            android:label="@string/title_activity_activity__base" >
         </activity>
 
     </application>

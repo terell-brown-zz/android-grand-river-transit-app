@@ -4,15 +4,8 @@
     android:layout_height="wrap_content"
     android:background="@color/ColorPrimary"
     android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
-    android:elevation="2dp"
+    android:elevation="@dimen/toolbar_elevation"
+    android:textColor = "@color/white"
     android:navigationIcon="@drawable/ic_bus">
-
-    <!--
-    <ImageView
-        android:id="@+id/ivLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src = "@drawable/ic_bus"/>
-        -->
 
 </android.support.v7.widget.Toolbar>

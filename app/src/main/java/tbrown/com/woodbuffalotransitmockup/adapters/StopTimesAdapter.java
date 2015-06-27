@@ -7,25 +7,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import tbrown.com.woodbuffalotransitmockup.R;
-import tbrown.com.woodbuffalotransitmockup.viewholder.StopTimesViewHolder;
-import tbrown.com.woodbuffalotransitmockup.viewholder.StopsByRouteViewHolder;
+import tbrown.com.woodbuffalotransitmockup.viewholders.StopTimesViewHolder;
 
 /**
  * Created by tmast_000 on 4/21/2015.
  */
 public class StopTimesAdapter extends RecyclerView.Adapter<StopTimesViewHolder> {
 
-    Context activityContext;
-    LayoutInflater inflater;
-    String[] database;
-    String routeInfo;
+    // Backend Components
+    //private Context activityContext;
+    private String[] times;
+    // UI
+    private LayoutInflater inflater;
 
+    // Business Logic
+    private String routeInfo;
 
     public StopTimesAdapter(Context context,String routeName, String[] data) {
-        activityContext = context;
-        routeInfo = routeName;
-        inflater = LayoutInflater.from(activityContext);
-        this.database = data;
+        //activityContext = context;
+        inflater = LayoutInflater.from(context);
+        this.routeInfo = routeName;
+        this.times = data;
     }
 
     @Override
@@ -33,8 +35,8 @@ public class StopTimesAdapter extends RecyclerView.Adapter<StopTimesViewHolder> 
         // Creates a new list item and ViewHolder when requested by the RecyclerView parent.
         //   ViewType is determined by getItemViewType() and is based on whether
         //   a given data item is title info, route info or stop info
-        View view = inflater.inflate(R.layout.stoptimes_view, parent, false);
-        StopTimesViewHolder holder = new StopTimesViewHolder(activityContext, routeInfo, view);
+        View row = inflater.inflate(R.layout.stoptimes_view, parent, false);
+        StopTimesViewHolder holder = new StopTimesViewHolder(row);
         return holder;
     }
 
@@ -43,12 +45,12 @@ public class StopTimesAdapter extends RecyclerView.Adapter<StopTimesViewHolder> 
         // Once the recycler view parent contains a child view and the
         //   associated ViewHolder is created, this method calls on the ViewHolder
         //   bindModel method to pass the data to the appropriate view (ie. textView, etc.)
-        ((StopTimesViewHolder) holder).bindModel(routeInfo,database[position]);
+        ((StopTimesViewHolder) holder).bindModel(times[position]);
     }
 
     @Override
     public int getItemCount() {
-        return database.length;
+        return times.length;
     }
 }
 

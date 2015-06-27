@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -10,32 +9,33 @@
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"></include>
-
+        android:layout_width="match_parent"/>
+    <!-- Sliding Drawer Implementation-->
     <android.support.v4.widget.DrawerLayout
         android:id = "@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <FrameLayout
-        android:id = "@+id/content_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvFavouriteStops"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"/>
-    </FrameLayout>
 
-    <ListView
-        android:id="@+id/drawerList"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity = "start"
-        android:background="@color/white"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp">
-    </ListView>
+        <!-- Contents of Activity behind Sliding Drawer -->
+        <FrameLayout
+            android:id = "@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvFavouriteStops"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"/>
+
+        </FrameLayout>
+
+        <!-- Sliding Drawer List -->
+        <include android:id="@+id/drawerList"
+            layout="@layout/listview_sliding_drawer"
+            android:layout_width="@dimen/sliding_drawer_width"
+            android:layout_height="match_parent"/>
+
     </android.support.v4.widget.DrawerLayout>
+
 </LinearLayout>

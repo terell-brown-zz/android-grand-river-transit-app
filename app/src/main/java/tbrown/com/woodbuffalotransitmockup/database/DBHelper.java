@@ -8,24 +8,27 @@ import android.util.Log;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
+import tbrown.com.woodbuffalotransitmockup.util.DBUtils;
 import tbrown.com.woodbuffalotransitmockup.util.DateTimeUtil;
 
 public class DBHelper extends SQLiteAssetHelper {
 
+    private static DBHelper sDBHelper;
+
+    // Constants
     private static final String DATABASE_NAME = "new.db";
     private static final int DATABASE_VERSION = 1;
+    private static final String TAG = "DBHelperClass";
 
-    private static final String TAG = "MyActivity";
+    private DBHelper(Context context) {
+        super(context.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
+    }
 
-    public DBHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-
-
-        // you can use an alternate constructor to specify a database location
-        // (such as a folder on the sd card)
-        // you must ensure that this folder is available and you have permission
-        // to write to it
-        //super(context, DATABASE_NAME, context.getExternalFilesDir(null).getAbsolutePath(), null, DATABASE_VERSION);
+    public static DBHelper getInstance(Context context) {
+        if (sDBHelper == null) {
+            sDBHelper = new DBHelper(context);
+        }
+        return sDBHelper;
     }
 
     private Cursor queryRoutes() {
@@ -56,7 +59,6 @@ public class DBHelper extends SQLiteAssetHelper {
         String[] result = DBUtils.queryToAllRoutes(queryRoutes);
         return result;
     };
-
 
     public Cursor queryStopsbyRoute(int routeId,int directionId) {
         // Returns
@@ -199,7 +201,7 @@ public class DBHelper extends SQLiteAssetHelper {
     public String[] getRoutesByStop(String stopId) {
         Cursor queryRoutes = queryRoutesByStop(stopId);
         checkCursor(queryRoutes);
-        return DBUtils.queryToTimes2(queryRoutes);
+        return DBUtils.queryToRoutes(queryRoutes);
     }
 
     public Cursor queryNearbyStopInfo(String stopId, String serviceId, String routeIds) {
@@ -238,7 +240,7 @@ public class DBHelper extends SQLiteAssetHelper {
         Log.i("MyActivity",routes);
         Cursor queryUpcomingTimes = queryNearbyStopInfo(stopId, serviceId, routes);
         checkCursor(queryUpcomingTimes);
-        return DBUtils.queryToStringArray2(queryUpcomingTimes,routeIds.length);
+        return DBUtils.queryToStringArray(queryUpcomingTimes,routeIds.length);
     }
 
     private void checkCursor(Cursor c) {

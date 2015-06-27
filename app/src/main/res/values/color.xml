@@ -7,15 +7,21 @@
     <color name="ColorPrimaryDark">#0288D1</color>
     <color name="ColorStatusBar">#4FC3F7</color>
     <color name="tabsScrollColor">#01579B</color>
-    <color name="ColorSlideTabLayout">#4FC3F7</color>
+    <color name="tabs_background">#4FC3F7</color>
 
     <color name="ColorViewPagerBackground">#FFE6E6E6</color>
     <color name="ColorListDivider">#31000000</color>
     <color name="dark_gray">#31000000</color>
     <color name = "ColorItemSelected">#dfffff</color>
-    <color name = "ColorListText">#ff000000</color>
-    <color name = "ColorSecondaryTitleText">#13800000</color>
 
+
+
+    <!-- Font Colors -->
+    <color name="text_accent">#E91E63</color>
+    <color name = "text_black">#ff000000</color>
+    <color name = "text_secondary_title">#13800000</color>
+
+    <!-- Floating Action Button -->
     <color name = "fab_primary">#E91E63</color>
     <color name = "fab_pressed">#880E4F</color>
     <color name = "ripple">#13800000</color>

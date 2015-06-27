@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ColorViewPagerBackground">
+
+    <TextView
+        android:id="@+id/tvAllRoutes"
+        android:text="@string/title_spacer_all_routes"
+        android:textSize="@dimen/text_size_secondary"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacer_height"
+        android:layout_gravity="clip_vertical"
+        android:layout_marginLeft="@dimen/spacer_left_margin"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="center_vertical"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvAllRoutes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"/>
+
+</LinearLayout>

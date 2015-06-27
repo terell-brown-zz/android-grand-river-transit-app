@@ -1,0 +1,90 @@
+package tbrown.com.woodbuffalotransitmockup.activities;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+
+import tbrown.com.woodbuffalotransitmockup.R;
+import tbrown.com.woodbuffalotransitmockup.slidingtabs.SchedulePageAdapter;
+import tbrown.com.woodbuffalotransitmockup.slidingtabs.SlidingTabLayout;
+
+/**
+ * Displays list of stops on selected route in tabbed view
+ * Slide between tabs to access stops going in different directions
+ */
+public class RouteDetailsActivity extends BaseActivity {
+
+    // Backend Components
+    private Context activityContext;
+
+    // UI
+    private Toolbar toolbar;
+    private ViewPager pager;
+    private SchedulePageAdapter adapter;
+    private SlidingTabLayout tabs;
+    private String[] Titles = {"To Downtown","To Uptown"};
+    private int Numboftabs = 2;
+
+    // Business Logic
+    private String routeInfo;
+    private int routeNo;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activityContext = getBaseContext();
+        setContentView(R.layout.activity_route_details);
+        getRouteInfo();
+        setupToolbar();
+        setupViewPager();
+        setupTabs();
+    }
+
+    private void getRouteInfo() {
+        Intent intent = getIntent();
+        routeInfo = intent.getStringExtra("ROUTE_INFO");
+        routeNo = intent.getIntExtra("ROUTE_NO", 400);
+    }
+
+    public void setupToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+        toolbar.setTitle(getToolbarTitle());
+        toolbar.setTitleTextColor(getResources().getColor(R.color.ColorToolbarTitle));
+        toolbar.setLogo(R.drawable.ic_bus);
+    }
+
+    private String getToolbarTitle() {
+        if (routeInfo.substring(0,1).equals("0")) { // some strings will have 0 as first character
+            return routeInfo.substring(1,routeInfo.length());
+        } else {
+            return routeInfo;
+        }
+    }
+
+    private void setupViewPager() {
+        // Creates an adapter that will connect to the ViewPager Container in order to
+        //   supply page fragmenents on demand
+        adapter = new SchedulePageAdapter(getSupportFragmentManager(), Titles, Numboftabs);
+
+        // Creates a View Pager which acts as dynamic view container.
+        //   Depending on the selected tab, a different fragment will be supplied to this area of the screen
+        pager = (ViewPager) findViewById(R.id.pager);
+        pager.setAdapter(adapter);
+    }
+
+    private void setupTabs() {
+        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+        tabs.setDistributeEvenly(true);
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.tabsScrollColor); // sets colors when action applied to tab
+            }
+        });
+        tabs.setViewPager(pager);
+    }
+}

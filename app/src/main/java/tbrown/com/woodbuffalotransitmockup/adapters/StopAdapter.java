@@ -10,38 +10,36 @@ import java.util.Arrays;
 import java.util.List;
 
 import tbrown.com.woodbuffalotransitmockup.R;
-import tbrown.com.woodbuffalotransitmockup.viewholder.RouteViewHolder;
-import tbrown.com.woodbuffalotransitmockup.viewholder.SpacerHolder;
-import tbrown.com.woodbuffalotransitmockup.viewholder.StopsByRouteViewHolder;
+import tbrown.com.woodbuffalotransitmockup.viewholders.RouteViewHolder;
+import tbrown.com.woodbuffalotransitmockup.viewholders.SpacerHolder;
+import tbrown.com.woodbuffalotransitmockup.viewholders.StopsByRouteViewHolder;
 
 /**
- * Created by tmast_000 on 4/5/2015.
+ * Adapter connecting data to list of stops and routes
  */
 public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static int indexStopTitle;
-    private static int indexRouteTitle;
-    private static int numStops;
-    private static int numRoutes;
 
+    // Backend Components
     Context activityContext;
 
-
-    int viewContext = 1; // Context for which the list is being used
-    int NORMAL = 0; // the list is showing info normally
-    int FAVOURITES = 1; // the list is showing favourites data
-
+    // UI
     private LayoutInflater inflater;
-    String[] database = null;
-    String label;
-    String itemType;
 
-    public StopAdapter(Context context,String[] data) {
+    // Business Logic
+    private String[] stops;
+    private int indexStopTitle;
+    private int indexRouteTitle;
+    private int numStops;
+    private int numRoutes;
+    private String itemType;
+    private boolean isFavourited;
+
+    public StopAdapter(Context context, String[] data,boolean isFavourited) {
         activityContext = context;
         inflater = LayoutInflater.from(activityContext);
-        this.database = data;
-
-            countNumStopsAndRoutes(data);
-
+        this.stops = data;
+        this.isFavourited = isFavourited;
+        countNumStopsAndRoutes(data);
     }
 
     @Override
@@ -50,30 +48,32 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         //   ViewType is determined by getItemViewType() and is based on whether
         //   a given data item is title info, route info or stop info
 
+        View view;
+        RecyclerView.ViewHolder viewHolder;
+
         switch (viewType) {
             case R.id.details_stops:
-                View view =inflater.inflate(R.layout.stop_view, parent, false);
-                StopsByRouteViewHolder stopsHolder = new StopsByRouteViewHolder(activityContext,FAVOURITES,"Route",view);
-                return stopsHolder;
+                view = inflater.inflate(R.layout.stop_view, parent, false);
+                viewHolder = new StopsByRouteViewHolder(activityContext, isFavourited, view);
+                break;
             case R.id.spacer_stops:
-                 View viewSpacer =inflater.inflate(R.layout.list_spacer, parent, false);
-                 SpacerHolder spacerHolder = new SpacerHolder(viewSpacer);
-                 return spacerHolder;
+                view = inflater.inflate(R.layout.list_spacer, parent, false);
+                viewHolder = new SpacerHolder(view);
+                break;
             case R.id.spacer_routes:
-                View viewSpacer2 =inflater.inflate(R.layout.list_spacer, parent, false);
-                SpacerHolder spacerHolder2 = new SpacerHolder(viewSpacer2);
-                return spacerHolder2;
+                view = inflater.inflate(R.layout.list_spacer, parent, false);
+                viewHolder = new SpacerHolder(view);
+                break;
             case R.id.details_routes:
-                View view2 =inflater.inflate(R.layout.route_view, parent, false);
-                RouteViewHolder holder = new RouteViewHolder(activityContext,FAVOURITES,view2);
-                return holder;
+                view = inflater.inflate(R.layout.route_view, parent, false);
+                viewHolder = new RouteViewHolder(activityContext, isFavourited, view);
+                break;
             default:
-                View view3 =inflater.inflate(R.layout.stop_view, parent, false);
-                StopsByRouteViewHolder stopsHolder2 = new StopsByRouteViewHolder(activityContext,1,"Route",view3);
-                return stopsHolder2;
+                view = inflater.inflate(R.layout.stop_view, parent, false);
+                viewHolder = new StopsByRouteViewHolder(activityContext, isFavourited, view);
+                break;
         }
-
-
+        return viewHolder;
     }
 
     @Override
@@ -81,7 +81,7 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         // Once the recycler view parent contains a child view and the
         //   associated ViewHolder is created, this method calls on the ViewHolder
         //   bindModel method to pass the data to the appropriate view (ie. textView, etc.)
-        switch (getItem(dataPosition)){
+        switch (getItem(dataPosition)) {
             case "TITLE_STOPS":
                 ((SpacerHolder) holder).bindModel("Stops");
                 break;
@@ -90,13 +90,13 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
 
             case "DETAILS_STOPS":
-                ((StopsByRouteViewHolder) holder).bindModel("yo",1,database[dataPosition]);
+                ((StopsByRouteViewHolder) holder).bindModel("yo", 1, stops[dataPosition]);
                 break;
             case "DETAILS_ROUTES":
-                ((RouteViewHolder) holder).bindModel(database[dataPosition]);
+                ((RouteViewHolder) holder).bindModel(stops[dataPosition]);
                 break;
             default:
-                ((SpacerHolder) holder).bindModel(database[dataPosition]);
+                ((SpacerHolder) holder).bindModel(stops[dataPosition]);
                 break;
         }
     }
@@ -105,21 +105,15 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemViewType(int position) {
         // Returns an id in integer form specifying the type of data represented at the
         //   given position. Possibilities include title info, route info and stop info
-        switch (getItem(position)){
+        switch (getItem(position)) {
             case "TITLE_STOPS":
-            label = "Stops";
-            return R.id.spacer_stops;
-
+                return R.id.spacer_stops;
             case "TITLE_ROUTES":
-            label = "Stops";
-            return R.id.spacer_routes;
-
+                return R.id.spacer_routes;
             case "DETAILS_STOPS":
-            return R.id.details_stops;
-
+                return R.id.details_stops;
             case "DETAILS_ROUTES":
-            return R.id.details_routes;
-
+                return R.id.details_routes;
             default:
                 return R.id.details_stops;
         }
@@ -127,9 +121,7 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private String getItem(int position) {
-        // Helper function to getItemView which determines type of the data based on
-        //   position provided. Functionality of getItemView and getItem to be combined
-        //   into one function later.
+        // determines type of data being supplied by the string array of data
         if (position == indexStopTitle) {
             itemType = "TITLE_STOPS";
         } else if (position < indexRouteTitle) {
@@ -144,13 +136,11 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return database.length;
+        return stops.length;
     }
 
-
-    private static void countNumStopsAndRoutes(String[] data) {
+    private void countNumStopsAndRoutes(String[] data) {
         int dataSize = data.length;
-        System.out.println(dataSize);
         List<String> dataList = (List) Arrays.asList(data);
 
         indexStopTitle = dataList.indexOf("Stops");
@@ -158,5 +148,4 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         numStops = indexRouteTitle - 1;
         numRoutes = dataSize - 1;
     }
-
 }

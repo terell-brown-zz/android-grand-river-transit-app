@@ -7,51 +7,47 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import tbrown.com.woodbuffalotransitmockup.R;
-import tbrown.com.woodbuffalotransitmockup.viewholder.RouteViewHolder;
+import tbrown.com.woodbuffalotransitmockup.viewholders.RouteViewHolder;
 
 /**
  * Created by tmast_000 on 4/5/2015.
  */
 public class AllRoutesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    Context activityContext;
+    // Backend Components
+    private Context activityContext;
+
+    //UI
     private LayoutInflater inflater;
-    String[] database = null;
 
+    // Transit Info
+    private String[] routes;
 
-    int viewContext = 1; // Context for which the list is being used
-    int NORMAL = 0; // the list is showing info normally
-    int FAVOURITES = 1; // the list is showing favourites data
+    // Business Logic
+    private boolean isFavourited = false;
 
-
-    public AllRoutesAdapter(Context context,String[] data) {
-        activityContext = context;
-        inflater = LayoutInflater.from(activityContext);
-        this.database = data;
+    public AllRoutesAdapter(Context context, String[] data) {
+        this.activityContext = context;
+        this.inflater = LayoutInflater.from(activityContext);
+        this.routes = data;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View row =inflater.inflate(R.layout.route_view, parent, false);
-                RouteViewHolder holder = new RouteViewHolder(activityContext,NORMAL, row);
-                return holder;
-        }
+        // creates a row in the list that can hold data
+        View row = inflater.inflate(R.layout.route_view, parent, false);
+        RouteViewHolder holder = new RouteViewHolder(activityContext, isFavourited, row);
+        return holder;
+    }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                ((RouteViewHolder) holder).bindModel(database[position]);
-        }
+        // supplies a single piece of data to the row to be displayed
+        ((RouteViewHolder) holder).bindModel(routes[position]);
+    }
 
     @Override
     public int getItemCount() {
-        return database.length;
-    }
-
-    private int getSeperatingIndex(String RouteNumAndName) {
-        // This method returns the index of the space character (" ") which
-        //    seperates the the Route Number and Route Name in the string provided.
-        //    The string comes from the database.
-
-        return RouteNumAndName.indexOf(" ");
+        return routes.length;
     }
 }

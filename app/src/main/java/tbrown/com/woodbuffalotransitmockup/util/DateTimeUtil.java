@@ -7,26 +7,23 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import tbrown.com.woodbuffalotransitmockup.Constants;
+
 /**
- * Created by tmast_000 on 5/29/2015.
+ * Provides methods that deal with dates and times to be used by other classes
  */
 public class DateTimeUtil {
-    // This class contains methods that deal with dates and times
-    //   to be used by other classes
 
-    private static final String WEEKDAYS_ALL = "'15SPRI-All-Weekday-01'";
-    private static final String SATURDAY = "'15SPRI-All-Saturday-01'";
-    private static final String SUNDAY = "'15SPRI-All-Sunday-01'";
-    private static final String[] SERVICES = {WEEKDAYS_ALL,SATURDAY,SUNDAY};
-
+    // Constants
+    private static final String WEEKDAYS_ALL = Constants.WEEKDAYS_ALL;
+    private static final String SATURDAY = Constants.SATURDAY;
+    private static final String SUNDAY = Constants.SUNDAY;
+    //private static final String[] SERVICES = Constants.SERVICES;
 
     public static String getServiceId() {
-        // Returns a string representing the service code used for transit
-        //   schedules based on the day of the week
+        // Returns a string representing the service code used for transit schedules based on the day of the week
 
-        Calendar cal = Calendar.getInstance();
-
-        switch (cal.get(Calendar.DAY_OF_WEEK)) {
+        switch (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) { // gets current day of week
             case 1:
                 return SUNDAY;
             case 2:
@@ -44,40 +41,29 @@ public class DateTimeUtil {
 
     public static String getCurrentTime() {
         // returns the current time in 24hr hh:mm:ss format
-        Calendar cal = Calendar.getInstance();
-        Date time = cal.getTime();
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-        String formattedDate = format.format(time);
+        Date time = Calendar.getInstance().getTime();
+        SimpleDateFormat aFormat = new SimpleDateFormat("HH:mm:ss");
+        String formattedDate = aFormat.format(time);
         return formattedDate;
     }
 
-    public static String applyTimeFormat(Date date) {
+    public static String apply12HrTimeFormat(String time) {
         // converts times from 24hr hh:mm:ss format to 12hr hh:mm format
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
-        String formattedDate = format.format(cal.getTime());
-        return formattedDate;
-    };
-
-    public static String applyTimeFormat(String time) {
-        // converts times from 24hr hh:mm:ss format to 12hr hh:mm format
-        Calendar cal = Calendar.getInstance();
         SimpleDateFormat currentFormat = new SimpleDateFormat("HH:mm:ss");
         SimpleDateFormat desiredFormat = new SimpleDateFormat("hh:mm a");
         Date mTime;
         String formattedTime;
         try {
-            Log.i("MyActivity", time);
             mTime = currentFormat.parse(time);
             formattedTime = desiredFormat.format(mTime);
         } catch (ParseException e) {
-            formattedTime = "Gotee";
+            formattedTime = "0:00 AM";
         }
         return formattedTime;
     };
 
     public static String setEndTime(int addedTime) {
-        // adds specified amount of time in hrs to current time
+        // calculates end of time interval by adding specified amount of time in hrs to current time
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.HOUR,addedTime);
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");

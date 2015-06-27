@@ -1,102 +1,120 @@
 package tbrown.com.woodbuffalotransitmockup.util;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import tbrown.com.woodbuffalotransitmockup.Constants;
 
 /**
- * Created by tmast_000 on 4/25/2015.
+ * Provides methods used for dealing with favourite stops and routes (stored in SharedPreferences)
  */
 public class FavouritesUtil {
-    
-    String sharedPrefs = "Favourite Stops and Routes";
-    static String routePrefix = "Route -";
-    static String stopPrefix = "Stop -";
+    // TODO: rename to FavouritesHelper
+    // TODO: implement singleton design pattern to create one instance of SharedPreferences for entire app
 
+    // Constants
+    private static final String KEY_ROUTE = Constants.KEY_ROUTE;
+    private static final String KEY_STOP = Constants.KEY_STOP;
 
-    public static void addStowpToFavourites(SharedPreferences favourites, String stopName) {
-        // This method adds the given stop to favourites which is stored
-        //   in a Shared Preferences Object
-
-        if (favourites.contains(stopName)){
+    public static void addStopToFavourites(SharedPreferences favourites, String stopInfo) {
+        if (favourites.contains(KEY_STOP + stopInfo)) {
+            // do not add to favourites
             return;
         } else {
             SharedPreferences.Editor editor = favourites.edit();
-            editor.putString(stopName, stopName);
+            editor.putString(KEY_STOP + stopInfo, stopInfo);
+            editor.apply();
         }
-    }
-
-    public void addStopToFavouerites(SharedPreferences favourites, String stopName,String routeName) {
-        // This method adds the given stop along with an associated route
-        //    to favourites which is stored in a Shared Preferences Object
-        SharedPreferences.Editor editor = favourites.edit();
-        if (favourites.contains(stopName)) {
-
-            try {
-                Set<String> set = new HashSet<String>();
-                favourites.getStringSet(stopName, set);
-            } catch (ClassCastException e) {
-                editor.remove(stopName);
-                Set<String> faveStop = addNewRouteToFavouriteStop(stopName, routeName);
-                editor.putStringSet(stopName, faveStop);
-            }
-        } else {
-            Set<String> faveStop = addNewRouteToFavouriteStop(stopName, routeName);
-            editor.putStringSet(stopName, faveStop);
-        }
-    }
-    private Set<String> addNewRouteToFavouriteStop(String stopName,String routeName){
-        HashSet<String> faveStop = new HashSet<String>();
-        faveStop.add(stopName);
-        faveStop.add(routeName);
-        return faveStop;
     }
 
     public static void addRouteToFavourites(SharedPreferences favourites, String routeName) {
-        // This method adds the given route to favourites which is
-        //   stored in a Shared Preferences Object
-
-        if (favourites.contains(routePrefix + routeName)) {
+        if (favourites.contains(KEY_ROUTE + routeName)) {
+            // do not add to favourites
             return;
         } else {
             SharedPreferences.Editor editor = favourites.edit();
-            editor.putString(routePrefix + routeName, routeName);
+            editor.putString(KEY_ROUTE + routeName, routeName);
             editor.apply();
         }
-        
+    }
+
+    public static void removeStopFromFavourites(SharedPreferences favourites, String stopInfo) {
+            SharedPreferences.Editor editor = favourites.edit();
+            editor.remove(KEY_STOP + stopInfo);
+            editor.apply();
     }
 
     public static void removeRouteFromFavourite(SharedPreferences favourites, String routeName) {
         SharedPreferences.Editor editor = favourites.edit();
-        editor.remove(routePrefix + routeName);
+        editor.remove(KEY_ROUTE + routeName);
         editor.apply();
-        //isFavourited = false;
     }
 
-    public static void addStopToFavourites(SharedPreferences favourites, String stopName) {
-        // This method adds the given route to favourites which is
-        //   stored in a Shared Preferences Object
+    public static String[] getFavouritesArray(SharedPreferences favourites) {
+    /*
+     * getFavouritesArray converts shared preferences containing favourite stops and routes into string array
+     * Conversion
+     * favourites:
+     * {("Stop - 1010 Stop Name","1010 Stop Name"),...,("Route - 1 Route Name","1 Route Name"),...}
+     * -> string array:
+     * {"Stops","1010 - Stop Name",...,"Routes","1 Route Name,...}
+     *
+     */
 
-        if (favourites.contains(stopPrefix + stopName)) {
-            return;
-        } else {
-            SharedPreferences.Editor editor = favourites.edit();
-            editor.putString(stopPrefix + stopName, stopName);
-            editor.apply();
+        // write K-V pairs in shared preferences to map
+        Map<String, ?> copiedPrefs = favourites.getAll();
+
+        // list where favourite stops/routes will be written to
+        List<String> favesList = new ArrayList<String>();
+
+        addFavouriteStopsToList(copiedPrefs, favesList);
+        addFavouriteRoutesToList(copiedPrefs, favesList);
+
+        return favesList.toArray(new String[favesList.size()]);
+    }
+
+    private static void addFavouriteRoutesToList(Map<String, ?> favouritesMap, List<String> faveList) {
+        // add routes stored in map to list
+
+        faveList.add("Routes"); // indicates list items to follow are stops
+
+        for (Map.Entry<String, ?> entry: favouritesMap.entrySet()) {
+            String key = entry.getKey(); // either a name of stop or route
+            if (isRoute(key)) {
+                faveList.add(key.substring(KEY_ROUTE.length()));
+            }
         }
-
     }
 
-    public static void removeStopFromFavourites(SharedPreferences favourites, String stopName) {
-            SharedPreferences.Editor editor = favourites.edit();
-            editor.remove(stopPrefix + stopName);
-            editor.apply();
+    private static void addFavouriteStopsToList(Map<String, ?> favouritesMap, List<String> faveList) {
+        // add stops stored in map to list
+
+        faveList.add("Stops"); // indicates list items to follow are stops
+
+        for (Map.Entry<String, ?> entry: favouritesMap.entrySet()) {
+            String key = entry.getKey(); // either a name of stop or route
+            if (isStop(key)) {
+                faveList.add(key.substring(KEY_STOP.length()));
+            }
+        }
     }
 
-    public static void removeRouteFromFavourites(SharedPreferences favourites, String stopName) {
-        SharedPreferences.Editor editor = favourites.edit();
-        editor.remove(stopPrefix + stopName);
-        editor.apply();
+    private static boolean isRoute(String key) {
+        // returns true if key refers to route, otherwise false
+        String temp = key.substring(0, KEY_ROUTE.length());
+        return temp.equals(KEY_ROUTE);
+    }
+
+    private static boolean isStop(String key) {
+        // returns true if key refers to a stop, otherwise false
+        String temp = key.substring(0, KEY_STOP.length());
+        return temp.equals(KEY_STOP);
     }
 }
+
+
+
