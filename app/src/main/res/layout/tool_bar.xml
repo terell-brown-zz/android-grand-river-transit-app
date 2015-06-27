@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/ColorPrimary"
     android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
-    android:elevation="@dimen/toolbar_elevation"
+    android:elevation="@dimen/elevation_normal"
     android:textColor = "@color/white"
     android:navigationIcon="@drawable/ic_bus">
 

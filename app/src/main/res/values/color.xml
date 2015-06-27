@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <color name="grey_background">#FFE6E6E6</color>
     <color name="white">#FFFFFF</color>
     <color name="ColorToolbarTitle">#FFFFFF</color>
     <color name="ColorPrimary">#03A9F4</color>
@@ -13,8 +13,6 @@
     <color name="ColorListDivider">#31000000</color>
     <color name="dark_gray">#31000000</color>
     <color name = "ColorItemSelected">#dfffff</color>
-
-
 
     <!-- Font Colors -->
     <color name="text_accent">#E91E63</color>

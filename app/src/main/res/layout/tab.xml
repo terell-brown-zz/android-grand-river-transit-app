@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
     android:background="@color/tabs_background"
-    android:elevation="@dimen/toolbar_elevation">
+    android:elevation="@dimen/elevation_normal">
 
     <TextView
         android:id = "@+id/tvTabTitle"

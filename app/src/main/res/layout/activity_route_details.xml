@@ -14,7 +14,7 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="@dimen/tab_elevation"
+        android:elevation="@dimen/elevation_normal"
         android:background="@color/tabs_background" />
 
     <!-- Displays contents of active tab -->

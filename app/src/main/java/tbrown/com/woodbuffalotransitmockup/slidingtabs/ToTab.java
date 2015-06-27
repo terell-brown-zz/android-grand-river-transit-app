@@ -55,8 +55,9 @@ public class ToTab extends Fragment implements View.OnClickListener {
     }
 
     private void getRouteInfo() {
-        routeInfo = getActivity().getIntent().getStringExtra("ROUTE_INFO");
-        routeId = getActivity().getIntent().getIntExtra("ROUTE_NO", 400);
+        Intent intent = getActivity().getIntent();
+        routeInfo = intent.getStringExtra("ROUTE_INFO");
+        routeId = intent.getIntExtra("ROUTE_NO", 400);
     }
 
     private void getStops(int routeNo,int directionid) {

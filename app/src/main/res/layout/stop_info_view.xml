@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="Roboto Regular"
                 android:textColor="@color/text_black"
-                android:textSize="@dimen/text_size_two_line_row"
+                android:textSize="@dimen/text_size_row_contents"
                 tools:text="@string/sample_text_1_stop_info" />
 
             <TextView
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="Roboto Regular"
                 android:textColor="@color/text_accent"
-                android:textSize="@dimen/text_size_two_line_row"
+                android:textSize="@dimen/text_size_row_contents"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:singleLine="true"

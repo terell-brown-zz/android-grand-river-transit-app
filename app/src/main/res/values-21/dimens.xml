@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="sliding_drawer_width">240dp</dimen>
-    <dimen name="tab_elevation">3dp</dimen>
-    <dimen name="row_height">60dp</dimen>
-    <dimen name="row_content_height">56dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-</resources>

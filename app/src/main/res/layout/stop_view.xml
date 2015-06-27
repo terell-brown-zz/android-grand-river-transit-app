@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/tileHeight"
+    android:layout_height="@dimen/row_height"
     android:orientation="horizontal"
     android:weightSum="100"
     android:background="@android:drawable/list_selector_background">
@@ -23,7 +23,7 @@
         android:paddingLeft="@dimen/row_title_padding"
         android:fontFamily="Roboto Black"
         android:textColor="@color/text_black"
-        android:textSize="@dimen/text_size_single_line_row"
+        android:textSize="@dimen/text_size_row_contents"
         android:gravity="center_vertical"
         tools:text="@string/sample_text_1_stop"/>
 

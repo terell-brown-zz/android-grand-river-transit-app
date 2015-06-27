@@ -1,50 +1,39 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="tileWidth">300dp</dimen>
-    <dimen name="tileHeight">60dp</dimen>
-    <dimen name="tileHeighttwoLine">72dp</dimen>
-    <dimen name="cardMarginFromLeft">10dp</dimen>
-    <dimen name="cardTitlePadding">10dp</dimen>
-    <dimen name="row_title_padding">10dp</dimen>
+    <!-- Text Sizes -->
+    <dimen name="text_size_toolbar">20sp</dimen>
+    <dimen name="text_size_row_contents">16sp</dimen>
+    <dimen name="text_size_secondary">14sp</dimen>
 
+    <!-- Navigation Drawer -->
+    <dimen name="sliding_drawer_width">240dp</dimen>
 
-    <dimen name="firstElementAfterTabsHeight">28dp</dimen>
+    <!-- Elevations -->
+    <dimen name="elevation_normal">3dp</dimen>
 
-    <dimen name="listContainerMargin">16dp</dimen>
-    <dimen name="tilePaddingLeft">10dp</dimen>
-    <dimen name="tilePaddingTop">16dp</dimen>
-    <dimen name="icon_padding_left">16dp</dimen>
-    <dimen name="tilePaddingBottom">20dp</dimen>
-    <dimen name="row_margin_left">10dp</dimen>
+    <!-- Rows in List and RecyclerViews -->
+    <dimen name="row_height">60dp</dimen>
+    <dimen name="row_width">300dp</dimen>
+    <dimen name="row_content_height">56dp</dimen>
+    <dimen name="row_height_large">72dp</dimen>
     <dimen name="row_margin_top">16dp</dimen>
     <dimen name="row_margin_bottom">20dp</dimen>
-    <dimen name="text_size_secondary">14sp</dimen>
-    <dimen name="favouriteButtonSize">40dp</dimen>
-    <dimen name="tileIcon">20dp</dimen>
-    <dimen name="text_size_toolbar">20sp</dimen>
-    <dimen name="text_size_single_line_row">16sp</dimen>
-    <dimen name="text_size_two_line_row">16sp</dimen>
-    <dimen name="text_size_two_line_row_secondary">14sp</dimen>
-    <dimen name="TwoLineViewTopPadding">8dp</dimen>
-    <dimen name="TwoLineViewBottomPadding">8dp</dimen>
+    <dimen name="row_margin_left">10dp</dimen>
+    <dimen name="row_title_padding">10dp</dimen>
+
+    <!-- Row with 2 lines of content -->
     <dimen name="row_two_line_top_padding">8dp</dimen>
     <dimen name="row_two_line_bottom_padding">8dp</dimen>
 
-    <dimen name="fas">1dp</dimen>
-    <dimen name="toolbar_elevation">3dp</dimen>
-    <dimen name="navigation_drawer_width">240dp</dimen>
-    <dimen name="sliding_drawer_width">240dp</dimen>
-    <dimen name="tab_elevation">3dp</dimen>
-    <dimen name="row_height">60dp</dimen>
+    <!-- Spacers found in lists and recycler views -->
     <dimen name="spacer_left_margin">16dp</dimen>
     <dimen name="spacer_height">28dp</dimen>
-    <dimen name="row_content_height">56dp</dimen>
-    <dimen name="row_width">300dp</dimen>
-    <dimen name="row_height_large">72dp</dimen>
+
+    <!-- Floating Action Button -->
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Icon -->
+    <dimen name="icon_padding_left">16dp</dimen>
 
 
 </resources>

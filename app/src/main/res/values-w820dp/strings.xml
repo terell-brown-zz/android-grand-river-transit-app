@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="title_spacer_all_routes">All Routes</string>
-    <string name="sample_text_1_stop">Name of Stop Here</string>
-    <string name="sample_text_stop_times">7:30 AM</string>
-    <string name="sample_text_toolbar">Toolbar</string>
-</resources>

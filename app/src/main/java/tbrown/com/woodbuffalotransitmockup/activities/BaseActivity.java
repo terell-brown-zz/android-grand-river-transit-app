@@ -68,7 +68,9 @@ public class BaseActivity extends ActionBarActivity {
     }
 
     protected void setupDatabase(Context activityContext) {
-        dbHelper = DBHelper.getInstance(activityContext);
+        if (dbHelper == null) {
+            dbHelper = DBHelper.getInstance(activityContext);
+        }
     }
 
     @Override
@@ -88,7 +90,7 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // inflates the menu
-        getMenuInflater().inflate(R.menu.menu_activity_base,menu);
+        getMenuInflater().inflate(R.menu.menu_activity_base, menu);
         return true;
     }
 }

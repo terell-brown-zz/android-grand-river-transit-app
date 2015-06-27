@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Activities -->
+    <!-- Refers to Activities in Navigation Drawer -->
     <item type ="id" name="activity_favourites" />
     <item type ="id" name="activity_nearby" />
     <item type ="id" name="activity_planner" />
     <item type ="id" name="activity_all_routes" />
 
-    <!-- Types of Viewholders -->
+    <!-- Types of ViewHolders -->
     <item type="id" name="spacer_stops" />
     <item type ="id" name="details_stops" />
     <item type="id" name="spacer_routes" />
