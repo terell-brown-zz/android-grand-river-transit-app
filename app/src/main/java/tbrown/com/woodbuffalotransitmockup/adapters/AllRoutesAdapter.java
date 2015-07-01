@@ -25,6 +25,7 @@ public class AllRoutesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     // Business Logic
     private boolean isFavourited = false;
+    private boolean isSubroute = false;
 
     public AllRoutesAdapter(Context context, String[] data) {
         this.activityContext = context;
@@ -43,7 +44,7 @@ public class AllRoutesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         // supplies a single piece of data to the row to be displayed
-        ((RouteViewHolder) holder).bindModel(routes[position]);
+        ((RouteViewHolder) holder).bindModel(routes[position], isSubroute);
     }
 
     @Override

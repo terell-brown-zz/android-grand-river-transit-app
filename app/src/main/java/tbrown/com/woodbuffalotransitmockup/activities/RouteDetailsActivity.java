@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import tbrown.com.woodbuffalotransitmockup.Constants;
 import tbrown.com.woodbuffalotransitmockup.R;
@@ -26,11 +27,12 @@ public class RouteDetailsActivity extends BaseActivity {
     private SchedulePageAdapter adapter;
     private SlidingTabLayout tabs;
     private String[] Titles = {Constants.INBOUND, Constants.OUTBOUND};
-    private int Numboftabs = 2;
+    private int Numboftabs;
 
     // Business Logic
     private String routeInfo;
-    private int routeNo;
+    private String routeNo;
+    private boolean iSubRoute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,9 @@ public class RouteDetailsActivity extends BaseActivity {
     private void getRouteInfo() {
         Intent intent = getIntent();
         routeInfo = intent.getStringExtra("ROUTE_INFO");
-        routeNo = intent.getIntExtra("ROUTE_NO", 400);
+        routeNo = intent.getStringExtra("ROUTE_NO");
+        iSubRoute = intent.getBooleanExtra("IS_SUBROUTE",false);
+        Numboftabs = intent.getIntExtra(Constants.NUM_DIRECTIONS,1);
     }
 
     public void setupToolbar() {
@@ -87,5 +91,9 @@ public class RouteDetailsActivity extends BaseActivity {
             }
         });
         tabs.setViewPager(pager);
+
+        if (Numboftabs == 1) {
+            tabs.setVisibility(View.GONE);
+        }
     }
 }

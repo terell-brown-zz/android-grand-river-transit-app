@@ -40,7 +40,7 @@ public class StopsMapActivity extends FragmentActivity implements GoogleMap.OnMa
     private String stopInfo;
     private int stopId;
     private String routeInfo;
-    private int routeNo;
+    private String routeNo;
     private int directionId;
 
     // Constants
@@ -87,7 +87,7 @@ public class StopsMapActivity extends FragmentActivity implements GoogleMap.OnMa
     private void getTransitInfo() {
         Intent intent = getIntent();
         stopIds = intent.getStringArrayExtra("STOP_IDS");
-        routeNo = intent.getIntExtra("ROUTE_NO", 4000);
+        routeNo = intent.getStringExtra("ROUTE_NO");
         routeInfo = intent.getStringExtra("ROUTE_INFO");
         directionId = intent.getIntExtra("DIRECTION_ID", 0);
     }

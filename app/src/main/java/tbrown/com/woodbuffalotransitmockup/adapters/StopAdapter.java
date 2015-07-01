@@ -8,8 +8,11 @@ import android.view.ViewGroup;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import tbrown.com.woodbuffalotransitmockup.R;
+import tbrown.com.woodbuffalotransitmockup.util.Utilities;
+import tbrown.com.woodbuffalotransitmockup.viewholders.SubRouteViewHolder;
 import tbrown.com.woodbuffalotransitmockup.viewholders.RouteViewHolder;
 import tbrown.com.woodbuffalotransitmockup.viewholders.SpacerHolder;
 import tbrown.com.woodbuffalotransitmockup.viewholders.StopsByRouteViewHolder;
@@ -27,12 +30,13 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     // Business Logic
     private String[] stops;
-    private int indexStopTitle;
     private int indexRouteTitle;
-    private int numStops;
-    private int numRoutes;
+    private int indexSubRouteTitle;
+    private int indexStopTitle;
     private String itemType;
     private boolean isFavourited;
+    private boolean isSubroute = false;
+
 
     public StopAdapter(Context context, String[] data,boolean isFavourited) {
         activityContext = context;
@@ -54,7 +58,7 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         switch (viewType) {
             case R.id.details_stops:
                 view = inflater.inflate(R.layout.stop_view, parent, false);
-                viewHolder = new StopsByRouteViewHolder(activityContext, isFavourited, view);
+                viewHolder = new StopsByRouteViewHolder(activityContext, isFavourited,isSubroute, view);
                 break;
             case R.id.spacer_stops:
                 view = inflater.inflate(R.layout.list_spacer, parent, false);
@@ -64,13 +68,21 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 view = inflater.inflate(R.layout.list_spacer, parent, false);
                 viewHolder = new SpacerHolder(view);
                 break;
+            case R.id.spacer_subroutes:
+                view = inflater.inflate(R.layout.list_spacer_null, parent, false);
+                viewHolder = new SpacerHolder(view);
+                break;
             case R.id.details_routes:
                 view = inflater.inflate(R.layout.route_view, parent, false);
                 viewHolder = new RouteViewHolder(activityContext, isFavourited, view);
                 break;
+            case R.id.details_subroutes:
+                view = inflater.inflate(R.layout.subroute_view, parent, false);
+                viewHolder = new SubRouteViewHolder(activityContext, isFavourited, view);
+                break;
             default:
-                view = inflater.inflate(R.layout.stop_view, parent, false);
-                viewHolder = new StopsByRouteViewHolder(activityContext, isFavourited, view);
+                view = inflater.inflate(R.layout.route_view, parent, false);
+                viewHolder = new RouteViewHolder(activityContext, isFavourited, view);
                 break;
         }
         return viewHolder;
@@ -81,22 +93,30 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         // Once the recycler view parent contains a child view and the
         //   associated ViewHolder is created, this method calls on the ViewHolder
         //   bindModel method to pass the data to the appropriate view (ie. textView, etc.)
-        switch (getItem(dataPosition)) {
-            case "TITLE_STOPS":
+        String content;
+        switch (getItemViewType(dataPosition)) {
+            case R.id.spacer_stops:
                 ((SpacerHolder) holder).bindModel("Stops");
                 break;
-            case "TITLE_ROUTES":
+            case R.id.spacer_routes:
                 ((SpacerHolder) holder).bindModel("Routes");
                 break;
-
-            case "DETAILS_STOPS":
-                ((StopsByRouteViewHolder) holder).bindModel("yo", 1, stops[dataPosition]);
+            case R.id.spacer_subroutes:
+                ((SpacerHolder) holder).bindModel("Sub Routes");
                 break;
-            case "DETAILS_ROUTES":
-                ((RouteViewHolder) holder).bindModel(stops[dataPosition]);
+            case R.id.details_stops:
+                ((StopsByRouteViewHolder) holder).bindModel("yo","1", stops[dataPosition]);
                 break;
+            case R.id.details_routes:
+                content = stops[dataPosition];
+                ((RouteViewHolder) holder).bindModel(content, false);
+                break;
+            case R.id.details_subroutes:
+                content = stops[dataPosition];
+                ((SubRouteViewHolder) holder).bindModel(content, true);
             default:
-                ((SpacerHolder) holder).bindModel(stops[dataPosition]);
+                content = stops[dataPosition];
+                ((RouteViewHolder) holder).bindModel(content, false);
                 break;
         }
     }
@@ -105,33 +125,41 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemViewType(int position) {
         // Returns an id in integer form specifying the type of data represented at the
         //   given position. Possibilities include title info, route info and stop info
-        switch (getItem(position)) {
-            case "TITLE_STOPS":
-                return R.id.spacer_stops;
-            case "TITLE_ROUTES":
-                return R.id.spacer_routes;
-            case "DETAILS_STOPS":
-                return R.id.details_stops;
-            case "DETAILS_ROUTES":
-                return R.id.details_routes;
-            default:
-                return R.id.details_stops;
+        if (position == indexStopTitle) {
+            return R.id.spacer_stops;
+        } else if (position < indexRouteTitle && position > indexStopTitle) {
+            return R.id.details_stops;
+        } else if (position == indexRouteTitle) {
+            return R.id.spacer_routes;
+        } else if (position > indexRouteTitle && position < indexSubRouteTitle) {
+            return R.id.details_routes;
+        } else if (position == indexSubRouteTitle) {
+            return R.id.spacer_subroutes;
+        } else if (position > indexSubRouteTitle){
+            return R.id.details_subroutes;
+        } else {
+            return R.id.details_routes;
         }
-
     }
 
-    private String getItem(int position) {
+    private int getItem(int position) {
         // determines type of data being supplied by the string array of data
+
         if (position == indexStopTitle) {
-            itemType = "TITLE_STOPS";
-        } else if (position < indexRouteTitle) {
-            itemType = "DETAILS_STOPS";
+            return R.id.spacer_stops;
+        } else if (position < indexRouteTitle && position > indexStopTitle) {
+            return R.id.details_stops;
         } else if (position == indexRouteTitle) {
-            itemType = "TITLE_ROUTES";
-        } else if (position > indexRouteTitle) {
-            itemType = "DETAILS_ROUTES";
+            return R.id.spacer_routes;
+        } else if (position > indexRouteTitle && position < indexSubRouteTitle) {
+            return R.id.details_routes;
+        } else if (position == indexSubRouteTitle) {
+            return R.id.spacer_subroutes;
+        } else if (position > indexSubRouteTitle){
+            return R.id.details_subroutes;
+        } else {
+            return R.id.details_routes;
         }
-        return itemType;
     }
 
     @Override
@@ -145,7 +173,6 @@ public class StopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         indexStopTitle = dataList.indexOf("Stops");
         indexRouteTitle = dataList.indexOf("Routes");
-        numStops = indexRouteTitle - 1;
-        numRoutes = dataSize - 1;
+        indexSubRouteTitle = dataList.indexOf("Sub Routes");
     }
 }

@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.util.Log;
 
+import tbrown.com.woodbuffalotransitmockup.database.DBHelper;
 import tbrown.com.woodbuffalotransitmockup.util.DateTimeUtil;
 
 /**
@@ -108,7 +109,7 @@ public class DBUtils {
                     j++;
                 }
             } catch (CursorIndexOutOfBoundsException exception) {
-                c.moveToPrevious();
+
             }
         }
 
@@ -155,7 +156,7 @@ public class DBUtils {
         return result;
     }
 
-    public static String[] twoDToOneDArray(String[][] array, int col) {
+    public static String[] twoDToOneDArray(String[][] array, int col) throws ArrayIndexOutOfBoundsException {
         // Converts 2D String Array into 1D String array based on column number provided
         String[] result = new String[array.length];
         int i = 0;

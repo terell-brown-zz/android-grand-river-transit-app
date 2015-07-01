@@ -24,15 +24,17 @@ public class StopsByRouteAdapter extends RecyclerView.Adapter<StopsByRouteViewHo
     // Business Logic
     private String[] database;
     private String routeInfo;
-    private int routeNo;
+    private String routeNo;
     private boolean isFavourited = false;
+    private boolean isSubRoute;
 
-    public StopsByRouteAdapter(Context context,String routeName,int routeNo, String[] data) {
-        this.activityContext = context;
+    public StopsByRouteAdapter(Context context,String routeName,String routeId, String[] data, boolean isSubroute) {
+        activityContext = context;
         inflater = LayoutInflater.from(activityContext);
-        this.routeInfo = routeName;
-        this.routeNo = routeNo;
-        this.database = data;
+        routeInfo = routeName;
+        routeNo = routeId;
+        database = data;
+        isSubRoute = isSubroute;
     }
 
     @Override
@@ -41,7 +43,7 @@ public class StopsByRouteAdapter extends RecyclerView.Adapter<StopsByRouteViewHo
         //   ViewType is determined by getItemViewType() and is based on whether
         //   a given data item is title info, route info or stop info
         View view = inflater.inflate(R.layout.stop_view, parent, false);
-        StopsByRouteViewHolder holder = new StopsByRouteViewHolder(activityContext,isFavourited, view);
+        StopsByRouteViewHolder holder = new StopsByRouteViewHolder(activityContext,isFavourited, isSubRoute, view);
         return holder;
     }
 

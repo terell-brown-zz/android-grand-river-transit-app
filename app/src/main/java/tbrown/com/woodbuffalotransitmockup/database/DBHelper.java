@@ -16,11 +16,11 @@ public class DBHelper extends SQLiteAssetHelper {
     private static DBHelper sDBHelper;
 
     // Constants
-    private static final String DATABASE_NAME = "new.db";
+    private static final String DATABASE_NAME = "grt.db";
     private static final int DATABASE_VERSION = 1;
     private static final String TAG = "DBHelperClass";
 
-    private DBHelper(Context context) {
+    public DBHelper(Context context) {
         super(context.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -28,6 +28,7 @@ public class DBHelper extends SQLiteAssetHelper {
         if (sDBHelper == null) {
             sDBHelper = new DBHelper(context);
         }
+
         return sDBHelper;
     }
 
@@ -40,7 +41,7 @@ public class DBHelper extends SQLiteAssetHelper {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder(); // class to help build queries
         String sqlTables = "routes"; // search the table called routes
         qb.setTables(sqlTables);
-        String [] sqlSelect = {"route_id", "route_long_name"}; // return route_id and name from query
+        String[] sqlSelect = {"route_id", "route_long_name"}; // return route_id and name from query
         String orderBy = "route_id ASC";
 
         // Run query
@@ -58,9 +59,9 @@ public class DBHelper extends SQLiteAssetHelper {
         Cursor queryRoutes = queryRoutes();
         String[] result = DBUtils.queryToAllRoutes(queryRoutes);
         return result;
-    };
+    }
 
-    public Cursor queryStopsbyRoute(int routeId,int directionId) {
+    public Cursor queryStopsbyRoute(String routeId, int directionId) {
         // Returns
         SQLiteDatabase db = getReadableDatabase();
 
@@ -73,7 +74,28 @@ public class DBHelper extends SQLiteAssetHelper {
                         " AND direction_id = " + directionId + ")) the_stops " +
                         "ON the_stops.my_stops = stops.stop_id" +
                         " ORDER BY stops.stop_name";
-        Cursor c = db.rawQuery(query,null);
+        Cursor c = db.rawQuery(query, null);
+        Log.i("MyActivity", query);
+        c.moveToFirst();
+        checkCursor(c); // indicates details of query in log under MyActivity TAG
+        db.close();
+        return c;
+    }
+
+    public Cursor queryStopsbySubRoute(String routeName, int directionId) {
+        // Returns
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Build query
+        String query =
+                "SELECT DISTINCT stops.stop_id, stops.stop_name FROM stops " +
+                        "INNER JOIN " +
+                        "(SELECT stop_id AS my_stops FROM stop_times WHERE trip_id " +
+                        "IN (SELECT trip_id FROM trips WHERE trips.trip_headsign = '" + routeName +
+                        "' AND direction_id = " + directionId + ")) the_stops " +
+                        "ON the_stops.my_stops = stops.stop_id" +
+                        " ORDER BY stops.stop_name";
+        Cursor c = db.rawQuery(query, null);
         Log.i("MyActivity", query);
         c.moveToFirst();
         checkCursor(c); // indicates details of query in log under MyActivity TAG
@@ -82,13 +104,13 @@ public class DBHelper extends SQLiteAssetHelper {
     }
 
 
-    public String[] getStopsByRoute(int routeId, int directionId) {
-        Cursor queryStops = queryStopsbyRoute(routeId,directionId);
+    public String[] getStopsByRoute(String routeId, int directionId) {
+        Cursor queryStops = queryStopsbyRoute(routeId, directionId);
         return DBUtils.queryToAllRoutes(queryStops);
     }
 
-    public String[] getStopsForMap(int routeId, int directionId) {
-        Cursor queryStops = queryStopsbyRoute(routeId,directionId);
+    public String[] getStopsForMap(String routeId, int directionId) {
+        Cursor queryStops = queryStopsbyRoute(routeId, directionId);
         return DBUtils.queryToAllRouteIds(queryStops);
     }
 
@@ -103,7 +125,7 @@ public class DBHelper extends SQLiteAssetHelper {
         String query =
                 "SELECT stop_id, stop_name, stop_lat, stop_lon FROM stops" +
                         " WHERE stop_id IN( " + inStatement + ")";
-        Cursor c = db.rawQuery(query,null);
+        Cursor c = db.rawQuery(query, null);
         Log.i("MyActivity", query);
         c.moveToFirst();
         checkCursor(c); // indicates details of query in log under MyActivity TAG
@@ -112,12 +134,12 @@ public class DBHelper extends SQLiteAssetHelper {
     }
 
 
-
-    public Cursor queryTimesByStop(int routeId,String serviceId,int directionId,int stopId) {
+    public Cursor queryTimesByStop(String routeId, String serviceId, int directionId, int stopId) {
         // Return departure times at a given stop based on the route, time of week (service_id)
         // and direction of service (direction_id)
 
         SQLiteDatabase db = getReadableDatabase();
+
 
         // Build query
         String query = "SELECT * FROM " +
@@ -125,7 +147,6 @@ public class DBHelper extends SQLiteAssetHelper {
                 "INNER JOIN " +
                 "(SELECT trip_id AS trips FROM trips WHERE route_id = " + routeId +
                 " AND service_id =" + serviceId +
-                //" AND direction_id =" + directionId +
                 ")" +
                 " my_trips" +
                 " ON stop_times.trip_id = my_trips.trips)" +
@@ -143,13 +164,48 @@ public class DBHelper extends SQLiteAssetHelper {
         return c;
     }
 
-    public String[] getTimes(int routeId,String serviceId,int directionId,int stopId) {
-        Cursor queryTimes = queryTimesByStop(routeId,serviceId,directionId,stopId);
+    public String[] getTimes(String routeOrTripid, String serviceId, int directionId, int stopId, boolean isSubroute) {
+        Cursor queryTimes;
+        if (isSubroute) {
+            queryTimes = queryTimesByTripName(routeOrTripid, serviceId, directionId, stopId);
+        } else {
+            queryTimes = queryTimesByStop(routeOrTripid, serviceId, directionId, stopId);
+        }
         checkCursor(queryTimes);
         return DBUtils.queryToTimes(queryTimes);
     }
 
-    public Cursor queryNearbyStops(Double lat,Double lon) {
+    public Cursor queryTimesByTripName(String tripName, String serviceId, int directionId, int stopId) {
+        // Return departure times at a given stop based on the route, time of week (service_id)
+        // and direction of service (direction_id)
+
+        SQLiteDatabase db = getReadableDatabase();
+
+
+        // Build query
+        String query = "SELECT * FROM " +
+                "(SELECT stop_times.stop_id AS my_stops, stop_times.departure_time AS my_times FROM stop_times " +
+                "INNER JOIN " +
+                "(SELECT trip_id AS trips FROM trips WHERE trip_headsign = '" + tripName +
+                "' AND service_id =" + serviceId +
+                ")" +
+                " my_trips" +
+                " ON stop_times.trip_id = my_trips.trips)" +
+                " WHERE my_stops =" + stopId +
+                " ORDER BY my_times ";
+
+        Log.i("MyActivity", query);
+
+        // Run query
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+        checkCursor(c); // indicates details of query in log under MyActivity TAG
+
+        db.close();
+        return c;
+    }
+
+    public Cursor queryNearbyStops(Double lat, Double lon) {
         // Based on the coordinates provided, returns the 8 nearest bus stops
         SQLiteDatabase db = getReadableDatabase();
 
@@ -172,8 +228,8 @@ public class DBHelper extends SQLiteAssetHelper {
         return c;
     }
 
-    public String[] getNearbyStops(Double lat,Double lon) {
-        Cursor queryStops = queryNearbyStops(lat,lon);
+    public String[] getNearbyStops(Double lat, Double lon) {
+        Cursor queryStops = queryNearbyStops(lat, lon);
         checkCursor(queryStops);
         return DBUtils.queryToTimes(queryStops);
     }
@@ -216,7 +272,7 @@ public class DBHelper extends SQLiteAssetHelper {
 
         // Build Query
         String query = "" +
-                 "SELECT DISTINCT trips.trip_headsign, stop_times.departure_time FROM trips" +
+                "SELECT DISTINCT trips.trip_headsign, stop_times.departure_time FROM trips" +
                 //"SELECT DISTINCT trips.trip_headsign, (stop_times.departure_time - '" + startTime + "') AS remainingTime FROM trips" +
                 " JOIN stop_times ON trips.trip_id = stop_times.trip_id" +
                 " WHERE stop_id = " + stopId + " AND service_id = " + serviceId +
@@ -225,7 +281,7 @@ public class DBHelper extends SQLiteAssetHelper {
                 "' AND trips.route_id IN(" + routeIds + ")" +
                 " ORDER BY trips.route_id, trips.trip_headsign, stop_times.departure_time";
 
-        Log.i("MyActivity",query);
+        Log.i("MyActivity", query);
         // Run raw query
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
@@ -237,43 +293,125 @@ public class DBHelper extends SQLiteAssetHelper {
 
     public String[][] getUpcomingTimes(String stopId, String serviceId, String[] routeIds) {
         String routes = DBUtils.arrayToString(routeIds);
-        Log.i("MyActivity",routes);
+        Log.i("MyActivity", routes);
         Cursor queryUpcomingTimes = queryNearbyStopInfo(stopId, serviceId, routes);
         checkCursor(queryUpcomingTimes);
-        return DBUtils.queryToStringArray(queryUpcomingTimes,routeIds.length);
+        return DBUtils.queryToStringArray(queryUpcomingTimes, routeIds.length);
     }
 
     private void checkCursor(Cursor c) {
         Log.i(TAG, "Validating the cursor");
-        if (c.getCount()<1) {
-            Log.i(TAG,"Query returned zero results.");
+        if (c.getCount() < 1) {
+            Log.i(TAG, "Query returned zero results.");
         } else {
-            Log.i(TAG,"Query was successful.");
-            Log.i(TAG,"" + c.getCount() + " rows returned...");
+            Log.i(TAG, "Query was successful.");
+            Log.i(TAG, "" + c.getCount() + " rows returned...");
             Log.i(TAG, "" + c.getColumnCount() + " columns returned...");
         }
     }
 
-    private String arrayToString(String[] array) {
-        // Converts string array to a single string, each value seperated by comma
+    private Cursor querySubRoutes(String routeNo) {
+        SQLiteDatabase db = getReadableDatabase();
 
-        String result = "=";
+        // Build Query
+        String query = "" +
+                "SELECT DISTINCT trip_headsign FROM trips WHERE route_id = '" + routeNo + "'" +
+                "ORDER BY trip_headsign ASC;";
 
-        for (int i = 0; i < array.length; i++) {
-            result = result + array[i] + ", ";
-        }
-        result = result.substring(0,result.length()); // remove excess comma as last character
-        return result.substring(0,result.length()-1);
+        Log.i("SubRoutes", query);
+        // Run raw query
+        Cursor cSubRoutes = db.rawQuery(query, null);
+        cSubRoutes.moveToFirst();
+        checkCursor(cSubRoutes);
+
+        db.close();
+        return cSubRoutes;
     }
 
-    private String queryToString(Cursor c) {
-      String result = "";
-      int noRows = c.getCount();
+    public String[] getSubRoutes(String routeNo) {
+        return DBUtils.queryToRoutes(querySubRoutes(routeNo));
+    }
 
-        for (int i = 0; i < c.getCount(); i++) {
-            result = result + c.getString(0) + ", ";
-            c.moveToNext();
-        }
-        return result;
-    };
+    private Cursor queryDirectionsByTripName(String tripName) {
+
+        // TODO: use COUNT function instead
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Build Query
+        String query = "" +
+                "SELECT DISTINCT direction_id FROM trips WHERE trip_headsign = '" + tripName + "';";
+
+        Log.i("Directions", query);
+        // Run raw query
+        Cursor cSubRoutes = db.rawQuery(query, null);
+        cSubRoutes.moveToFirst();
+        checkCursor(cSubRoutes);
+
+        db.close();
+        return cSubRoutes;
+    }
+
+    private Cursor queryDirectionsByRouteNo(String routeNo) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Build Query
+        String query = "" +
+                "SELECT DISTINCT direction_id FROM trips WHERE route_id = '" + routeNo + "';";
+
+        Log.i("Directions", query);
+        // Run raw query
+        Cursor cSubRoutes = db.rawQuery(query, null);
+        cSubRoutes.moveToFirst();
+        checkCursor(cSubRoutes);
+
+        db.close();
+        return cSubRoutes;
+    }
+
+    public int getNumDirectionsByTripName(String tripName) {
+        return queryDirectionsByTripName(tripName).getCount();
+    }
+
+    public int getNumDirectionsByRouteNo(String routeNo) {
+        return queryDirectionsByRouteNo(routeNo).getCount();
+    }
+
+
+    public int queryDirectionByTripName(String tripName) {
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Build Query
+        String query = "" +
+                "SELECT DISTINCT direction_id from trips WHERE trip_headsign = '" + tripName + "';";
+
+        Log.i("Directions", query);
+        // Run raw query
+        Cursor cDirection = db.rawQuery(query, null);
+        cDirection.moveToFirst();
+        checkCursor(cDirection);
+
+        db.close();
+
+        return Integer.parseInt(cDirection.getString(0));
+    }
+
+    public int queryDirectionByRouteNo(String routeNo) {
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Build Query
+        String query = "" +
+                "SELECT DISTINCT direction_id from trips WHERE route_id = '" + routeNo + "';";
+
+        Log.i("Directions", query);
+        // Run raw query
+        Cursor cDirection = db.rawQuery(query, null);
+        cDirection.moveToFirst();
+        checkCursor(cDirection);
+
+        db.close();
+
+        return Integer.parseInt(cDirection.getString(0));
+    }
 }

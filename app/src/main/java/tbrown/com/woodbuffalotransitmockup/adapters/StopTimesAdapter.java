@@ -14,6 +14,7 @@ import tbrown.com.woodbuffalotransitmockup.viewholders.StopTimesViewHolder;
  */
 public class StopTimesAdapter extends RecyclerView.Adapter<StopTimesViewHolder> {
 
+
     // Backend Components
     //private Context activityContext;
     private String[] times;

@@ -1,16 +1,25 @@
 package tbrown.com.woodbuffalotransitmockup.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.listeners.ActionClickListener;
@@ -25,7 +34,8 @@ import tbrown.com.woodbuffalotransitmockup.util.MapUtils;
   Displays map showing bus stops that are close to your current location
  */
 
-public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMarkerClickListener, GoogleMap.OnCameraChangeListener, ActionClickListener {
+public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMarkerClickListener, GoogleMap.OnCameraChangeListener, ActionClickListener,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     // UI
     private FragmentManager fm;
@@ -34,6 +44,10 @@ public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMar
     private GoogleMap map;
     private LatLng lastKnownLocation;
     private boolean wasMarkerClicked = true;
+    private Location currentLocation;
+    private double currentLong;
+    private double currentLat;
+    private float cameraZoom = 16;
 
     // Business Logic
     private String[] routes;
@@ -45,6 +59,9 @@ public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMar
     // Constants
     private static final String TOOLBAR_TITLE = Constants.TITLE_NEARBY;
     private static final int NAV_ID = Constants.NEARBY;
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,10 +69,19 @@ public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMar
         setContentView(R.layout.activity_nearby);
         activityContext = getBaseContext();
         setupDatabase(activityContext);
+
         setupToolbar(TOOLBAR_TITLE);
         setupNavDrawer(NAV_ID);
         addMap();
         setupMap();
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
     }
 
     @Override
@@ -76,16 +102,37 @@ public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMar
     private void addMap() {
         fm = getSupportFragmentManager();
         map = ((SupportMapFragment) fm.findFragmentById(R.id.map_nearby_stops)).getMap(); // a google map fragment
+        //buildGoogleApiClient();
+        //mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
     }
 
     private void setupMap() {
+
+        getCurrentLocation();
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                new LatLng(currentLat, currentLong), cameraZoom));
+        lastKnownLocation = map.getCameraPosition().target;
+        MapUtils.addNearbyStopMarkers(map, dbHelper, lastKnownLocation);
         map.setMyLocationEnabled(true);
         map.setOnMarkerClickListener(this);
         map.setOnCameraChangeListener(this);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(43.467, -80.517), 16));
-        lastKnownLocation = map.getCameraPosition().target;
-        MapUtils.addNearbyStopMarkers(map, dbHelper, lastKnownLocation);
     }
+
+    private void getCurrentLocation() {
+
+        currentLocation = MapUtils.getCurrentLocation(activityContext.getApplicationContext());
+
+        if (currentLocation != null) {
+            currentLat = currentLocation.getLatitude();
+            currentLong = currentLocation.getLongitude();
+        } else {
+            currentLat = Constants.WATERLOO_LAT;
+            currentLong = Constants.WATERLOO_LONG;
+            cameraZoom = 11;
+        }
+    }
+
+
 
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
@@ -144,8 +191,27 @@ public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMar
         Intent stopInfo = new Intent("tbrown.com.woodbuffalotransitmockup.STOP_INFO");
         stopInfo.putExtra("STOP_NAME", stopSelected + " " + stopSelectedName);
         stopInfo.putExtra("ROUTES", DBUtils.twoDToOneDArray(times, 0)); // array of routes going to the stop
-        stopInfo.putExtra("TIMES", DBUtils.twoDToOneDArray(times, 1));  // array of upcoming stop times for each route
+        try {
+            stopInfo.putExtra("TIMES", DBUtils.twoDToOneDArray(times, 1));  // array of upcoming stop times for each route
+        } catch (ArrayIndexOutOfBoundsException e) {
+            stopInfo.putExtra("TIMES", new String[]{""});
+        }
         startActivity(stopInfo);
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 }
 

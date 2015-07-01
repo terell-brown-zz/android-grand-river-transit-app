@@ -30,7 +30,7 @@ public class StopTimesActivity extends BaseActivity implements AdapterView.OnIte
     private TextView tabTitle;
     private Spinner spin;
     private int spinnerSelection;
-    private static final String[] spinnerItems = {"Weekdays","Saturday", "Sunday & Holidays"};
+    private static final String[] spinnerItems = {"Weekdays", "Saturday", "Sunday & Holidays"};
 
     // List of Stop Times
     private StopTimesAdapter mAdapter;
@@ -38,11 +38,12 @@ public class StopTimesActivity extends BaseActivity implements AdapterView.OnIte
 
     // Business Logic
     private String routeInfo;
-    private int routeId;
+    private String routeId;
     private String stopInfo;
     private int stopId;
     private String serviceId;
     private int directionId;
+    private boolean isSubRoute;
     private boolean isFirstTime = true;
 
     // Constants
@@ -50,6 +51,8 @@ public class StopTimesActivity extends BaseActivity implements AdapterView.OnIte
     private static final String SATURDAY = Constants.SATURDAY;
     private static final String SUNDAY = Constants.SUNDAY;
     private static final String[] SERVICES = Constants.SERVICES;
+    private String tripName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +69,14 @@ public class StopTimesActivity extends BaseActivity implements AdapterView.OnIte
     private void getTransitInfo() {
         Intent intent = getIntent();
         routeInfo = intent.getStringExtra("ROUTE_INFO");
-        routeId = intent.getIntExtra("ROUTE_NO", 400);
+        routeId = intent.getStringExtra("ROUTE_NO");
         stopInfo = intent.getStringExtra("STOP_INFO");
         stopId = intent.getIntExtra("STOP_ID", 5425);
         serviceId = intent.getStringExtra("SERVICE_ID");
         directionId = intent.getIntExtra("DIRECTION_ID", 0);
-        spinnerSelection = intent.getIntExtra("SPINNER_SELECTION",1);
+        isSubRoute = intent.getBooleanExtra("IS_SUBROUTE", false);
+        tripName = intent.getStringExtra("ROUTE_INFO");
+        spinnerSelection = intent.getIntExtra("SPINNER_SELECTION", 1);
     }
 
     private void setupTab() {
@@ -79,12 +84,12 @@ public class StopTimesActivity extends BaseActivity implements AdapterView.OnIte
         setSupportActionBar(tab);
         getSupportActionBar().setTitle("");
         tabTitle = (TextView) tab.findViewById(R.id.tvTabTitle);
-        tabTitle.setText(routeId + " - To Downtown");
+        tabTitle.setText(routeInfo);
     }
 
     private void setupRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.rvScheduleTo);
-        mAdapter = new StopTimesAdapter(activityContext,routeInfo,getTimes());
+        mAdapter = new StopTimesAdapter(activityContext, routeInfo, getTimes());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(activityContext));
@@ -93,7 +98,12 @@ public class StopTimesActivity extends BaseActivity implements AdapterView.OnIte
     }
 
     private String[] getTimes() {
-        String[] times = DBHelper.getInstance(activityContext).getTimes(routeId, serviceId, 1, stopId);
+        String[] times;
+        if (isSubRoute) {
+            times = DBHelper.getInstance(activityContext).getTimes(tripName, serviceId, 1, stopId, isSubRoute);
+        } else {
+            times = DBHelper.getInstance(activityContext).getTimes(routeId, serviceId, 1, stopId, isSubRoute);
+        }
         if (times.length < 1) {
             // no stop times in the next 4 hrs
             switch (serviceId) {
@@ -108,7 +118,7 @@ public class StopTimesActivity extends BaseActivity implements AdapterView.OnIte
         return times;
     }
 
-    private void setupSpinner () {
+    private void setupSpinner() {
         spin = (Spinner) findViewById(R.id.spinSchedule);
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(activityContext,
@@ -130,7 +140,7 @@ public class StopTimesActivity extends BaseActivity implements AdapterView.OnIte
             intent.putExtra("STOP_ID", stopId);
             intent.putExtra("SERVICE_ID", SERVICES[position]);
             intent.putExtra("DIRECTION_ID", directionId);
-            intent.putExtra("SPINNER_SELECTION",position);
+            intent.putExtra("SPINNER_SELECTION", position);
             Log.i("MyActivity", "Spinner item selected");
             startActivity(intent);
             finish();

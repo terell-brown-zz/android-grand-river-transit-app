@@ -25,10 +25,10 @@ public class SchedulePageAdapter extends FragmentStatePagerAdapter {
         Fragment tab;
         switch (position) {
             case 0:
-                tab = new ToTab();
+                tab = new InboundTab();
                 break;
             default:
-                tab = new FromTab();
+                tab = new OutboundTab();
                 break;
         }
         return tab;

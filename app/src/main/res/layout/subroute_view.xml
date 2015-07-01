@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/row_height"
+    android:orientation="horizontal"
+    android:background="@android:drawable/list_selector_background"
+    android:weightSum="100">
+
+    <TextView
+        android:id="@+id/tvRouteNo"
+        android:layout_width="@dimen/row_content_height"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/row_margin_top"
+        android:layout_marginBottom="@dimen/row_margin_bottom"
+        android:layout_marginLeft="@dimen/row_margin_left"
+        android:layout_gravity="center"
+        android:paddingLeft="@dimen/row_title_padding"
+        android:textSize="@dimen/text_size_row_contents"
+        android:fontFamily="Roboto Black"
+        android:textColor="@color/text_black"
+        android:gravity="top"
+        tools:text="@string/sample_text_route_no"/>
+
+    <TextView
+        android:id="@+id/tvRouteName"
+        android:layout_width="@dimen/row_width"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/row_margin_top"
+        android:layout_marginBottom="@dimen/row_margin_bottom"
+        android:layout_gravity="center_vertical"
+        android:textSize="@dimen/text_size_row_contents"
+        android:fontFamily="Roboto Black"
+        android:textColor="@color/text_black"
+        android:gravity="center_vertical"
+        tools:text="@string/sample_text_route_name"/>
+
+</LinearLayout>

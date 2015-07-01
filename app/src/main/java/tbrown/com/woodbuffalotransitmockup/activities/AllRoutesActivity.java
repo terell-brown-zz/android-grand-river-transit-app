@@ -47,6 +47,7 @@ public class AllRoutesActivity extends BaseActivity {
     }
 
     public String[] getAllRoutes() {
-        return DBHelper.getInstance(activityContext).getAllRoutes();
+        DBHelper dbHelper = new DBHelper(activityContext);
+        return dbHelper.getAllRoutes();
     }
 }

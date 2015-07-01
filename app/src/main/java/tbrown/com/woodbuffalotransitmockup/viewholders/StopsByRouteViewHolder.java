@@ -33,32 +33,37 @@ public class StopsByRouteViewHolder extends RecyclerView.ViewHolder implements V
     // Business Logic
     private String routeInfo;
     private String stopInfo;
-    private int routeNo;
+    private String routeNo;
     private int stopId;
     private boolean isFavourited;
+    private boolean isSubRoute;
 
     // Constants
     private static final String WEEKDAYS_ALL = Constants.WEEKDAYS_ALL;
 
-    public StopsByRouteViewHolder(Context context, boolean isFavourited, View row) {
+    public StopsByRouteViewHolder(Context context, boolean isFavourited, boolean isSubroute, View row) {
         super(row);
         row.setClickable(true);
         activityContext = context;
         this.isFavourited = isFavourited;
-        this.tvStopName = (TextView) row.findViewById(R.id.tvStopName);
+        isSubRoute = isSubroute;
+        tvStopName = (TextView) row.findViewById(R.id.tvStopName);
         row.setOnClickListener(this);
         row.setOnLongClickListener(this);
     }
 
-    public void bindModel(String routeName, int routeNo, String stopName) {
-        this.routeInfo = routeName;
-        this.routeNo = routeNo;
-        this.stopInfo = stopName;
+    public void bindModel(String routeName, String routeId, String stopName) {
+        routeInfo = routeName;
+        routeNo = routeId;
+        stopInfo = stopName;
 
         // index separating route number and route name in routeInfo
         int indexOfSeparation = Utilities.getSeparatingIndex(stopInfo); // add to utilities class
         stopId = Integer.parseInt(stopInfo.substring(0, indexOfSeparation));
 
+        // index separating route number and route name in routeInfo
+        //indexOfSeparation = Utilities.getSeparatingIndex(stopName); // add to utilities class
+        //routeNo = routeName.substring(0, indexOfSeparation);
         tvStopName.setText(stopName);
     }
 
@@ -72,20 +77,21 @@ public class StopsByRouteViewHolder extends RecyclerView.ViewHolder implements V
     }
 
     public void showStopDetails() {
+        String serviceId = DateTimeUtil.getServiceId();
         Intent stopDetailsIntent = new Intent("tbrown.com.woodbuffalotransitmockup.STOP_TIMES");
         stopDetailsIntent.putExtra("ROUTE_INFO", routeInfo);
         stopDetailsIntent.putExtra("ROUTE_NO", routeNo);
         stopDetailsIntent.putExtra("STOP_INFO", stopInfo);
         stopDetailsIntent.putExtra("STOP_ID", stopId);
-        stopDetailsIntent.putExtra("SERVICE_ID", WEEKDAYS_ALL);
+        stopDetailsIntent.putExtra("SERVICE_ID", serviceId);
         stopDetailsIntent.putExtra("DIRECTION_ID", 1);
-        stopDetailsIntent.putExtra("SPINNER_SELECTION", 0);
+        stopDetailsIntent.putExtra("SPINNER_SELECTION",Utilities.getCurrentSpinnerItem(serviceId));
+        stopDetailsIntent.putExtra("IS_SUBROUTE",isSubRoute);
         stopDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activityContext.startActivity(stopDetailsIntent);
     }
 
     private void showUpcomingStopTimes() {
-
         DBHelper dbHelper = DBHelper.getInstance(activityContext);//new DBHelper(activityContext);
 
         String stopNo = "" + stopId;
@@ -98,7 +104,12 @@ public class StopsByRouteViewHolder extends RecyclerView.ViewHolder implements V
         Intent intent = new Intent("tbrown.com.woodbuffalotransitmockup.STOP_INFO");
         intent.putExtra("STOP_NAME", stopInfo);
         intent.putExtra("ROUTES", DBUtils.twoDToOneDArray(times, 0));
-        intent.putExtra("TIMES", DBUtils.twoDToOneDArray(times, 1));
+        try {
+            intent.putExtra("TIMES", DBUtils.twoDToOneDArray(times, 1));
+        } catch(ArrayIndexOutOfBoundsException e) {
+            intent.putExtra("TIMES", new String[]{""});
+        }
+
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activityContext.startActivity(intent);
     }

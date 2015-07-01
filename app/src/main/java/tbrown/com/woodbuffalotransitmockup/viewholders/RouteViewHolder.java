@@ -12,33 +12,34 @@ import android.widget.Toast;
 
 import tbrown.com.woodbuffalotransitmockup.Favourites;
 import tbrown.com.woodbuffalotransitmockup.R;
+import tbrown.com.woodbuffalotransitmockup.database.DBHelper;
+import tbrown.com.woodbuffalotransitmockup.util.DBUtils;
 import tbrown.com.woodbuffalotransitmockup.util.FavouritesUtil;
 import tbrown.com.woodbuffalotransitmockup.util.Utilities;
 
-
-/**
- * Holds
- */
 public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
 
     // Backend Components
-    private Context activityContext;
+    protected Context activityContext;
 
     // UI
     private TextView tvRouteName;
     private TextView tvRouteNo;
 
     // Transit Info
-    private String mRouteInfo;
-    private String routeNo;
-    private String routeName;
+    protected String mRouteInfo;
+    protected String routeNo;
+    protected String routeName;
+    protected String[] subRoutes;
+    protected int noDirections; // how many directions does the bus go in?
 
     // Business Logic
-    private boolean isFavourited;
+    protected boolean isFavourited;
+    protected boolean isSubRoute = false;
 
-    private SharedPreferences favourites;
+    protected SharedPreferences favourites;
 
-    public RouteViewHolder(Context context,boolean showAsFavourite, View row) {
+    public RouteViewHolder(Context context, boolean showAsFavourite, View row) {
         super(row);
         activityContext = context;
         this.isFavourited = showAsFavourite;
@@ -53,10 +54,10 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
         row.setOnLongClickListener(this);
     }
 
-    public void bindModel(String routeInfo) {
+    public void bindModel(String routeInfo, boolean isSubRoute) {
         // writes retrieved data to UI views
-        mRouteInfo = routeInfo;
-
+        this.mRouteInfo = routeInfo;
+        this.isSubRoute = isSubRoute;
         routeNo = extractRouteNo(mRouteInfo);
         routeName = extractRouteName(mRouteInfo);
         tvRouteNo.setText(routeNo);
@@ -66,7 +67,12 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
     private String extractRouteNo(String routeInfo) {
         // index separating route number and route name in routeInfo
         int indexOfSeparation = Utilities.getSeparatingIndex(routeInfo);
-        String routeNo = routeInfo.substring(0, indexOfSeparation);
+        String routeNo;
+        try {
+            routeNo = routeInfo.substring(0, indexOfSeparation);
+        } catch (StringIndexOutOfBoundsException e) {
+            routeNo = "0";
+        }
         if (routeNo.equals("0")) {
             return "";
         } else {
@@ -77,18 +83,46 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
     private String extractRouteName(String routeInfo) {
         // index separating route number and route name in routeInfo
         int indexOfSeparation = Utilities.getSeparatingIndex(routeInfo);
-        return routeInfo.substring(indexOfSeparation);
+
+        try {
+            return routeInfo.substring(indexOfSeparation);
+        } catch (StringIndexOutOfBoundsException e) {
+            return routeInfo;
+        }
+
     }
 
     @Override
     public void onClick(View v) {
-        showRouteDetails();
+        DBHelper dbHelper = DBHelper.getInstance(activityContext);
+        subRoutes = dbHelper.getSubRoutes(routeNo);
+        if (subRoutes.length > 1) {
+            showSubRoutes();
+        } else {
+            noDirections = dbHelper.getNumDirectionsByRouteNo(routeNo);
+            showRouteDetails(false);
+        }
+
     }
 
-    public void showRouteDetails() {
+    private void showSubRoutes() {
+        Intent routeDetailsIntent = new Intent("tbrown.com.woodbuffalotransitmockup.SUB_ROUTES");
+        routeDetailsIntent.putExtra("ROUTE_NAME", routeName);
+        routeDetailsIntent.putExtra("ROUTE_NO", routeNo);
+        routeDetailsIntent.putExtra("SUB_ROUTES", subRoutes);
+        routeDetailsIntent.putExtra("IS_SUBROUTE", isSubRoute);
+        routeDetailsIntent.putExtra("ROUTE_INFO",mRouteInfo);
+        routeDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activityContext.startActivity(routeDetailsIntent);
+    }
+
+    public void showRouteDetails(boolean isSubRoute) {
         Intent routeDetailsIntent = new Intent("tbrown.com.woodbuffalotransitmockup.ROUTE_DETAILS");
         routeDetailsIntent.putExtra("ROUTE_INFO", mRouteInfo);
-        routeDetailsIntent.putExtra("ROUTE_NO", Integer.parseInt(routeNo));
+        routeDetailsIntent.putExtra("ROUTE_NAME", routeName);
+        routeDetailsIntent.putExtra("ROUTE_NO", routeNo);
+        routeDetailsIntent.putExtra("NUM_DIRECTIONS", noDirections);
+        routeDetailsIntent.putExtra("IS_SUBROUTE", isSubRoute);
         routeDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activityContext.startActivity(routeDetailsIntent);
     }
@@ -106,8 +140,7 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
         return true;
     }
 
-    private void setupFavourites() {
-        // TODO: move this method to the FavouritesUtil Class and use Singleton Design Pattern
+    protected void setupFavourites() {
         favourites = Favourites.getInstance(activityContext);
     }
 

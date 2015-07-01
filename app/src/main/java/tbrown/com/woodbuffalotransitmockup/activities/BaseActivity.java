@@ -39,7 +39,7 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbHelper = DBHelper.getInstance(getBaseContext());
+        //dbHelper = DBHelper.getInstance(getBaseContext());
     }
 
     protected void setupToolbar(String title) {

@@ -11,4 +11,7 @@
     <item type ="id" name="details_stops" />
     <item type="id" name="spacer_routes" />
     <item type ="id" name="details_routes" />
+    <item  type="id" name="spacer_subroutes" />
+    <item type="id" name="details_subroutes" />
+
 </resources>

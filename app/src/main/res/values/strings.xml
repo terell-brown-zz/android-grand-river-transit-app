@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">Wood Buffalo Transit Mockup</string>
+    <string name="app_name">Waterloo Transit</string>
     <string name="action_settings">Settings</string>
 
     <!-- Activity Titles -->
@@ -12,26 +12,26 @@
     <string name="title_activity_stops_map">Map of Stops</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_stop_info">Stop Times</string>
+    <string name="title_activity_sub_routes">Sub Routes</string>
+    <string name="title_activity_route_details">SubRoutes</string>
 
     <!-- Other Titles -->
     <string name="title_toolbar">Select A Route</string>
     <string name="title_spacer_stops">Stops</string>
     <string name="title_spacer_all_routes">All Routes</string>
 
-
     <!-- Navigation Drawer -->
     <string name="drawer_open">Drawer Opened</string>
     <string name="drawer_closed">Drawer Closed</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
     <string-array name="drawer_navigation">
         <item>Favourites</item>
         <item>Nearby</item>
         <item>Trip Planner</item>
         <item>All Routes</item>
     </string-array>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
 
     <!-- Sample Text for XML Layouts -->
     <string name="sample_text_1_stop_info">7D - UW Via Columbia</string>

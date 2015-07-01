@@ -1,7 +1,12 @@
 package tbrown.com.woodbuffalotransitmockup.util;
 
+import android.content.Context;
 import android.database.Cursor;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -13,7 +18,7 @@ import tbrown.com.woodbuffalotransitmockup.database.DBHelper;
  * Provides methods to be used the maps in app
  */
 public class MapUtils {
-
+// GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
     public static void addNearbyStopMarkers(GoogleMap map, DBHelper dbHelper, LatLng location) {
         // adds markers to the map representing the 8 nearest bus stops to
         // the current camera position
@@ -66,5 +71,19 @@ public class MapUtils {
                 .snippet(descr) // stop number
                 .position(location) // stop co-ordinates
         );
+    }
+
+    public static Location getCurrentLocation(Context context) {
+        // Get LocationManager object from System Service LOCATION_SERVICE
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+
+        // Create a criteria object to retrieve provider
+        Criteria criteria = new Criteria();
+
+        // Get the name of the best provider
+        String provider = locationManager.getBestProvider(criteria, true);
+
+        // Get Current Location
+        return locationManager.getLastKnownLocation(provider);
     }
 }

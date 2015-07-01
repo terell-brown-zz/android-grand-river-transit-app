@@ -30,5 +30,4 @@ dependencies {
     compile 'com.google.android.gms:play-services:7.0.0'
     compile 'com.getbase:floatingactionbutton:1.9.0'
     compile 'com.nispok:snackbar:2.10.+'
-
 }
