@@ -8,18 +8,19 @@ import android.location.LocationManager;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
+
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.listeners.ActionClickListener;
@@ -35,14 +36,15 @@ import tbrown.com.woodbuffalotransitmockup.util.MapUtils;
  */
 
 public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMarkerClickListener, GoogleMap.OnCameraChangeListener, ActionClickListener,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     // UI
     private FragmentManager fm;
 
     // Map Fields
     private GoogleMap map;
-    private LatLng lastKnownLocation;
+    private GoogleApiClient mGoogleApiClient;
+    private LatLng lastCameraLocation;
     private boolean wasMarkerClicked = true;
     private Location currentLocation;
     private double currentLong;
@@ -59,21 +61,68 @@ public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMar
     // Constants
     private static final String TOOLBAR_TITLE = Constants.TITLE_NEARBY;
     private static final int NAV_ID = Constants.NEARBY;
-    private GoogleApiClient mGoogleApiClient;
-    private Location mLastLocation;
-
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby);
+
+        // Setup Backend Components
         activityContext = getBaseContext();
         setupDatabase(activityContext);
 
+        // Setup UI
         setupToolbar(TOOLBAR_TITLE);
         setupNavDrawer(NAV_ID);
-        addMap();
         setupMap();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (dbHelper == null) {
+            setupDatabase(activityContext);
+        }
+
+        if (map == null) {
+            setupMap();
+        }
+        setupGooglePlayServices();
+    }
+
+    private void setupMap() {
+        fm = getSupportFragmentManager();
+        map = ((SupportMapFragment) fm.findFragmentById(R.id.map_nearby_stops)).getMap(); // a google map fragment
+
+        map.setMyLocationEnabled(true);
+        map.setOnMarkerClickListener(this);
+        map.setOnCameraChangeListener(this);
+    }
+
+    private void setupGooglePlayServices() {
+        if(checkPlayServices()) {
+            buildGoogleApiClient();
+            mGoogleApiClient.connect();
+        }
+    }
+
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this,PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "This device is not supported.", Toast.LENGTH_LONG)
+                        .show();
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -84,43 +133,8 @@ public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMar
                 .build();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        activityContext = getBaseContext();
-
-        if (dbHelper == null) {
-            setupDatabase(activityContext);
-        }
-
-        if (map == null) {
-            addMap();
-            setupMap();
-        }
-    }
-
-    private void addMap() {
-        fm = getSupportFragmentManager();
-        map = ((SupportMapFragment) fm.findFragmentById(R.id.map_nearby_stops)).getMap(); // a google map fragment
-        //buildGoogleApiClient();
-        //mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-    }
-
-    private void setupMap() {
-
-        getCurrentLocation();
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                new LatLng(currentLat, currentLong), cameraZoom));
-        lastKnownLocation = map.getCameraPosition().target;
-        MapUtils.addNearbyStopMarkers(map, dbHelper, lastKnownLocation);
-        map.setMyLocationEnabled(true);
-        map.setOnMarkerClickListener(this);
-        map.setOnCameraChangeListener(this);
-    }
-
     private void getCurrentLocation() {
-
-        currentLocation = MapUtils.getCurrentLocation(activityContext.getApplicationContext());
+        currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
         if (currentLocation != null) {
             currentLat = currentLocation.getLatitude();
@@ -131,8 +145,6 @@ public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMar
             cameraZoom = 11;
         }
     }
-
-
 
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
@@ -201,17 +213,21 @@ public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMar
 
     @Override
     public void onConnected(Bundle bundle) {
-
+        getCurrentLocation();
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLat, currentLong), cameraZoom));
+        lastCameraLocation = map.getCameraPosition().target;
+        MapUtils.addNearbyStopMarkers(map, dbHelper, lastCameraLocation);
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        mGoogleApiClient.connect();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
+        Log.i("Location Servicces", "Connection failed: ConnectionResult.getErrorCode() = "
+                + connectionResult.getErrorCode());
     }
 }
 
