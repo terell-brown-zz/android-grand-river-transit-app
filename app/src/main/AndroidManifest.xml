@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tbrown.com.woodbuffalotransitmockup"
+    package="simba.com.waterlootransit"
     android:versionCode="1"
     android:versionName="1.0">
 
@@ -34,89 +34,89 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name="simba.com.waterlootransit.activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="tbrown.com.woodbuffalotransitmockup.MAIN" />
-                <action android:name="tbrown.com.woodbuffalotransitmockup.FAVOURITES" />
+                <action android:name="simba.com.waterlootransit.MAIN" />
+                <action android:name="simba.com.waterlootransit.FAVOURITES" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".activities.FavouritesActivity"
+            android:name="simba.com.waterlootransit.activities.FavouritesActivity"
             android:label="@string/title_activity_favourites"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="tbrown.com.woodbuffalotransitmockup.FAVOURITES" />
+                <action android:name="simba.com.waterlootransit.FAVOURITES" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".activities.NearbyStopsActivity"
+            android:name="simba.com.waterlootransit.activities.NearbyStopsActivity"
             android:label="@string/title_activity_nearby"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="tbrown.com.woodbuffalotransitmockup.NEARBY" />
+                <action android:name="simba.com.waterlootransit.NEARBY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".activities.TripPlannerActivity"
+            android:name="simba.com.waterlootransit.activities.TripPlannerActivity"
             android:label="@string/title_activity_trip_planner"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="tbrown.com.woodbuffalotransitmockup.PLANNER" />
+            <intent-filter>wa
+                <action android:name="simba.com.waterlootransit.PLANNER" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".activities.AllRoutesActivity"
+            android:name="simba.com.waterlootransit.activities.AllRoutesActivity"
             android:label="@string/title_activity_all_routes"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="tbrown.com.woodbuffalotransitmockup.ALL_ROUTES" />
+                <action android:name="simba.com.waterlootransit.ALL_ROUTES" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".activities.SubRouteActivity"
+            android:name="simba.com.waterlootransit.activities.SubRouteActivity"
             android:label="@string/title_activity_sub_routes"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="tbrown.com.woodbuffalotransitmockup.SUB_ROUTES" />
+                <action android:name="simba.com.waterlootransit.SUB_ROUTES" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".activities.RouteDetailsActivity"
+            android:name="simba.com.waterlootransit.activities.RouteDetailsActivity"
             android:label="@string/title_activity_route_details"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="tbrown.com.woodbuffalotransitmockup.ROUTE_DETAILS" />
+                <action android:name="simba.com.waterlootransit.ROUTE_DETAILS" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".activities.StopTimesActivity"
+            android:name="simba.com.waterlootransit.activities.StopTimesActivity"
             android:label="@string/title_activity_stop_details"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="tbrown.com.woodbuffalotransitmockup.STOP_TIMES" />
+                <action android:name="simba.com.waterlootransit.STOP_TIMES" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -132,22 +132,22 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activities.StopsMapActivity"
+            android:name="simba.com.waterlootransit.activities.StopsMapActivity"
             android:label="@string/title_activity_stops_map"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="tbrown.com.woodbuffalotransitmockup.MAP_STOPS" />
+                <action android:name="simba.com.waterlootransit.MAP_STOPS" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".activities.StopInfoActivity"
+            android:name="simba.com.waterlootransit.activities.StopInfoActivity"
             android:label="@string/title_activity_stop_info"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="tbrown.com.woodbuffalotransitmockup.STOP_INFO" />
+                <action android:name="simba.com.waterlootransit.STOP_INFO" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

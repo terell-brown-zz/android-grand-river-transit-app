@@ -17,7 +17,7 @@
         android:layout_width="match_parent" />
 
     <!-- tabs below toolbar -->
-    <tbrown.com.woodbuffalotransitmockup.slidingtabs.SlidingTabLayout
+    <simba.com.waterlootransit.slidingtabs.SlidingTabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
