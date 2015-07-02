@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import tbrown.com.woodbuffalotransitmockup.Constants;
 import tbrown.com.woodbuffalotransitmockup.R;
@@ -43,6 +44,7 @@ public class RouteDetailsActivity extends BaseActivity {
         setupToolbar();
         setupViewPager();
         setupTabs();
+        Toast.makeText(getBaseContext(), "Long press on stops to add to favourites", Toast.LENGTH_SHORT).show();
     }
 
     private void getRouteInfo() {

@@ -22,7 +22,14 @@
             <include android:id = "@+id/content"
                 layout="@layout/fragment_trip_planner"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
+
+            <TextView android:id="@+id/tvInternetDisabled"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/wifi_disabled"
+                android:visibility="invisible"/>
 
         </FrameLayout>
 

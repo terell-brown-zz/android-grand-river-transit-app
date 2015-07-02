@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +17,7 @@ import tbrown.com.woodbuffalotransitmockup.Constants;
 import tbrown.com.woodbuffalotransitmockup.R;
 import tbrown.com.woodbuffalotransitmockup.adapters.StopTimesAdapter;
 import tbrown.com.woodbuffalotransitmockup.database.DBHelper;
+import tbrown.com.woodbuffalotransitmockup.Debug;
 import tbrown.com.woodbuffalotransitmockup.util.SimpleDividerItemDecoration;
 
 /**
@@ -141,7 +141,7 @@ public class StopTimesActivity extends BaseActivity implements AdapterView.OnIte
             intent.putExtra("SERVICE_ID", SERVICES[position]);
             intent.putExtra("DIRECTION_ID", directionId);
             intent.putExtra("SPINNER_SELECTION", position);
-            Log.i("MyActivity", "Spinner item selected");
+            if (Debug.LOG_ON) {Log.i("MyActivity", "Spinner item selected");}
             startActivity(intent);
             finish();
         }

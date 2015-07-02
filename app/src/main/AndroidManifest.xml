@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tbrown.com.woodbuffalotransitmockup">
+    package="tbrown.com.woodbuffalotransitmockup"
+    android:versionCode="1"
+    android:versionName="1.0">
 
     <!-- ANDROID SDK COMPATIBILITY -->
     <uses-sdk
@@ -131,7 +133,8 @@
 
         <activity
             android:name=".activities.StopsMapActivity"
-            android:label="@string/title_activity_stops_map">
+            android:label="@string/title_activity_stops_map"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="tbrown.com.woodbuffalotransitmockup.MAP_STOPS" />
 

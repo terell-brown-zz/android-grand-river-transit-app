@@ -123,6 +123,7 @@ public class InboundTab extends Fragment implements View.OnClickListener {
                 showMapsIntent.putExtra("ROUTE_NO",routeId);
                 showMapsIntent.putExtra("DIRECTION_ID",DIRECTION_ID);
                 showMapsIntent.putExtra("STOP_IDS",stopIds);
+                showMapsIntent.putExtra("IS_SUBROUTE",isSubRoute);
                 startActivity(showMapsIntent);
                 break;
         }

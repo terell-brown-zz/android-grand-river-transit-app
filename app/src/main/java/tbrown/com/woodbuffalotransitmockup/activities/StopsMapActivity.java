@@ -42,9 +42,11 @@ public class StopsMapActivity extends FragmentActivity implements GoogleMap.OnMa
     private String routeInfo;
     private String routeNo;
     private int directionId;
+    private boolean isSubRoute;
 
     // Constants
     private static final String WEEKDAYS_ALL = Constants.WEEKDAYS_ALL;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,7 @@ public class StopsMapActivity extends FragmentActivity implements GoogleMap.OnMa
 
     private void getTransitInfo() {
         Intent intent = getIntent();
+        isSubRoute = intent.getBooleanExtra("IS_SUBROUTE",false);
         stopIds = intent.getStringArrayExtra("STOP_IDS");
         routeNo = intent.getStringExtra("ROUTE_NO");
         routeInfo = intent.getStringExtra("ROUTE_INFO");
@@ -110,6 +113,7 @@ public class StopsMapActivity extends FragmentActivity implements GoogleMap.OnMa
                     stopDetailsIntent.putExtra("SERVICE_ID",WEEKDAYS_ALL);
                     stopDetailsIntent.putExtra("DIRECTION_ID",directionId);
                     stopDetailsIntent.putExtra("SPINNER_SELECTION",0);
+                    stopDetailsIntent.putExtra("IS_SUBROUTE",isSubRoute);
                     stopDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                     android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_FOREGROUND);

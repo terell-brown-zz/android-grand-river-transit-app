@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import tbrown.com.woodbuffalotransitmockup.Constants;
 import tbrown.com.woodbuffalotransitmockup.R;
@@ -38,6 +39,7 @@ public class SubRouteActivity extends BaseActivity {
         getTransitInfo();
         setupToolbar(routeNo + " " + routeName);
         setUpRecyclerView(); // shows list of sub routes
+        Toast.makeText(activityContext, "Long press on routes to add to favourites", Toast.LENGTH_LONG).show();
     }
 
     private void getTransitInfo() {

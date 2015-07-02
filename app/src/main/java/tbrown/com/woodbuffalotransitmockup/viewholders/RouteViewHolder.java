@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,7 +12,6 @@ import android.widget.Toast;
 import tbrown.com.woodbuffalotransitmockup.Favourites;
 import tbrown.com.woodbuffalotransitmockup.R;
 import tbrown.com.woodbuffalotransitmockup.database.DBHelper;
-import tbrown.com.woodbuffalotransitmockup.util.DBUtils;
 import tbrown.com.woodbuffalotransitmockup.util.FavouritesUtil;
 import tbrown.com.woodbuffalotransitmockup.util.Utilities;
 

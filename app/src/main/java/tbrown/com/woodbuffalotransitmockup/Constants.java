@@ -32,6 +32,7 @@ public class Constants {
     public static final String urlGoogleTripPlanner = "https://www.google.com/maps/dir///";
     public static final double WATERLOO_LAT = 43.467;
     public static final double WATERLOO_LONG = -80.517;
+    public static final double DISTANCE_CUTTOFF = 35000; // meters
 
 
     // Transit Directions

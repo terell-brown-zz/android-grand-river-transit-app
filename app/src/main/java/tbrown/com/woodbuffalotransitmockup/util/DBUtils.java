@@ -2,28 +2,13 @@ package tbrown.com.woodbuffalotransitmockup.util;
 
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
-import android.util.Log;
-
-import tbrown.com.woodbuffalotransitmockup.database.DBHelper;
-import tbrown.com.woodbuffalotransitmockup.util.DateTimeUtil;
 
 /**
- * Created by tmast_000 on 5/22/2015.
+ * Provides methods used throughout the app to deal with database query results
  */
 public class DBUtils {
 
     private static final String TAG = "MyActivity";
-
-    public static void checkCursor(Cursor c) {
-        Log.e(TAG, "Validating the cursor");
-        if (c.getCount() < 1) {
-            Log.i(TAG, "Query returned zero results.");
-        } else {
-            Log.i(TAG, "Query was successful.");
-            Log.i(TAG, "" + c.getCount() + " rows returned...");
-            Log.i(TAG, "" + c.getColumnCount() + " columns returned...");
-        }
-    }
 
     public static String arrayToString(String[] array) {
         // Converts string array to a single string, each value seperated by "|"

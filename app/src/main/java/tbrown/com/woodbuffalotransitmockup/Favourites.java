@@ -15,7 +15,6 @@ public class Favourites {
         if (favourites == null) {
             favourites = context.getApplicationContext().getSharedPreferences(sharedPrefs, Context.MODE_PRIVATE);
         }
-
         return favourites;
     }
 }

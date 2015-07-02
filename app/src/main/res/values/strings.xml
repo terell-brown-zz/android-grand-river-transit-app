@@ -41,6 +41,7 @@
     <string name="sample_text_1_stop">Name of Stop Here</string>
     <string name="sample_text_stop_times">7:30 AM</string>
     <string name="sample_text_toolbar">Toolbar</string>
+    <string name="wifi_disabled">Please enable an internet connection.</string>
 
     <!-- For Spinner View -->
     <string-array name="transit_services">

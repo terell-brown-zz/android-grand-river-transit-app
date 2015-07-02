@@ -61,7 +61,11 @@ public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMar
     // Constants
     private static final String TOOLBAR_TITLE = Constants.TITLE_NEARBY;
     private static final int NAV_ID = Constants.NEARBY;
-    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
+    private static final double WATERLOO_LAT = Constants.WATERLOO_LAT;
+    private static final double WATERLOO_LONG = Constants.WATERLOO_LONG;
+    private static final double DISTANCE_CUTTOFF = Constants.DISTANCE_CUTTOFF;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -134,15 +138,27 @@ public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMar
     }
 
     private void getCurrentLocation() {
+
         currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+        float distance = 0;
 
         if (currentLocation != null) {
             currentLat = currentLocation.getLatitude();
             currentLong = currentLocation.getLongitude();
-        } else {
-            currentLat = Constants.WATERLOO_LAT;
-            currentLong = Constants.WATERLOO_LONG;
+
+            float[] result = new float[3];
+
+            // Get Distance From Current Location and Waterloo - stored in result[0]
+            Location.distanceBetween(currentLat, WATERLOO_LAT, currentLong, WATERLOO_LONG, result);
+            distance = result[0]; // in meters
+        }
+
+        if (currentLocation == null || distance > DISTANCE_CUTTOFF) {
+            currentLat = WATERLOO_LAT;
+            currentLong = WATERLOO_LONG;
             cameraZoom = 11;
+            Toast.makeText(activityContext,"There are no nearby GRT stops.",Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import tbrown.com.woodbuffalotransitmockup.Constants;
 import tbrown.com.woodbuffalotransitmockup.R;
@@ -34,6 +35,7 @@ public class AllRoutesActivity extends BaseActivity {
         setupToolbar(TOOLBAR_TITLE);
         setUpRecyclerView(); // shows list of routes
         setupNavDrawer(NAV_ID);
+        Toast.makeText(activityContext, "Long press on routes to add to favourites", Toast.LENGTH_SHORT).show();
     }
 
     private void setUpRecyclerView() {

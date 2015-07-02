@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
+import tbrown.com.woodbuffalotransitmockup.Debug;
 import tbrown.com.woodbuffalotransitmockup.util.DBUtils;
 import tbrown.com.woodbuffalotransitmockup.util.DateTimeUtil;
 
@@ -75,7 +76,7 @@ public class DBHelper extends SQLiteAssetHelper {
                         "ON the_stops.my_stops = stops.stop_id" +
                         " ORDER BY stops.stop_name";
         Cursor c = db.rawQuery(query, null);
-        Log.i("MyActivity", query);
+        if (Debug.LOG_ON) {Log.i("MyActivity", query);}
         c.moveToFirst();
         checkCursor(c); // indicates details of query in log under MyActivity TAG
         db.close();
@@ -96,7 +97,7 @@ public class DBHelper extends SQLiteAssetHelper {
                         "ON the_stops.my_stops = stops.stop_id" +
                         " ORDER BY stops.stop_name";
         Cursor c = db.rawQuery(query, null);
-        Log.i("MyActivity", query);
+        if (Debug.LOG_ON) {Log.i("MyActivity", query);}
         c.moveToFirst();
         checkCursor(c); // indicates details of query in log under MyActivity TAG
         db.close();
@@ -126,7 +127,7 @@ public class DBHelper extends SQLiteAssetHelper {
                 "SELECT stop_id, stop_name, stop_lat, stop_lon FROM stops" +
                         " WHERE stop_id IN( " + inStatement + ")";
         Cursor c = db.rawQuery(query, null);
-        Log.i("MyActivity", query);
+        if (Debug.LOG_ON) {Log.i("MyActivity", query);}
         c.moveToFirst();
         checkCursor(c); // indicates details of query in log under MyActivity TAG
         db.close();
@@ -153,7 +154,7 @@ public class DBHelper extends SQLiteAssetHelper {
                 " WHERE my_stops =" + stopId +
                 " ORDER BY my_times ";
 
-        Log.i("MyActivity", query);
+        if (Debug.LOG_ON) {Log.i("MyActivity", query);}
 
         // Run query
         Cursor c = db.rawQuery(query, null);
@@ -194,7 +195,7 @@ public class DBHelper extends SQLiteAssetHelper {
                 " WHERE my_stops =" + stopId +
                 " ORDER BY my_times ";
 
-        Log.i("MyActivity", query);
+        if (Debug.LOG_ON) {Log.i("MyActivity", query);}
 
         // Run query
         Cursor c = db.rawQuery(query, null);
@@ -217,7 +218,7 @@ public class DBHelper extends SQLiteAssetHelper {
                 ")) as distance FROM stops WHERE distance < 0.00003 ORDER BY distance" +
                 " LIMIT 8";
 
-        Log.i("MyActivity", query);
+        if (Debug.LOG_ON) {Log.i("MyActivity", query);}
 
         // Run query
         Cursor c = db.rawQuery(query, null);
@@ -243,7 +244,8 @@ public class DBHelper extends SQLiteAssetHelper {
                 "SELECT DISTINCT route_id FROM trips WHERE trip_id" +
                 " IN (SELECT trip_id FROM stop_times" +
                 " WHERE stop_id = " + stopId + ")";
-        Log.i("MyActivity", query);
+
+        if (Debug.LOG_ON) {Log.i("MyActivity", query);}
 
         // Run query
         Cursor c = db.rawQuery(query, null);
@@ -281,7 +283,7 @@ public class DBHelper extends SQLiteAssetHelper {
                 "' AND trips.route_id IN(" + routeIds + ")" +
                 " ORDER BY trips.route_id, trips.trip_headsign, stop_times.departure_time";
 
-        Log.i("MyActivity", query);
+        if (Debug.LOG_ON) {Log.i("MyActivity", query);}
         // Run raw query
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
@@ -293,20 +295,22 @@ public class DBHelper extends SQLiteAssetHelper {
 
     public String[][] getUpcomingTimes(String stopId, String serviceId, String[] routeIds) {
         String routes = DBUtils.arrayToString(routeIds);
-        Log.i("MyActivity", routes);
+        if (Debug.LOG_ON) {Log.i("MyActivity", routes);}
         Cursor queryUpcomingTimes = queryNearbyStopInfo(stopId, serviceId, routes);
         checkCursor(queryUpcomingTimes);
         return DBUtils.queryToStringArray(queryUpcomingTimes, routeIds.length);
     }
 
     private void checkCursor(Cursor c) {
-        Log.i(TAG, "Validating the cursor");
+        if (Debug.LOG_ON) {Log.i(TAG, "Validating the cursor");}
         if (c.getCount() < 1) {
-            Log.i(TAG, "Query returned zero results.");
+            if (Debug.LOG_ON) {Log.i(TAG, "Query returned zero results.");}
         } else {
-            Log.i(TAG, "Query was successful.");
-            Log.i(TAG, "" + c.getCount() + " rows returned...");
-            Log.i(TAG, "" + c.getColumnCount() + " columns returned...");
+            if (Debug.LOG_ON) {
+                Log.i(TAG, "Query was successful.");
+                Log.i(TAG, "" + c.getCount() + " rows returned...");
+                Log.i(TAG, "" + c.getColumnCount() + " columns returned...");
+            }
         }
     }
 
@@ -318,7 +322,7 @@ public class DBHelper extends SQLiteAssetHelper {
                 "SELECT DISTINCT trip_headsign FROM trips WHERE route_id = '" + routeNo + "'" +
                 "ORDER BY trip_headsign ASC;";
 
-        Log.i("SubRoutes", query);
+        if (Debug.LOG_ON) {Log.i("SubRoutes", query);}
         // Run raw query
         Cursor cSubRoutes = db.rawQuery(query, null);
         cSubRoutes.moveToFirst();
@@ -341,7 +345,7 @@ public class DBHelper extends SQLiteAssetHelper {
         String query = "" +
                 "SELECT DISTINCT direction_id FROM trips WHERE trip_headsign = '" + tripName + "';";
 
-        Log.i("Directions", query);
+        if (Debug.LOG_ON) {Log.i("Directions", query);}
         // Run raw query
         Cursor cSubRoutes = db.rawQuery(query, null);
         cSubRoutes.moveToFirst();
@@ -358,7 +362,7 @@ public class DBHelper extends SQLiteAssetHelper {
         String query = "" +
                 "SELECT DISTINCT direction_id FROM trips WHERE route_id = '" + routeNo + "';";
 
-        Log.i("Directions", query);
+        if (Debug.LOG_ON) {Log.i("Directions", query);}
         // Run raw query
         Cursor cSubRoutes = db.rawQuery(query, null);
         cSubRoutes.moveToFirst();
@@ -385,7 +389,7 @@ public class DBHelper extends SQLiteAssetHelper {
         String query = "" +
                 "SELECT DISTINCT direction_id from trips WHERE trip_headsign = '" + tripName + "';";
 
-        Log.i("Directions", query);
+        if (Debug.LOG_ON) {Log.i("Directions", query);}
         // Run raw query
         Cursor cDirection = db.rawQuery(query, null);
         cDirection.moveToFirst();
@@ -403,8 +407,8 @@ public class DBHelper extends SQLiteAssetHelper {
         // Build Query
         String query = "" +
                 "SELECT DISTINCT direction_id from trips WHERE route_id = '" + routeNo + "';";
+        if (Debug.LOG_ON) {Log.i("Directions", query);}
 
-        Log.i("Directions", query);
         // Run raw query
         Cursor cDirection = db.rawQuery(query, null);
         cDirection.moveToFirst();
