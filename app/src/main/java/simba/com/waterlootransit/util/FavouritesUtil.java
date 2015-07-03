@@ -12,8 +12,6 @@ import simba.com.waterlootransit.Constants;
  * Provides methods used for dealing with favourite stops and routes (stored in SharedPreferences)
  */
 public class FavouritesUtil {
-    // TODO: rename to FavouritesHelper
-    // TODO: implement singleton design pattern to create one instance of SharedPreferences for entire app
 
     // Constants
     private static final String KEY_ROUTE = Constants.KEY_ROUTE;

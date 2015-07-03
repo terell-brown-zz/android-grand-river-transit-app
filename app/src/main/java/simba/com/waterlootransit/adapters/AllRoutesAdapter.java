@@ -28,9 +28,9 @@ public class AllRoutesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private boolean isSubroute = false;
 
     public AllRoutesAdapter(Context context, String[] data) {
-        this.activityContext = context;
-        this.inflater = LayoutInflater.from(activityContext);
-        this.routes = data;
+        activityContext = context;
+        inflater = LayoutInflater.from(activityContext);
+        routes = data;
     }
 
     @Override

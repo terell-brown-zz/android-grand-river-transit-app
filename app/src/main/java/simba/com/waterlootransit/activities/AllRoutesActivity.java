@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import simba.com.waterlootransit.Constants;
 import simba.com.waterlootransit.R;
+import simba.com.waterlootransit.Settings;
 import simba.com.waterlootransit.adapters.AllRoutesAdapter;
 import simba.com.waterlootransit.database.DBHelper;
 import simba.com.waterlootransit.util.SimpleDividerItemDecoration;

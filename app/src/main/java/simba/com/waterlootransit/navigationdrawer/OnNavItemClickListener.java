@@ -1,5 +1,6 @@
 package simba.com.waterlootransit.navigationdrawer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
@@ -8,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import simba.com.waterlootransit.Constants;
+import simba.com.waterlootransit.activities.MainActivity;
 
 /**
  * Created by tmast_000 on 6/5/2015.
@@ -24,18 +26,18 @@ public class OnNavItemClickListener implements AdapterView.OnItemClickListener {
     // Business Logic
     private int NAV_DRAWER_POSITION;
 
-    public OnNavItemClickListener(Context activityContext,int navDrawerPosition,DrawerLayout dl,ListView lv) {
-        this.activityContext = activityContext;
-        this.NAV_DRAWER_POSITION = navDrawerPosition;
-        this.mDrawerLayout = dl;
-        this.mDrawerList = lv;
+    public OnNavItemClickListener(Context context,int navDrawerPosition,DrawerLayout dl,ListView lv) {
+        activityContext = context;
+        NAV_DRAWER_POSITION = navDrawerPosition;
+        mDrawerLayout = dl;
+        mDrawerList = lv;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (NAV_DRAWER_POSITION == position) {
-        } else {
 
+        } else {
             switch (position) {
                 case Constants.FAVOURITES:
                     activityContext.startActivity(
@@ -60,4 +62,5 @@ public class OnNavItemClickListener implements AdapterView.OnItemClickListener {
         }
         mDrawerLayout.closeDrawer(mDrawerList);
     }
+
 }
