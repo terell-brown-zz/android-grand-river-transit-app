@@ -61,7 +61,6 @@ public class RouteDetailsActivity extends BaseActivity {
         getSupportActionBar().setTitle("");
         toolbar.setTitle(getToolbarTitle());
         toolbar.setTitleTextColor(getResources().getColor(R.color.ColorToolbarTitle));
-        toolbar.setLogo(R.drawable.ic_bus);
     }
 
     private String getToolbarTitle() {

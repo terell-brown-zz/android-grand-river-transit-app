@@ -37,7 +37,6 @@ public class StopInfoActivity extends BaseActivity {
         activityContext = getBaseContext();
         getStopInfo();
         setupToolbar(stopName);
-        toolbar.setLogo(R.drawable.ic_bus);
         setUpRecyclerView();
     }
 

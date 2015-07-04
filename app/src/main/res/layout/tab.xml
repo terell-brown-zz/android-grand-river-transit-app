@@ -11,10 +11,12 @@
         android:id = "@+id/tvTabTitle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:fontFamily="Roboto Black"
-        android:textColor="@color/white"
+        android:gravity="left"
+        android:fontFamily="Roboto Italic"
+        android:textColor="@color/text_black"
         android:textSize="@dimen/text_size_toolbar"
-        tools:text = "@string/sample_text_toolbar"/>
+        android:elevation="@dimen/elevation_normal"
+        android:text = "@string/sample_text_toolbar"
+        android:focusableInTouchMode="false" />
 
 </android.support.v7.widget.Toolbar>

@@ -60,7 +60,7 @@ public class StopTimesActivity extends BaseActivity implements AdapterView.OnIte
         activityContext = getBaseContext();
         setContentView(R.layout.activity_stop_details);
         getTransitInfo();
-        setupToolbar(stopInfo);
+        setupToolbar(routeInfo);
         setupTab();
         setupSpinner(); // used to select service id
         setupRecyclerView();
@@ -84,7 +84,7 @@ public class StopTimesActivity extends BaseActivity implements AdapterView.OnIte
         setSupportActionBar(tab);
         getSupportActionBar().setTitle("");
         tabTitle = (TextView) tab.findViewById(R.id.tvTabTitle);
-        tabTitle.setText(routeInfo);
+        tabTitle.setText(stopInfo);
     }
 
     private void setupRecyclerView() {
@@ -140,6 +140,7 @@ public class StopTimesActivity extends BaseActivity implements AdapterView.OnIte
             intent.putExtra("STOP_ID", stopId);
             intent.putExtra("SERVICE_ID", SERVICES[position]);
             intent.putExtra("DIRECTION_ID", directionId);
+            intent.putExtra("IS_SUBROUTE", isSubRoute);
             intent.putExtra("SPINNER_SELECTION", position);
             if (Debug.LOG_ON) {Log.i("MyActivity", "Spinner item selected");}
             startActivity(intent);

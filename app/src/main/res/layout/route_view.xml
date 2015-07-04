@@ -17,7 +17,7 @@
             android:layout_gravity="center"
             android:paddingLeft="@dimen/row_title_padding"
             android:textSize="@dimen/text_size_row_contents"
-            android:fontFamily="Roboto Black"
+            android:fontFamily="Roboto Bold"
             android:textColor="@color/text_black"
             android:gravity="top"
             tools:text="@string/sample_text_route_no"/>
@@ -30,7 +30,7 @@
             android:layout_marginBottom="@dimen/row_margin_bottom"
             android:layout_gravity="center_vertical"
             android:textSize="@dimen/text_size_row_contents"
-            android:fontFamily="Roboto Black"
+            android:fontFamily="Roboto Thin"
             android:textColor="@color/text_black"
             android:gravity="center_vertical"
             tools:text="@string/sample_text_route_name"/>
