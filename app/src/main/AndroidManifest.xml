@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="simba.com.waterlootransit"
-    android:versionCode="3"
+    package="ca.simba.grtwaterloo"
+    android:versionCode="1"
     android:versionName="1.1">
 
     <!-- ANDROID SDK COMPATIBILITY -->
@@ -34,89 +34,89 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="simba.com.waterlootransit.activities.MainActivity"
+            android:name="ca.simba.grtwaterloo.activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="simba.com.waterlootransit.MAIN" />
-                <action android:name="simba.com.waterlootransit.FAVOURITES" />
+                <action android:name="ca.simba.grtwaterloo.activities.MAIN" />
+                <action android:name="ca.simba.grtwaterloo.activities.FAVOURITES" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name="simba.com.waterlootransit.activities.FavouritesActivity"
+            android:name="ca.simba.grtwaterloo.activities.FavouritesActivity"
             android:label="@string/title_activity_favourites"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="simba.com.waterlootransit.FAVOURITES" />
+                <action android:name="ca.simba.grtwaterloo.activities.FAVOURITES" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name="simba.com.waterlootransit.activities.NearbyStopsActivity"
+            android:name="ca.simba.grtwaterloo.activities.NearbyStopsActivity"
             android:label="@string/title_activity_nearby"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="simba.com.waterlootransit.NEARBY" />
+                <action android:name="ca.simba.grtwaterloo.activities.NEARBY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name="simba.com.waterlootransit.activities.TripPlannerActivity"
+            android:name="ca.simba.grtwaterloo.activities.TripPlannerActivity"
             android:label="@string/title_activity_trip_planner"
             android:screenOrientation="portrait">
             <intent-filter>wa
-                <action android:name="simba.com.waterlootransit.PLANNER" />
+                <action android:name="ca.simba.grtwaterloo.activities.PLANNER" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name="simba.com.waterlootransit.activities.AllRoutesActivity"
+            android:name="ca.simba.grtwaterloo.activities.AllRoutesActivity"
             android:label="@string/title_activity_all_routes"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="simba.com.waterlootransit.ALL_ROUTES" />
+                <action android:name="ca.simba.grtwaterloo.activities.ALL_ROUTES" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name="simba.com.waterlootransit.activities.SubRouteActivity"
+            android:name="ca.simba.grtwaterloo.activities.SubRouteActivity"
             android:label="@string/title_activity_sub_routes"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="simba.com.waterlootransit.SUB_ROUTES" />
+                <action android:name="ca.simba.grtwaterloo.activities.SUB_ROUTES" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name="simba.com.waterlootransit.activities.RouteDetailsActivity"
+            android:name="ca.simba.grtwaterloo.activities.RouteDetailsActivity"
             android:label="@string/title_activity_route_details"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="simba.com.waterlootransit.ROUTE_DETAILS" />
+                <action android:name="ca.simba.grtwaterloo.activities.ROUTE_DETAILS" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name="simba.com.waterlootransit.activities.StopTimesActivity"
+            android:name="ca.simba.grtwaterloo.activities.StopTimesActivity"
             android:label="@string/title_activity_stop_details"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="simba.com.waterlootransit.STOP_TIMES" />
+                <action android:name="ca.simba.grtwaterloo.activities.STOP_TIMES" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -129,25 +129,25 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyCTkPm2csiXapNpVj1FD5ulaGmv8uGXWBk" />
 
         <activity
-            android:name="simba.com.waterlootransit.activities.StopsMapActivity"
+            android:name="ca.simba.grtwaterloo.activities.StopsMapActivity"
             android:label="@string/title_activity_stops_map"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="simba.com.waterlootransit.MAP_STOPS" />
+                <action android:name="ca.simba.grtwaterloo.activities.MAP_STOPS" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name="simba.com.waterlootransit.activities.StopInfoActivity"
+            android:name="ca.simba.grtwaterloo.activities.StopInfoActivity"
             android:label="@string/title_activity_stop_info"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="simba.com.waterlootransit.STOP_INFO" />
+                <action android:name="ca.simba.grtwaterloo.activities.STOP_INFO" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

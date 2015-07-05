@@ -5,15 +5,15 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "simba.com.waterlootransit"
+        applicationId "ca.simba.grtwaterloo"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 3
+        versionCode 1
         versionName "1.1"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
