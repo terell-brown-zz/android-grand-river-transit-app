@@ -24,26 +24,29 @@ public class Favourites {
     private static final String STOP3 = "5024 University / Seagram";
     private static final String STOP4 = "3620 Laurier";
     private static final String STOP5 = "3943 University / Philip";
-    private static final String[] STOPS = {STOP2,STOP3,STOP4};
+    private static final String[] STOPS = {STOP2, STOP3, STOP4};
     private static final String ROUTE1 = "7 Mainline";
     private static final String ROUTE2 = "8 University / Fairview Park";
     private static final String ROUTE3 = "9 Lakeshore";
     private static final String ROUTE4 = "202 iXpress University";
-    private static final String[] ROUTES = {ROUTE1,ROUTE4};
+    private static final String[] ROUTES = {ROUTE1, ROUTE4};
 
     public static SharedPreferences getInstance(Context context) {
         if (favourites == null) {
             favourites = context.getApplicationContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         }
-
-        if (Settings.isFirstLaunch(context)) {
-            for (String stop: STOPS) {
-                FavouritesUtil.addStopToFavourites(favourites, stop);
-            }
-            for (String route: ROUTES) {
-                FavouritesUtil.addRouteToFavourites(favourites, route);
-            }
-        }
         return favourites;
+    }
+
+    public static void onInitialLaunch(Context context) {
+
+        getInstance(context);
+        for (String stop : STOPS) {
+            FavouritesUtil.addStopToFavourites(favourites, stop);
+        }
+        for (String route : ROUTES) {
+            FavouritesUtil.addRouteToFavourites(favourites, route);
+        }
+
     }
 }

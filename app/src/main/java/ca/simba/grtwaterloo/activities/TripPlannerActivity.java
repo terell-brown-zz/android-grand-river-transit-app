@@ -2,8 +2,10 @@ package ca.simba.grtwaterloo.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import ca.simba.grtwaterloo.Constants;
@@ -18,6 +20,7 @@ public class TripPlannerActivity extends BaseActivity {
 
     // UI
     private WebView webViewTripPlanner;
+    private ProgressBar progressBar;
 
     // Constants
     private static final String TOOLBAR_TITLE = Constants.TITLE_PLANNER;
@@ -31,7 +34,12 @@ public class TripPlannerActivity extends BaseActivity {
         activityContext = getBaseContext();
         setupToolbar(TOOLBAR_TITLE);
         setupNavDrawer(NAV_ID);
+        runProgressBar();
+    }
 
+    private void runProgressBar() {
+        progressBar = (ProgressBar) findViewById(R.id.pbLoading);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -43,13 +51,24 @@ public class TripPlannerActivity extends BaseActivity {
     private void setupWebView() {
         webViewTripPlanner = (WebView) findViewById(R.id.wvTripPlanner);
         if (Utilities.haveNetworkConnection(getApplicationContext())) {
-            webViewTripPlanner.setWebViewClient(new WebViewClient());
+            webViewTripPlanner.setWebViewClient(new GoogleMapsWebClient());
             webViewTripPlanner.getSettings().setJavaScriptEnabled(true);
             webViewTripPlanner.loadUrl(URL);
+            webViewTripPlanner.setVisibility(View.INVISIBLE);
         } else {
             TextView myTV = (TextView) findViewById(R.id.tvInternetDisabled);
             myTV.setVisibility(View.VISIBLE);
             webViewTripPlanner.setVisibility(View.GONE);
+        }
+    }
+
+    public class GoogleMapsWebClient extends WebViewClient {
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            progressBar.setVisibility(View.GONE);
+            webViewTripPlanner.setVisibility(View.VISIBLE);
         }
     }
 }

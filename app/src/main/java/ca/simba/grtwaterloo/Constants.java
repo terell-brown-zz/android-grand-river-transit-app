@@ -32,7 +32,7 @@ public class Constants {
     public static final String[] SERVICES = {WEEKDAYS_ALL,SATURDAY,SUNDAY};
 
     // Google Maps Trip Planner URL
-    public static final String urlGoogleTripPlanner = "https://www.google.com/maps/dir///";
+    public static final String urlGoogleTripPlanner = "https://www.google.com/maps/dir///@43.4418282,-80.4909075,13z/data=!4m2!4m1!3e3";
     public static final double WATERLOO_LAT = 43.467;
     public static final double WATERLOO_LONG = -80.517;
     public static final double DISTANCE_CUTTOFF = 35000; // meters

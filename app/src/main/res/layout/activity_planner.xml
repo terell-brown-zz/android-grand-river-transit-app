@@ -22,7 +22,13 @@
             <include android:id = "@+id/content"
                 layout="@layout/fragment_trip_planner"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
+
+            <ProgressBar
+                android:id="@+id/pbLoading"
+                android:layout_width="@dimen/progress_bar_width"
+                android:layout_height="@dimen/progress_bar_height"
+                android:layout_gravity="center"/>
 
             <TextView android:id="@+id/tvInternetDisabled"
                 android:layout_width="match_parent"

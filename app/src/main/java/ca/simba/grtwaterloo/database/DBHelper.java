@@ -29,8 +29,13 @@ public class DBHelper extends SQLiteAssetHelper {
         if (sDBHelper == null) {
             sDBHelper = new DBHelper(context);
         }
-
         return sDBHelper;
+    }
+
+    public void onInitialLaunch(Context context) {
+        // ensure database is copied to SD Card
+        SQLiteDatabase db = getReadableDatabase();
+        db.close();
     }
 
     private Cursor queryRoutes() {

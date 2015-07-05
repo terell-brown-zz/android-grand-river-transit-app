@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 
 import ca.simba.grtwaterloo.Constants;
 import ca.simba.grtwaterloo.Favourites;
+import ca.simba.grtwaterloo.InitialLaunch;
 import ca.simba.grtwaterloo.R;
 import ca.simba.grtwaterloo.adapters.StopAdapter;
 import ca.simba.grtwaterloo.util.FavouritesUtil;
@@ -28,8 +29,9 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favourites);
         activityContext = getBaseContext();
+        InitialLaunch.onInitialLaunch(activityContext);
+        setContentView(R.layout.activity_favourites);
         setupRecyclerView();
         setupToolbar(TOOLBAR_TITLE);
         setupNavDrawer(NAV_ID);

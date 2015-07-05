@@ -34,6 +34,8 @@
 
     <!-- Icon -->
     <dimen name="icon_padding_left">16dp</dimen>
+    <dimen name="progress_bar_width">60dp</dimen>
+    <dimen name="progress_bar_height">60dp</dimen>
 
 
 </resources>

@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import ca.simba.grtwaterloo.InitialLaunch;
 import ca.simba.grtwaterloo.R;
 import ca.simba.grtwaterloo.database.DBHelper;
 import ca.simba.grtwaterloo.navigationdrawer.ActionBarDrawerToggler;
@@ -37,7 +38,6 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //dbHelper = DBHelper.getInstance(getBaseContext());
     }
 
     protected void setupToolbar(String title) {
