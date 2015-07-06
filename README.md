@@ -1,6 +1,7 @@
-# Android-Grand-River-Transit-App
+# Grand River Transit App
 
 [Check it out on the PlayStore](https://play.google.com/store/apps/details?id=ca.simba.grtwaterloo&hl=en)
+
 Provides up-to-date transit information for Kitchener-Waterloo-Cambridge including all routes and stops operated by Grand River Transit.
 
 Never miss your bus again because you don't have data to search for arrival times. All your transit information is completely accessible without Data or Wi-Fi.
