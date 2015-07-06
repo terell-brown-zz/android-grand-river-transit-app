@@ -16,7 +16,7 @@ public class SpacerHolder extends RecyclerView.ViewHolder {
 
     public SpacerHolder(View view) {
         super(view);
-        this.row = view;
+        row = view;
         tvTitle = (TextView) row.findViewById(R.id.tvSpacerTitle);
     }
 

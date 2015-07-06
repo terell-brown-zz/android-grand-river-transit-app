@@ -13,7 +13,7 @@ import ca.simba.grtwaterloo.R;
 import ca.simba.grtwaterloo.util.Utilities;
 
 /*
-    Displays embedded view of google maps trip planner website
+ * Displays embedded view of google maps trip planner website
  */
 
 public class TripPlannerActivity extends BaseActivity {

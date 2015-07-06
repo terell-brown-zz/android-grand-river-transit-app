@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import ca.simba.grtwaterloo.Constants;
 import ca.simba.grtwaterloo.Favourites;
+import ca.simba.grtwaterloo.InitialLaunch;
 import ca.simba.grtwaterloo.R;
 import ca.simba.grtwaterloo.adapters.StopAdapter;
 import ca.simba.grtwaterloo.util.FavouritesUtil;
@@ -45,7 +46,7 @@ public class FavouritesActivity extends BaseActivity {
         super.onStart();
         if (favourites.length > 2) {
             // favourites list contains atleast one row of data (not including titles Stops and Routes)
-            Toast.makeText(getBaseContext(), "Long press on stops or routes to remove from favourites", Toast.LENGTH_LONG).show();
+            showHelpMessage();
         }
     }
 
@@ -64,4 +65,10 @@ public class FavouritesActivity extends BaseActivity {
         favourites = FavouritesUtil.getFavouritesArray(Favourites.getInstance(activityContext));
         return favourites;
     }
+    private void showHelpMessage() {
+        if (InitialLaunch.check()) {
+            Toast.makeText(getBaseContext(), "Long press on stops or routes to remove from favourites", Toast.LENGTH_LONG).show();
+        }
+    }
+
 }

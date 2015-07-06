@@ -39,26 +39,25 @@ public class OnNavItemClickListener implements AdapterView.OnItemClickListener {
             switch (position) {
                 case Constants.FAVOURITES:
                     activityContext.startActivity(
-                            new Intent("ca.simba.grtwaterloo.activities.FAVOURITES")
+                            new Intent(Constants.PACKAGE_NAME + ".activities.FAVOURITES")
                             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     break;
                 case Constants.NEARBY:
                     activityContext.startActivity(
-                            new Intent("ca.simba.grtwaterloo.activities.NEARBY")
+                            new Intent(Constants.PACKAGE_NAME + ".activities.NEARBY")
                                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     break;
                 case Constants.PLANNER:
                     activityContext.startActivity(
-                            new Intent("ca.simba.grtwaterloo.activities.PLANNER")
+                            new Intent(Constants.PACKAGE_NAME + ".activities.PLANNER")
                                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     break;
                 case Constants.ALL_ROUTES:
                     activityContext.startActivity(
-                            new Intent("ca.simba.grtwaterloo.activities.ALL_ROUTES")
+                            new Intent(Constants.PACKAGE_NAME + ".activities.ALL_ROUTES")
                                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         }
         mDrawerLayout.closeDrawer(mDrawerList);
     }
-
 }

@@ -62,7 +62,6 @@ public class OutboundTab extends Fragment implements View.OnClickListener {
 
 
     private void setupDatabase(Context activityContext) {
-        // TODO: move this method to database class and use singleton design pattern
         dbHelper = DBHelper.getInstance(activityContext);//new DBHelper(activityContext);
     }
 
@@ -108,7 +107,7 @@ public class OutboundTab extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab_from:
-                Intent showMapsIntent = new Intent("ca.simba.grtwaterloo.activities.MAP_STOPS");
+                Intent showMapsIntent = new Intent(Constants.PACKAGE_NAME + ".activities.MAP_STOPS");
                 showMapsIntent.putExtra("ROUTE_INFO",routeInfo);
                 showMapsIntent.putExtra("ROUTE_NO",routeId);
                 showMapsIntent.putExtra("DIRECTION_ID",DIRECTION_ID);

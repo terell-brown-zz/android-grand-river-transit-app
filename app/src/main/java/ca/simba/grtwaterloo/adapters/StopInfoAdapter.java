@@ -14,9 +14,6 @@ import ca.simba.grtwaterloo.viewholders.StopInfoViewHolder;
  */
 public class StopInfoAdapter extends RecyclerView.Adapter<StopInfoViewHolder> {
 
-    // Backend Components
-    //private Context activityContext;
-
     // UI
     private LayoutInflater inflater;
 

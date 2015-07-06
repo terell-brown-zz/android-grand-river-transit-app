@@ -11,6 +11,7 @@ import ca.simba.grtwaterloo.R;
 /**
  * TODO: add reference to source of this class
  */
+
 public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration{
 
     private Drawable mDivider;

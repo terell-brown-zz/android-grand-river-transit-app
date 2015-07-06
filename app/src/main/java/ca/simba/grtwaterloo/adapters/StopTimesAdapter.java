@@ -10,13 +10,10 @@ import ca.simba.grtwaterloo.R;
 import ca.simba.grtwaterloo.viewholders.StopTimesViewHolder;
 
 /**
- * Created by tmast_000 on 4/21/2015.
+ *  Supplies stop time data to recycler view
  */
 public class StopTimesAdapter extends RecyclerView.Adapter<StopTimesViewHolder> {
 
-
-    // Backend Components
-    //private Context activityContext;
     private String[] times;
     // UI
     private LayoutInflater inflater;
@@ -27,8 +24,8 @@ public class StopTimesAdapter extends RecyclerView.Adapter<StopTimesViewHolder> 
     public StopTimesAdapter(Context context,String routeName, String[] data) {
         //activityContext = context;
         inflater = LayoutInflater.from(context);
-        this.routeInfo = routeName;
-        this.times = data;
+        routeInfo = routeName;
+        times = data;
     }
 
     @Override

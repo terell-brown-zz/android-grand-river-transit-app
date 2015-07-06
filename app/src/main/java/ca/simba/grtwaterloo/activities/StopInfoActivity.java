@@ -29,7 +29,6 @@ public class StopInfoActivity extends BaseActivity {
     private String[] upcomingStopTimes;
     private String stopName;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

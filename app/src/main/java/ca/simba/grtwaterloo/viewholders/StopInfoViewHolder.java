@@ -20,8 +20,8 @@ public class StopInfoViewHolder extends RecyclerView.ViewHolder {
         //   are connected to an appropriate object for later use
         super(row);
         row.setClickable(true);
-        this.tvRouteInfo = (TextView) row.findViewById(R.id.tvRouteInfo);
-        this.tvUpcomingTimes = (TextView) row.findViewById(R.id.tvUpcomingStopTimes);
+        tvRouteInfo = (TextView) row.findViewById(R.id.tvRouteInfo);
+        tvUpcomingTimes = (TextView) row.findViewById(R.id.tvUpcomingStopTimes);
     }
 
     public void bindModel(String routeInfo, String upcomingTimes) {

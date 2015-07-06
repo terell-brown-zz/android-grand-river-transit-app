@@ -39,7 +39,6 @@ public class InboundTab extends Fragment implements View.OnClickListener {
 
     // Transit Info
     private String routeInfo;
-    private String routeName;
     private String routeId;
     private String[] stopNames;
     private String[] stopIds;
@@ -55,21 +54,11 @@ public class InboundTab extends Fragment implements View.OnClickListener {
         activityContext = getActivity();
         getRouteInfo();
         setupDatabase(activityContext);
-        if (numDirections == 1) {
-            getDirectionId();
-        }
+        getDirectionId();
         getStops(routeId, DIRECTION_ID);
         setupRecyclerView(layout);
         setupFAB(layout, mRecyclerView);
         return layout;
-    }
-
-    private void getDirectionId() {
-        if (isSubRoute) {
-            DIRECTION_ID = dbHelper.queryDirectionByTripName(routeInfo);
-        } else {
-            DIRECTION_ID = dbHelper.queryDirectionByRouteNo(routeId);
-        }
     }
 
     private void getRouteInfo() {
@@ -78,6 +67,20 @@ public class InboundTab extends Fragment implements View.OnClickListener {
         routeId = intent.getStringExtra("ROUTE_NO");
         isSubRoute = intent.getBooleanExtra("IS_SUBROUTE", false);
         numDirections = intent.getIntExtra("NUM_DIRECTIONS", 1);
+    }
+
+    private void setupDatabase(Context activityContext) {
+        dbHelper = DBHelper.getInstance(activityContext);//new DBHelper(activityContext);
+    }
+
+    private void getDirectionId() {
+        if (numDirections == 1) {
+            if (isSubRoute) {
+                DIRECTION_ID = dbHelper.queryDirectionByTripName(routeInfo);
+            } else {
+                DIRECTION_ID = dbHelper.queryDirectionByRouteNo(routeId);
+            }
+        }
     }
 
     private void getStops(String routeNo,int directionId) {
@@ -91,10 +94,6 @@ public class InboundTab extends Fragment implements View.OnClickListener {
             stopNames = DBUtils.queryToAllRoutes(cStops);
             stopIds = DBUtils.queryToAllRouteIds(cStops);
         }
-    }
-
-    private void setupDatabase(Context activityContext) {
-        dbHelper = DBHelper.getInstance(activityContext);//new DBHelper(activityContext);
     }
 
     private void setupRecyclerView(View layout) {
@@ -117,7 +116,7 @@ public class InboundTab extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab_to:
-                Intent showMapsIntent = new Intent("ca.simba.grtwaterloo.activities.MAP_STOPS");
+                Intent showMapsIntent = new Intent(Constants.PACKAGE_NAME + ".activities.MAP_STOPS");
                 showMapsIntent.putExtra("ROUTE_INFO",routeInfo);
                 showMapsIntent.putExtra("ROUTE_NO",routeId);
                 showMapsIntent.putExtra("DIRECTION_ID",DIRECTION_ID);

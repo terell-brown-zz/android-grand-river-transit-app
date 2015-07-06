@@ -37,7 +37,6 @@ public class Constants {
     public static final double WATERLOO_LONG = -80.517;
     public static final double DISTANCE_CUTTOFF = 35000; // meters
 
-
     // Transit Directions
     public static String INBOUND = "Inbound";
     public static String OUTBOUND = "Outbound";

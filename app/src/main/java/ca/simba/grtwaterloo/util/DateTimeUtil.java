@@ -16,7 +16,6 @@ public class DateTimeUtil {
     private static final String WEEKDAYS_ALL = Constants.WEEKDAYS_ALL;
     private static final String SATURDAY = Constants.SATURDAY;
     private static final String SUNDAY = Constants.SUNDAY;
-    //private static final String[] SERVICES = Constants.SERVICES;
 
     public static String getServiceId() {
         // Returns a string representing the service code used for transit schedules based on the day of the week
@@ -46,7 +45,7 @@ public class DateTimeUtil {
     }
 
     public static String apply12HrTimeFormat(String time) {
-        // converts times from 24hr hh:mm:ss format to 12hr hh:mm format
+        // converts times from 24hr hh:mm:ss format to 12hr hh:mm a format
         SimpleDateFormat currentFormat = new SimpleDateFormat("HH:mm:ss");
         SimpleDateFormat desiredFormat = new SimpleDateFormat("hh:mm a");
         Date mTime;

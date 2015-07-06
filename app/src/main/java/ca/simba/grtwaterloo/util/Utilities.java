@@ -12,11 +12,13 @@ import ca.simba.grtwaterloo.Constants;
 public class Utilities {
 
     public static int getSeparatingIndex(String info) {
+        // returns index of string where a space first appears
         return info.indexOf(" ");
     }
 
    public static int getCurrentSpinnerItem(String serviceId) {
-       switch(serviceId) {
+       // returns int referring to spinner item that should be selected based on day of week
+       switch(serviceId) { // service ID = day of week bus is running
            case Constants.WEEKDAYS_ALL:
                return Constants.SPINNER_WEEKDAYS_ALL;
            case Constants.SATURDAY:
@@ -29,6 +31,7 @@ public class Utilities {
    }
 
     public static boolean haveNetworkConnection(Context context) {
+        // returns true if device is connected to internet and false otherwise
         boolean haveConnectedWifi = false;
         boolean haveConnectedMobile = false;
 

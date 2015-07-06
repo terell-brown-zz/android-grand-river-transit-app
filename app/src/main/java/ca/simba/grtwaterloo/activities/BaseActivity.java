@@ -56,6 +56,7 @@ public class BaseActivity extends ActionBarActivity {
         mDrawerListItems = getResources().getStringArray(R.array.drawer_navigation);
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mDrawerListItems));
 
+        // setup listener for drawer list items
         drawerListener = new OnNavItemClickListener(activityContext, navId, mDrawerLayout, mDrawerList);
         mDrawerList.setOnItemClickListener(drawerListener);
 
@@ -74,7 +75,6 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-//        mDrawerToggle.syncState(); // ensures open/closed state matches what's shown on screen
     }
 
     @Override

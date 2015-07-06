@@ -18,7 +18,6 @@ public class FavouritesUtil {
     private static final String KEY_SUBROUTE = Constants.KEY_SUBROUTE;
     private static final String KEY_STOP = Constants.KEY_STOP;
 
-
     public static void addRouteToFavourites(SharedPreferences favourites, String routeName) {
         if (favourites.contains(KEY_ROUTE + routeName)) {
             // do not add to favourites
@@ -71,8 +70,6 @@ public class FavouritesUtil {
             editor.apply();
     }
 
-
-
     public static String[] getFavouritesArray(SharedPreferences favourites) {
     /*
      * getFavouritesArray converts shared preferences containing favourite stops and routes into string array
@@ -99,19 +96,18 @@ public class FavouritesUtil {
 
     private static void addFavouriteRoutesToList(Map<String, ?> favouritesMap, List<String> faveList) {
         // add routes stored in map to list
-
         faveList.add("Routes"); // indicates list items to follow are stops
 
-        for (Map.Entry<String, ?> entry: favouritesMap.entrySet()) {
+        for (Map.Entry<String, ?> entry : favouritesMap.entrySet()) {
             String key = entry.getKey(); // either a name of stop or route
             if (isRoute(key)) {
                 faveList.add(key.substring(KEY_ROUTE.length()));
             }
         }
     }
+
     private static void addFavouriteSubRoutesToList(Map<String, ?> favouritesMap, List<String> faveList) {
         // add routes stored in map to list
-
         faveList.add("Sub Routes"); // indicates list items to follow are stops
 
         for (Map.Entry<String, ?> entry: favouritesMap.entrySet()) {
@@ -125,7 +121,6 @@ public class FavouritesUtil {
 
     private static void addFavouriteStopsToList(Map<String, ?> favouritesMap, List<String> faveList) {
         // add stops stored in map to list
-
         faveList.add("Stops"); // indicates list items to follow are stops
 
         for (Map.Entry<String, ?> entry: favouritesMap.entrySet()) {
@@ -153,8 +148,6 @@ public class FavouritesUtil {
         String temp = key.substring(0, KEY_STOP.length());
         return temp.equals(KEY_STOP);
     }
-
-
 }
 
 

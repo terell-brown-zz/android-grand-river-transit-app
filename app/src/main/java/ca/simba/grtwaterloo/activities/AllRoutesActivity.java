@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import ca.simba.grtwaterloo.Constants;
+import ca.simba.grtwaterloo.InitialLaunch;
 import ca.simba.grtwaterloo.R;
 import ca.simba.grtwaterloo.adapters.AllRoutesAdapter;
 import ca.simba.grtwaterloo.database.DBHelper;
@@ -34,7 +35,7 @@ public class AllRoutesActivity extends BaseActivity {
         setupToolbar(TOOLBAR_TITLE);
         setUpRecyclerView(); // shows list of routes
         setupNavDrawer(NAV_ID);
-        Toast.makeText(activityContext, "Long press on routes to add to favourites", Toast.LENGTH_SHORT).show();
+        showHelpMessage();
     }
 
     private void setUpRecyclerView() {
@@ -50,5 +51,11 @@ public class AllRoutesActivity extends BaseActivity {
     public String[] getAllRoutes() {
         DBHelper dbHelper = new DBHelper(activityContext);
         return dbHelper.getAllRoutes();
+    }
+
+    private void showHelpMessage() {
+        if (InitialLaunch.check()) {
+            Toast.makeText(activityContext, "Long press on routes to add to favourites", Toast.LENGTH_SHORT).show();
+        }
     }
 }

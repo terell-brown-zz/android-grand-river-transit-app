@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import ca.simba.grtwaterloo.Constants;
 import ca.simba.grtwaterloo.Favourites;
 import ca.simba.grtwaterloo.R;
 import ca.simba.grtwaterloo.database.DBHelper;
@@ -18,12 +19,13 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
 
     // Backend Components
     protected Context activityContext;
+    protected SharedPreferences favourites;
 
     // UI
     private TextView tvRouteName;
     private TextView tvRouteNo;
 
-    // Transit Info
+    // Business Logic
     protected String mRouteInfo;
     protected String routeNo;
     protected String routeName;
@@ -34,13 +36,10 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
     protected boolean isFavourited;
     protected boolean isSubRoute = false;
 
-    protected SharedPreferences favourites;
-
     public RouteViewHolder(Context context, boolean showAsFavourite, View row) {
         super(row);
         activityContext = context;
-        this.isFavourited = showAsFavourite;
-
+        isFavourited = showAsFavourite;
         setupViews(row);
     }
 
@@ -51,12 +50,12 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
         row.setOnLongClickListener(this);
     }
 
-    public void bindModel(String routeInfo, boolean isSubRoute) {
-        // writes retrieved data to UI views
-        this.mRouteInfo = routeInfo;
-        this.isSubRoute = isSubRoute;
+    public void bindModel(String routeInfo, boolean showAsSubRoute) {
+        mRouteInfo = routeInfo;
+        isSubRoute = showAsSubRoute;
         routeNo = extractRouteNo(mRouteInfo);
         routeName = extractRouteName(mRouteInfo);
+
         tvRouteNo.setText(routeNo);
         tvRouteName.setText(routeName);
     }
@@ -99,22 +98,21 @@ public class RouteViewHolder extends RecyclerView.ViewHolder implements View.OnL
             noDirections = dbHelper.getNumDirectionsByRouteNo(routeNo);
             showRouteDetails(false);
         }
-
     }
 
     private void showSubRoutes() {
-        Intent routeDetailsIntent = new Intent("ca.simba.grtwaterloo.activities.SUB_ROUTES");
+        Intent routeDetailsIntent = new Intent(Constants.PACKAGE_NAME + ".activities.SUB_ROUTES");
         routeDetailsIntent.putExtra("ROUTE_NAME", routeName);
         routeDetailsIntent.putExtra("ROUTE_NO", routeNo);
         routeDetailsIntent.putExtra("SUB_ROUTES", subRoutes);
         routeDetailsIntent.putExtra("IS_SUBROUTE", isSubRoute);
-        routeDetailsIntent.putExtra("ROUTE_INFO",mRouteInfo);
+        routeDetailsIntent.putExtra("ROUTE_INFO", mRouteInfo);
         routeDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activityContext.startActivity(routeDetailsIntent);
     }
 
     public void showRouteDetails(boolean isSubRoute) {
-        Intent routeDetailsIntent = new Intent("ca.simba.grtwaterloo.activities.ROUTE_DETAILS");
+        Intent routeDetailsIntent = new Intent(Constants.PACKAGE_NAME + ".activities.ROUTE_DETAILS");
         routeDetailsIntent.putExtra("ROUTE_INFO", mRouteInfo);
         routeDetailsIntent.putExtra("ROUTE_NAME", routeName);
         routeDetailsIntent.putExtra("ROUTE_NO", routeNo);

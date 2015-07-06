@@ -103,7 +103,7 @@ public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMar
     }
 
     private void setupGooglePlayServices() {
-        if(checkPlayServices()) {
+        if (checkPlayServices()) {
             buildGoogleApiClient();
             mGoogleApiClient.connect();
         }
@@ -114,7 +114,7 @@ public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMar
 
         if (resultCode != ConnectionResult.SUCCESS) {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this,PLAY_SERVICES_RESOLUTION_REQUEST).show();
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
                 Toast.makeText(getApplicationContext(),
                         "This device is not supported.", Toast.LENGTH_LONG)
@@ -151,12 +151,22 @@ public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMar
             distance = result[0]; // in meters
         }
 
-        if (currentLocation == null || distance > DISTANCE_CUTTOFF) {
-            currentLat = WATERLOO_LAT;
-            currentLong = WATERLOO_LONG;
-            cameraZoom = 11;
-            Toast.makeText(activityContext,"There are no nearby GRT stops.",Toast.LENGTH_SHORT).show();
+        if (currentLocation == null) {
+            setLocationToWaterloo();
+            Toast.makeText(activityContext, "Could not find your location. Please enable GPS or Wifi.",
+                    Toast.LENGTH_LONG).show();
         }
+        if (distance > DISTANCE_CUTTOFF) {
+            setLocationToWaterloo();
+            Toast.makeText(activityContext, "There are no GRT bus stops nearby.",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void setLocationToWaterloo() {
+        currentLat = WATERLOO_LAT;
+        currentLong = WATERLOO_LONG;
+        cameraZoom = 11;
     }
 
     @Override
@@ -213,7 +223,7 @@ public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMar
     }
 
     private void showUpcomingStopTimes() {
-        Intent stopInfo = new Intent("ca.simba.grtwaterloo.activities.STOP_INFO");
+        Intent stopInfo = new Intent(Constants.PACKAGE_NAME + ".activities.STOP_INFO");
         stopInfo.putExtra("STOP_NAME", stopSelected + " " + stopSelectedName);
         stopInfo.putExtra("ROUTES", DBUtils.twoDToOneDArray(times, 0)); // array of routes going to the stop
         try {

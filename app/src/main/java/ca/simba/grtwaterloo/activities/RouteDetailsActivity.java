@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import ca.simba.grtwaterloo.Constants;
+import ca.simba.grtwaterloo.InitialLaunch;
 import ca.simba.grtwaterloo.R;
 import ca.simba.grtwaterloo.slidingtabs.SchedulePageAdapter;
 import ca.simba.grtwaterloo.slidingtabs.SlidingTabLayout;
@@ -44,7 +45,7 @@ public class RouteDetailsActivity extends BaseActivity {
         setupToolbar();
         setupViewPager();
         setupTabs();
-        Toast.makeText(getBaseContext(), "Long press on stops to add to favourites", Toast.LENGTH_SHORT).show();
+        showHelpMessage();
     }
 
     private void getRouteInfo() {
@@ -95,6 +96,12 @@ public class RouteDetailsActivity extends BaseActivity {
 
         if (Numboftabs == 1) {
             tabs.setVisibility(View.GONE);
+        }
+    }
+
+    private void showHelpMessage() {
+        if (InitialLaunch.check()) {
+            Toast.makeText(getBaseContext(), "Long press on stops to add to favourites", Toast.LENGTH_SHORT).show();
         }
     }
 }

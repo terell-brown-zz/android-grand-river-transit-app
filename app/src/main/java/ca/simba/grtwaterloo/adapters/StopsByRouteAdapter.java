@@ -11,7 +11,7 @@ import ca.simba.grtwaterloo.viewholders.StopsByRouteViewHolder;
 
 
 /**
- * Created by tmast_000 on 4/19/2015.
+ * Supplies stop data to recycler view
  */
 public class StopsByRouteAdapter extends RecyclerView.Adapter<StopsByRouteViewHolder> {
 

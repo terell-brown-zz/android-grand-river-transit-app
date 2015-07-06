@@ -77,7 +77,7 @@ public class StopsByRouteViewHolder extends RecyclerView.ViewHolder implements V
 
     public void showStopDetails() {
         String serviceId = DateTimeUtil.getServiceId();
-        Intent stopDetailsIntent = new Intent("ca.simba.grtwaterloo.activities.STOP_TIMES");
+        Intent stopDetailsIntent = new Intent(Constants.PACKAGE_NAME + ".activities.STOP_TIMES");
         stopDetailsIntent.putExtra("ROUTE_INFO", routeInfo);
         stopDetailsIntent.putExtra("ROUTE_NO", routeNo);
         stopDetailsIntent.putExtra("STOP_INFO", stopInfo);

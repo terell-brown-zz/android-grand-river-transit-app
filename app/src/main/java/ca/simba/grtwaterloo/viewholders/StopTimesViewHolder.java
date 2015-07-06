@@ -7,7 +7,7 @@ import android.widget.TextView;
 import ca.simba.grtwaterloo.R;
 
 /**
- * Viewholder for displaying bus times
+ * Contains and allows interaction with views in a single row showing bus stop times
  */
 public class StopTimesViewHolder extends RecyclerView.ViewHolder {
 

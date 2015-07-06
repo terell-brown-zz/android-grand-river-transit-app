@@ -19,11 +19,6 @@ public class ActionBarDrawerToggler extends ActionBarDrawerToggle {
         mActivity = activity;
     }
 
-    /*public ActionBarDrawerToggler(Activity activity, DrawerLayout drawerLayout, int openDrawerContentDescRes, int closeDrawerContentDescRes) {
-        super(activity, drawerLayout, openDrawerContentDescRes, closeDrawerContentDescRes);
-        mActivity = activity;
-    }*/
-
     @Override
     public void onDrawerClosed(View v) {
         super.onDrawerClosed(v);

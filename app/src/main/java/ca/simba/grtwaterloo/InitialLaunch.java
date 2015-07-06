@@ -10,17 +10,23 @@ import ca.simba.grtwaterloo.database.DBHelper;
 public class InitialLaunch {
 
     private static Context context;
+    private static boolean isFirstLaunch = false;
 
     public static void onInitialLaunch(Context c) {
         context = c;
         new Runnable() {
             @Override
             public void run() {
-                if (Settings.isFirstLaunch(context)) {
+                isFirstLaunch = Settings.isInitialLaunch(context);
+                if (isFirstLaunch) {
                     Favourites.onInitialLaunch(context);
                     DBHelper.getInstance(context).onInitialLaunch(context);
                 }
             }
         }.run();
+    }
+
+    public static boolean check() {
+        return isFirstLaunch;
     }
 }

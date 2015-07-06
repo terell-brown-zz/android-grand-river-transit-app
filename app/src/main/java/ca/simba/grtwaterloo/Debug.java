@@ -1,8 +1,9 @@
 package ca.simba.grtwaterloo;
 
 /**
- * Created by tmast_000 on 7/1/2015.
+ *
  */
 public class Debug {
+    // used to turn log messages throughout app ON and OFF for app release purposes
     public static final boolean LOG_ON = false;
 }

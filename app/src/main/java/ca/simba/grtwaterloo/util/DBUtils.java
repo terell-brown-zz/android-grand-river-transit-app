@@ -4,39 +4,33 @@ import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 
 /**
- * Provides methods used throughout the app to deal with database query results
+ * Provides methods used throughout the app to convert db query results to useable objects
  */
 public class DBUtils {
 
-    private static final String TAG = "MyActivity";
-
     public static String arrayToString(String[] array) {
-        // Converts string array to a single string, each value seperated by "|"
-
+        // Converts string array to a single string, each value separated by ","
         String result = "";
 
         for (int i = 0; i < array.length; i++) {
             result = result + array[i] + " , ";
         }
-        //result = result.substring(0,result.length()); // remove excess comma as last character
         return result.substring(0, result.length() - 3);
     }
 
-    public static String[] queryToAllRoutes(Cursor c) {
-        int noRoutes = c.getCount();
+    public static String[] queryToAllRoutes(Cursor cRoutes) {
+        int noRoutes = cRoutes.getCount();
         String[] result = new String[noRoutes];
 
-        c.moveToPosition(0);
+        cRoutes.moveToPosition(0);
         for (int i = 0; i < noRoutes; i++) {
-            String routeId = c.getString(0);
-            String routeName = c.getString(1);
+            String routeId = cRoutes.getString(0);
+            String routeName = cRoutes.getString(1);
             result[i] = routeId + " " + routeName;
-            c.moveToNext();
+            cRoutes.moveToNext();
         }
         return result;
     }
-
-    ;
 
     public static String[] queryToAllRouteIds(Cursor cRoutes) {
         // Consumes a cursor (ie. query result) containing a list of routes
@@ -52,8 +46,6 @@ public class DBUtils {
         return result;
     }
 
-    ;
-
     public static String[] queryToRoutes(Cursor cTimes) {
         // Consumes a cursor (ie. query result) containing a list of times
         //   and returns a string array with the same information
@@ -68,9 +60,8 @@ public class DBUtils {
         return result;
     }
 
-
     public static String[][] queryToStringArray(Cursor c, int numRoutes) {
-
+        // TODO: Add comments for clarity
         if (c.getCount() == 0) {
             return new String[][]{{"No buses to this stop in the next 4 hrs."}};
         }
@@ -94,7 +85,7 @@ public class DBUtils {
                     j++;
                 }
             } catch (CursorIndexOutOfBoundsException exception) {
-
+                exception.getCause();
             }
         }
 
@@ -122,18 +113,17 @@ public class DBUtils {
             result[i][0] = currentRoute;
             result[i][1] = times;
             i++;
-
         }
         return result;
     }
 
 
     public static String[] queryToTimes(Cursor c) {
-        int noTimes = c.getCount();
-        String[] result = new String[noTimes];
+        int numTimes = c.getCount();
+        String[] result = new String[numTimes];
 
         c.moveToPosition(0);
-        for (int i = 0; i < noTimes; i++) {
+        for (int i = 0; i < numTimes; i++) {
             String time = DateTimeUtil.apply12HrTimeFormat(c.getString(1));
             result[i] = time;
             c.moveToNext();

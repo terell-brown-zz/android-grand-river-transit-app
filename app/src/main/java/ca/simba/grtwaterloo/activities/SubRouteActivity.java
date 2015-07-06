@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import ca.simba.grtwaterloo.InitialLaunch;
 import ca.simba.grtwaterloo.R;
 import ca.simba.grtwaterloo.adapters.SubRouteAdapter;
 import ca.simba.grtwaterloo.database.DBHelper;
@@ -36,7 +37,7 @@ public class SubRouteActivity extends BaseActivity {
         getTransitInfo();
         setupToolbar(routeNo + " " + routeName);
         setUpRecyclerView(); // shows list of sub routes
-        Toast.makeText(activityContext, "Long press on routes to add to favourites", Toast.LENGTH_LONG).show();
+        showHelpMessage();
     }
 
     private void getTransitInfo() {
@@ -56,7 +57,9 @@ public class SubRouteActivity extends BaseActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
-    public String[] getAllRoutes() {
-        return DBHelper.getInstance(activityContext).getAllRoutes();
+    private void showHelpMessage() {
+        if (InitialLaunch.check()) {
+            Toast.makeText(getBaseContext(), "Long press on stops to add to favourites", Toast.LENGTH_SHORT).show();
+        }
     }
 }

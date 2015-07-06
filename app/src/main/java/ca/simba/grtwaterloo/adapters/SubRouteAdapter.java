@@ -20,7 +20,7 @@ public class SubRouteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     //UI
     private LayoutInflater inflater;
 
-    // Transit Info
+    // Business Logic
     private String[] subRoutes;
 
     // Business Logic

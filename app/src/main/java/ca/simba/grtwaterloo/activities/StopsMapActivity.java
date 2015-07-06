@@ -101,7 +101,7 @@ public class StopsMapActivity extends FragmentActivity implements GoogleMap.OnMa
                 public void run() {
                     android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
 
-                    stopDetailsIntent = new Intent("ca.simba.grtwaterloo.activities.STOP_TIMES");
+                    stopDetailsIntent = new Intent(Constants.PACKAGE_NAME + ".activities.STOP_TIMES");
                     stopDetailsIntent.putExtra("ROUTE_INFO",routeInfo);
                     stopDetailsIntent.putExtra("ROUTE_NO",routeNo);
                     stopDetailsIntent.putExtra("STOP_INFO",stopInfo);
