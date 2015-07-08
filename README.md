@@ -23,19 +23,52 @@ And last but not least -- Is there a certain bus you take frequently or a stop y
 Transit data including all routes and bus stops operated by Grand River Transit was downloaded from the following website: http://www.regionofwaterloo.ca/en/regionalGovernment/GRT_GTFSdata.asp
 
 ###Learnings:
-* Using RecyclerView to display a list of items (ie. routes, stops, times)
-* Using Google Maps to display important locations
-* Registering API Keys through the Google Developer Console
-* Using Location Manager to Find Current Location
-* Storing Favourite Items using SharedPreferences
+####UI:
+* Basic Material Design Guidelines
+* RecyclerView / Custom Adapter / LayoutManager / ItemDecorator/ItemAnimator
+* Toasts / Snackbars / Floating Action Button
+* Toolbad vs. Action Bar
+* Sliding Tab Layout / View Pager
 * Sliding Navigation Drawer
-* SQL Querying
-* SQL Database Design Principles
-* Replacing Android Action Bar with Toolbar
-* Incorporating New Material Design Components (ie. Floating Action Buttons, Snackbars)
-* Embedding Web Browser into the UI
-* Generating a Signed APK
+* Best practices for resource files including string/id/dimen.xml
+* Embedded Web Browser
+
+####Databases:
+* Database Design Principles
+(Tables, Fields, Records, Primary Key, Foreign Key, Composite Key, Relationships, Orthogonality)
+* SQLiteOpenHelper, SQLiteAssetHelper
+* SQLite, MySQL Queries
+* Dealing with Cursors
+
+####Backend Components:
+* Google Maps API
+* Running Tasks on Background Threads
+* Storing Favourites and Settings using SharedPreferences
+
+####Architecture Design:
+* Creating Activiry Superclass to implement similarites of other activities
+* Singleton Design Pattern for SharedPreferences such as Favourites and Settings
+* Dedicated class to store all constants for global access by other classes
+* Dedicated class for initial launch setup
+
+####Miscelaneous:
+* Dealing with Dates and Times
 * Publishing App to Play Store
-* ...
+
+
+###Improvement Areas:
+Through a post on [Reddit](https://www.reddit.com/r/androiddev/comments/3cff1g/feedback_on_code_formatting_in_android_project_i/) requesting feed back on my android projects I recieved several suggestions for areas of improvement which include:
+
+- [ ] Using ButterKnife for effecient View Binding
+- [ ] Using an interface to implement the singleton design pattern
+- [ ] Using ReactiveLocation for efficient implementation of GoogleMaps API
+- [ ] Using AsyncTask / LoaderManager or RxJava to run non UI methods in background thread
+- [ ] Access database using DAO instead of simply DBHelper
+- [ ] Use support annotation such as @Nullable, @NonNull, @UiThread , etc.
+
+I will do my best to make these changes to the project, however it is already quite large and will take quite a bit of refactoring. I might instead implement these learning in upcoming projects from scratch. 
+
+ 
+
 
 
