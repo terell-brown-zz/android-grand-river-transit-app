@@ -1,6 +1,7 @@
 _**On Demand Grand River Transit Information for Kitchener-Waterloo-Cambridge.**_
 
 ###Overview:
+---
 Provides up-to-date transit information for Kitchener-Waterloo-Cambridge including all routes and stops operated by Grand River Transit.
 
 Never miss your bus again because you don't have data to search for arrival times. All your transit information is completely accessible without Data or Wi-Fi.
@@ -12,6 +13,7 @@ And last but not least -- Is there a certain bus you take frequently or a stop y
 [![Play Store](http://developer.android.com/images/brand/en_generic_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=ca.simba.grtwaterloo&hl=en)
 
 ###Screenshots:
+---
 <img src=https://cloud.githubusercontent.com/assets/8221118/8537062/af5fdc52-2416-11e5-9cca-1dbc4d561bbb.png width="150">
 <img src=https://cloud.githubusercontent.com/assets/8221118/8537063/af628d9e-2416-11e5-8503-28ddb0adcab5.png width="150">
 <img src=https://cloud.githubusercontent.com/assets/8221118/8537065/af6337d0-2416-11e5-93c6-c0b21760f2f8.png width="150">
@@ -20,9 +22,12 @@ And last but not least -- Is there a certain bus you take frequently or a stop y
 
 
 ###Source of Transit Data:
+---
 Transit data including all routes and bus stops operated by Grand River Transit was downloaded from the following website: http://www.regionofwaterloo.ca/en/regionalGovernment/GRT_GTFSdata.asp
 
+
 ###Learnings:
+---
 ####UI:
 * Basic Material Design Guidelines
 * RecyclerView / Custom Adapter / LayoutManager / ItemDecorator/ItemAnimator
@@ -57,6 +62,7 @@ Transit data including all routes and bus stops operated by Grand River Transit 
 
 
 ###Improvement Areas:
+---
 Through a post on [Reddit](https://www.reddit.com/r/androiddev/comments/3cff1g/feedback_on_code_formatting_in_android_project_i/) requesting feed back on my android projects I recieved several suggestions for areas of improvement which include:
 
 - [ ] Using ButterKnife for effecient View Binding
