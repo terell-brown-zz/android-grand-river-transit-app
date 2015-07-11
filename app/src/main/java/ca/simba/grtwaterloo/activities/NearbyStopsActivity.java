@@ -147,7 +147,7 @@ public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMar
             float[] result = new float[3];
 
             // Get Distance From Current Location and Waterloo - stored in result[0]
-            Location.distanceBetween(currentLat, WATERLOO_LAT, currentLong, WATERLOO_LONG, result);
+            Location.distanceBetween(currentLat, currentLong, WATERLOO_LAT, WATERLOO_LONG, result);
             distance = result[0]; // in meters
         }
 
@@ -157,9 +157,8 @@ public class NearbyStopsActivity extends BaseActivity implements GoogleMap.OnMar
                     Toast.LENGTH_LONG).show();
         }
         if (distance > DISTANCE_CUTTOFF) {
-            setLocationToWaterloo();
-            Toast.makeText(activityContext, "There are no GRT bus stops nearby.",
-                    Toast.LENGTH_LONG).show();
+            //cameraZoom = 11;
+            Toast.makeText(activityContext, "There are no GRT bus stops nearby.",Toast.LENGTH_LONG).show();
         }
     }
 
