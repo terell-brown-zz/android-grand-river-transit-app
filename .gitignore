@@ -4,3 +4,12 @@
 /.idea/libraries
 .DS_Store
 /build
+.idea
+build.gradle
+gradle.properties
+gradlew
+gradlew.bat
+local.properties
+settings.gradle
+WoodBuffaloTransitMockup.iml
+/gradle
